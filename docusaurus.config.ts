@@ -86,30 +86,6 @@ const config: Config = {
         },
       ],
     },
-    footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Getting Started',
-              to: '/docs/getting-started/getting-started-with-zoho-im-integration',
-            },
-          ],
-        },
-        {
-          title: 'Resources',
-          items: [
-            {
-              label: 'Zoho Developer Console',
-              href: 'https://api-console.zoho.com/',
-            },
-          ],
-        },
-      ],
-      copyright: ``,
-    },
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
