@@ -1,0 +1,125 @@
+---
+title: Before You Deep Dive
+sidebar_label: Introduction and Onboarding
+sidebar_position: 1
+description: "WeCom (formerly known as WeChat Work or Enterprise WeChat) is a versatile enterprise communication and productivity platform developed by Tencent’s WeChat team. Launched as a professional alternative to WeChat, it equips organizations with …"
+---
+WeCom (formerly known as WeChat Work or Enterprise WeChat) is a versatile enterprise communication and productivity platform developed by Tencent’s WeChat team. Launched as a professional alternative to WeChat, it equips organizations with tools tailored for internal collaboration and external customer engagement.
+
+The WeCom Integration enables businesses to engage with customers on WeChat through their WeCom enterprise account, combining:
+
+-   WeChat’s massive user reach
+-   WeCom’s enterprise-grade security
+-   Data ownership
+-   Powerful API capabilities
+
+This documentation provides an overview of how service teams can kick-start their development with WeCom Integration in IM.
+
+## Before You Deep Dive
+
+-   Supported Region: WeCom Integration is supported only in CN DC (China Data Center).
+-   Restriction: WeCom Integration is not supported in other data centers, since WeCom APIs cannot be accessed outside of China.
+-   In Local Zoho We have created mock setup to test the integration, because of the above mentioned restriction. So, In local zoho none of the api calls will hit actual Wecom APIs.
+
+####
+
+#### Zoho IM as a Third-Party Service Provider
+
+Zoho IM is a third-party service provider application in WeCom. This means we have created an application on the WeCom side and obtained the necessary approvals for it to be installed in the WeCom application. However, we have not listed our application in the WeCom third-party service provider marketplace.
+
+Once a customer authorizes Zoho IM, the Zoho IM instance will be installed in their WeCom application and listed under the Third-Party Applications section. The application acts as a bridge between IM and the customer’s WeCom account.
+
+## How Service Teams Can Onboard a Customer’s WeCom Account in IM
+
+WeCom provides multiple ways to onboard a customer’s WeCom account into a third-party application. For Zoho IM, we have chosen the Website-Based Login method.
+
+-   In this approach, we generate an authorization URL and direct the customer to open it via a click action.
+-   The customer is then redirected to the WeCom Authorization Page.
+
+Note: The authorizing user must be an admin in WeCom.
+
+To onboard customer, service teams must construct the URL as below and load it in iframe when customer want to authorize his wecom account.
+
+$\{imBaseDomain\}/widget/weComEmbeddedSignup?orgId=$\{imOrgId\}&serviceOrgId=$\{orgId\}&service=\{serviceName\}
+
+It will fetch the Wecom Authorization Url from IM and load it in a seperate window.
+
+If the customer not logged in the Wecom Account It will show the QR code to login first.
+![Illustration](/img/inline-images/wecom-integration/on-boarding-the-customer/1758549161913.png)
+
+Once logged in WeCom account, It will ask to provide permission for the account. Cx have to accept the agreement and provide permissions for ZohoIM.
+
+![Illustration](/img/inline-images/wecom-integration/on-boarding-the-customer/1758549161859.png)
+
+After authorization, the webpage will be redirected back to IM, where we will store the authorized organization details, permanent auth token, and other required information. A parent Account will be created for the Authorized Wecom Account. Post that, The Authorized parent account details will be sent via post message to the parent window from the Child window(im.zoho.com.cn) in browser in the below format.
+
+```
+window.parent.postMessage({
+    type: "WECOM_AUTH_CALLBACK", // Message type
+    data: {
+        authData: authData, //Authorized Parent Account details
+        orgId: orgId, //IMOrgId
+        serviceOrgId: serviceOrgId // Service OrgId
+    }
+});
+```
+
+Once the above-mentioned data is received in the postMessage from the iFrame that was opened, the service team can consider the authorization successful.
+
+If the postMessage is not received within 3 minutes, the service team can consider it an authorization failure and proceed to display an appropriate message.
+
+#### ParentAccounts:
+
+When a customer authorizes WeCom in Zoho IM, their account details are stored in the Parent Account. Service teams can use the following API to retrieve the authorized WeCom account details.
+
+```
+import com.zoho.im.client.model.integrationparentaccount.IMIntegrationParentAccount;
+import com.zoho.im.client.model.integrationparentaccount.IMIntegrationParentAccount.IMIntegrationParentAccountQueryBuilder;
+import com.zoho.im.message.core.IMIntegrationServices;
+
+import java.util.List;
+
+import com.zoho.im.client.api.IMAPI.IMIntegrationParentAccountAPI;
+private List&lt;IMIntegrationParentAccount&gt; getParentAccounts(String externalId)
+                throws Exception {
+         IMIntegrationParentAccountAPI parentAccountAPI =
+                    ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIMIntegrationParentAccountAPI(USER_ID);
+            IMIntegrationParentAccountQueryBuilder queryBuilder=new IMIntegrationParentAccountQueryBuilder();
+            if(externalId!=null) {
+                    queryBuilder.setExternalId(externalId);
+    //Optional here it is the Corp Id, While fetching all parent accounts in IM org under Wecom it is not required
+            }
+            queryBuilder.setExternalIdType("WECOM_CORP_ID");
+            return parentAccountAPI.getParentAccounts(IMIntegrationServices.WECOM,queryBuilder);
+}
+```
+
+#### ParentAccounts Response:
+
+```
+{
+    "data": [
+        {
+            "idType": "WECOM_CORP_ID",
+            "addedTime": "2025-06-10 08:05:27.022",
+            "externalId": "ww76354ce302025479", //Corp Id of the Wecom Organization
+            "integrationService": "WECOM",
+            "accountParamList": [
+                {
+                    "name": "CORP_NAME", //Parent Account Param's Name
+                    "lastUpdatedTime": "2025-06-10 08:05:27.026",
+                    "id": 1440000000019015,
+                    "value": "Zoho" //Wecom Organization Name
+                }
+            ],
+            "id": 1440000000019001
+        }
+    ]
+}
+```
+
+Using above parent Account details, We can get the Corp Id of the Wecom Organization.
+
+To know more about Parent Accounts Licensing param check the following article.
+
+[Wecom Licensing Params in Parent Accounts](https://learn.zoho.in/portal/zohocorp/knowledge/manual/im-developers-corner/article/wecom-licensing-parameters-in-parent-account)

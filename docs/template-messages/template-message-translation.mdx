@@ -1,0 +1,355 @@
+---
+title: "Note :- To use this translation feature, use this sdk in IM"
+sidebar_label: Template Message Translation
+sidebar_position: 16
+description: "Get Single Template message Translation :-"
+---
+Get Single Template message Translation :-
+
+## Note :- To use this translation feature, use [this sdk](/portal/zohocorp/manual/im-developers-corner/article/changelog-1#_Toci7zfcxr8edll) in IM
+
+```
+  IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, IM_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+                .get(CANNED_MESSAGE_ID, TRANSLATION_ID);
+```
+
+Get Template Message Translation List :-
+
+```
+IMEntityList&lt;IMCannedMessageTranslation&gt; imTranslations = ZohoIM.getInstance(IM_ORG_ID, IM_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+                .getList(CANNED_MESSAGE_ID, null);
+```
+
+Create Template Message Translation :-
+
+## 1\. Create a Template Message Translation with Body Message
+
+```
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", null).build();
+
+//Save Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+                .create(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+2\. Create a Template Message Translation with Body Message and header
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build()).build();
+
+//Save Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .create(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+## 3\. Create a Template Message Translation with Body Message and static header Attachment
+
+```
+IMAttachment attachment = new IMAttachment.Builder(FILE_NAME, FILE_INPUT_STREAM)
+        .setContentType(FILE_CONTENT_TYPE)
+        .setContentLength(FILE_SIZE)
+ .build();
+
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.IMAGE, null));
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build()).build();
+
+//Save Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .addCannedMessageTranslationWithAttachment(CANNED_MESSAGE_ID, translationEnglish,attachment);
+```
+
+## 4\. Create a Template Message Translation with Body Message and dynamic header Attachment
+
+```
+// Create Template Header Attachment Object
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.IMAGE, null));
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build()).build();
+
+//Save Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .create(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+## 5\. Create a Template Message Translation with Body Message, header Message and footer message
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "hello footer"));
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build()).build();
+
+//Save Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .create(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+## 6\. Add Template Translation with body, header, footer message and Quick Reply buttons
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+
+// Create Template Header Object
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+
+// Create Template Footer Object
+translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "hello footer"));
+
+// Create Template Button Object
+List&lt;IMButton&gt; buttonsList = new ArrayList&lt;&gt;();
+IMButton quickReplyButtonOne = new IMButton(IMTemplateButtonType.QUICK_REPLY, "Yes", null);
+IMButton quickReplyButtonTwo = new IMButton(IMTemplateButtonType.QUICK_REPLY, "No", null;
+IMButton quickReplyButtonThree = new IMButton(IMTemplateButtonType.QUICK_REPLY, "I do not have this information", null);
+buttonsList.add(quickReplyButtonOne);
+buttonsList.add(quickReplyButtonTwo);
+buttonsList.add(quickReplyButtonThree);
+translationProperty.setButtons(buttonsList);
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build()).build();
+
+//Save Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .create(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+## 7\. Add Template Translation with body, header, footer message and phone and URL buttons
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+
+// Create Template Header Object
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+
+// Create Template Footer Object
+translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "hello footer"));
+
+// Create Template Button Object
+List&lt;IMButton&gt; buttonsList = new ArrayList&lt;&gt;();
+IMButton phoneButton = new IMButton(IMTemplateButtonType.PHONE_NUMBER, "service center", "+919481119742");
+IMButton urlButton = new IMButton(IMTemplateButtonType.URL, "visit website", "https://www.zoho.com/{{1}}");
+buttonsList.add(phoneButton);
+buttonsList.add(urlButton);
+translationProperty.setButtons(buttonsList);
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build()).build();
+
+//Save Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+                .create(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+Update a Template Message Translation
+
+Constraints in Editing a Template Message Translation:
+
+1\. The language of the template translation cannot be changed.
+
+2.Template Translation of Status - DELETION\_IN\_PROGRESS, PENDING, PENDING\_DELETION cannot be edited.
+
+3.An Approved template can be edit only once per 24 hours.
+
+## 1\. Update a Template Message Translation with Body Message
+
+```
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", null)
+          .setId(TRANSLATION_ID)
+          .build();
+
+//Update Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .update(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+2\. Update a Template Message Translation with Body Message and header
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build())
+          .setId(TRANSLATION_ID)
+        .build();
+
+//Update Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .update(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+## 3\. Update a Template Message Translation with Body Message and static header Attachment
+
+```
+IMAttachment attachment = new IMAttachment.Builder(FILE_NAME, FILE_INPUT_STREAM)
+        .setContentType(FILE_CONTENT_TYPE)
+        .setContentLength(FILE_SIZE)
+ .build();
+
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.IMAGE, null));
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build())
+          .setId(TRANSLATION_ID)
+          .build();
+
+//Update Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .updateCannedMessageTranslationWithAttachment(CANNED_MESSAGE_ID, translationEnglish,attachment);
+```
+
+## 4.Update a Template Message Translation with Body Message and dynamic header Attachment
+
+```
+// Create Template Header Attachment Object
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.IMAGE, null));
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build())
+           .setId(TRANSLATION_ID)
+          .build();
+
+//Update Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .update(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+## 5.Update a Template Message Translation with Body Message, header Message and footer message
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "hello footer"));
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build())
+           .setId(TRANSLATION_ID)
+          .build();
+
+//Update Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .update(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+## 6. Update Template Translation with body, header, footer message and Quick Reply buttons
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+
+// Create Template Header Object
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+
+// Create Template Footer Object
+translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "hello footer"));
+
+// Create Template Button Object
+List&lt;IMButton&gt; buttonsList = new ArrayList&lt;&gt;();
+IMButton quickReplyButtonOne = new IMButton(IMTemplateButtonType.QUICK_REPLY, "Yes", null);
+IMButton quickReplyButtonTwo = new IMButton(IMTemplateButtonType.QUICK_REPLY, "No", null;
+IMButton quickReplyButtonThree = new IMButton(IMTemplateButtonType.QUICK_REPLY, "I do not have this information", null);
+buttonsList.add(quickReplyButtonOne);
+buttonsList.add(quickReplyButtonTwo);
+buttonsList.add(quickReplyButtonThree);
+translationProperty.setButtons(buttonsList);
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build())
+           .setId(TRANSLATION_ID)
+          .build();
+
+//Update Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .update(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+## 7.Add Template Translation with body, header, footer message and phone and URL buttons
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+
+// Create Template Header Object
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+
+// Create Template Footer Object
+translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "hello footer"));
+
+// Create Template Button Object
+List&lt;IMButton&gt; buttonsList = new ArrayList&lt;&gt;();
+IMButton phoneButton = new IMButton(IMTemplateButtonType.PHONE_NUMBER, "service center", "+919481119742");
+IMButton urlButton = new IMButton(IMTemplateButtonType.URL, "visit website", "https://www.zoho.com/{{1}}");
+buttonsList.add(phoneButton);
+buttonsList.add(urlButton);
+translationProperty.setButtons(buttonsList);
+
+//Create Translation Object
+IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+        .Builder("en", "Translation in english", translationProperty.build())
+           .setId(TRANSLATION_ID)
+          .build();
+
+//Save Translation Object in IM
+IMCannedMessageTranslation translation = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+ .update(CANNED_MESSAGE_ID, translationEnglish);
+```
+
+Delete a Template Message Translation
+
+```
+boolean deletedCannedMessage = ZohoIM.getInstance(IM_ORG_ID, IM_ORG_ID)
+                .getCannedMessageTranslationAPI(USER_ID)
+                   .delete(CANNED_MESSAGE_ID, TRANSLATION_ID);
+```
+
+Note :-
+
+1.  If the primary language translation is deleted, then the whole canned message will be deleted along with all the other translation.
+2.  If a translation is deleted with a language, then whatsapp will not allow you to create the same translation with the same language in the same canned message entity for 4 weeks. In this case, if needed to create the translation with that language, then another canned message can be created and that translation can be added there.
+
+Translation Error Codes :-
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Error Code</p></div></td><td><div><p>Error Message</p></div></td><td><div><p>Cause</p></div></td></tr><tr><td><div><p>TRANSLATION_LANGUAGE_PRESENT</p></div></td><td><div><p>A translation already present with language en</p></div></td><td><div><p>Duplicate translation with the same language is not allowed to be added under the same canned message.</p></div></td></tr><tr><td><div><p>TEMPLATE_LANGUAGE_UPDATE_ERROR</p></div></td><td><div><p>A template can only be updated with primary language translation</p></div></td><td><div><p>A template message can only be updated with the primary language translation in the payload</p></div></td></tr></tbody></table>
+
+Few common error codes for Template message and Template translation :- follow this [learn doc](https://one.zoho.com/zohoone/zohocorp/home/cxapp/learn/portal/zohocorp/team/zohoim/manual/sdk-reference/article/error-codes-4)

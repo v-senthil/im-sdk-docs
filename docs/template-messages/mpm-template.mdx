@@ -1,0 +1,80 @@
+---
+title: MPM Template
+sidebar_position: 14
+description: "Introduction :-"
+---
+Introduction :-
+
+MPM templates can be used to open marketing conversations. They allow you to showcase up to 30 products from your ecommerce catalog, organized in up to 10 sections, in a single message.
+
+![Illustration](/img/inline-images/template-messages/mpm-template/1721822294741)
+
+Customers can browse products and sections within the message, view details for each product, add and remove products from their cart, and submit their cart to place an order. Orders are then sent to you via a webhook.
+
+![Illustration](/img/inline-images/template-messages/mpm-template/1721822335554)
+
+Template Creation:
+
+Use the following [IM Client SDK](https://build.zohocorp.com/zoho/zohoim/milestones/master/ZOHOIM_SDK_V34/zohoim_client.zip) for MPM Templates.
+
+MPM templates must have the following components:
+\-  single header component (Only text should be given as the component with 1 placeholder varaible at max).
+\- a single body component
+\- a single footer component (optional)
+\- a single MPM button component with button text as "View items". If different button text is provided, then by default "View items" will be appended
+
+```
+    IMTemplateItems.Builder translationProperty = new IMTemplateItems.Builder();
+    ranslationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "This is header"));
+        translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "This is footer"));
+        IMButton catalogButton = new IMButton(IMTemplateButtonType.MPM, "View items", "");
+        List&lt;IMButton&gt; buttons = new ArrayList&lt;&gt;();
+        buttons.add(catalogButton);
+        translationProperty.setButtons(buttons);
+
+        List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+        IMCannedMessageTranslation translation = new IMCannedMessageTranslation
+                                     .Builder("en", "This is message", translationProperty.build())
+                                     .build();
+        translationList.add(translation);
+
+        Map<IMCannedMessageMeta, String> metaMap=new EnumMap&lt;&gt;(IMCannedMessageMeta.class);
+        metaMap.put(IMCannedMessageMeta.WABA_ID, "83648368472684");
+
+        IMCannedMessage cannedMessage = new IMCannedMessage.Builder("This is title", "This is message", "Marketing",                             IMCannedMessageType.TEMPLATE)
+                        .setTranslation(translationList)
+                        .setMeta(metaMap)
+                        .build();
+
+        IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageAPI(USER_ID)
+            .create(cannedMessage);
+```
+
+Template Send:
+
+An Attribute can hold either a Title of the section or the product ids of the section.
+AttributeGroup denoted the Section which will have a Title and productIds to be shown for that section.
+
+```
+Attribute attribute1 = new Attribute.Builder().setType(IMAttributeType.TITLE).setValue("Pizza").build();
+Attribute attribute2 = new Attribute.Builder().setType(IMAttributeType.PRODUCTID).setValues(Arrays.asList("qn5egq4pwr","rl5t1zjfrv")).build();
+
+Attribute attribute3 = new Attribute.Builder().setType(IMAttributeType.TITLE).setValue("Drinks").build();
+Attribute attribute4 = new Attribute.Builder().setType(IMAttributeType.PRODUCTID).setValues(Arrays.asList("3vmga0rpbx","14yfaioiib")).build();
+
+Attribute attribute5 = new Attribute.Builder().setType(IMAttributeType.TITLE).setValue("Cakes").build();
+Attribute attribute6 = new Attribute.Builder().setType(IMAttributeType.PRODUCTID).setValues(Arrays.asList("xhzzcfwg62")).build();
+
+AttributeGroup attributeGroup1 = new AttributeGroup.Builder().setType(IMAttributeGroupType.SECTION).setAttributes(Arrays.asList(attribute1,attribute2)).build();
+AttributeGroup attributeGroup2 = new AttributeGroup.Builder().setType(IMAttributeGroupType.SECTION).setAttributes(Arrays.asList(attribute3,attribute4)).build();
+AttributeGroup attributeGroup3 = new AttributeGroup.Builder().setType(IMAttributeGroupType.SECTION).setAttributes(Arrays.asList(attribute5,attribute6)).build();
+
+ButtonParam buttonParam = new ButtonParam.Builder().setType(IMButtomParamType.MPM).setAttributeGroup(Arrays.asList(attributeGroup1,attributeGroup2, attributeGroup3)).Build();
+
+IMInitiateSessionButtonParams imInitiateSessionButtonParam = new IMInitiateSessionButtonParams.Builder().setButtonParams(Arrays.asList(buttonParam)).build();
+
+InitiateSessionMessageBuilder templateMessage =  new InitiateSessionMessageBuilder.Builder(IM_TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE, IM_CHANNEL_ID, RECEVIER_PHONE_NUMBER)    .setButtonParams(imInitiateSessionButtonParam)    .build();
+
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)    .getMessageAPI(USER_ID)    .initiateSession(templateMessage);
+```

@@ -1,0 +1,280 @@
+---
+title: Get End User Calls Permission
+sidebar_label: WhatsApp Calls API
+sidebar_position: 5
+description: No Permission
+---
+### Get End User Calls Permission
+
+```
+IntegrationCustomAPI integrationCustomAPIImpl = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+Long channelId = 3847384793843L;
+String endUserPhoneNumber = "918197002143";
+
+IMBasicObject response = integrationCustomAPIImpl
+        .getWhatsAppEndUserCallPermission(channelId, endUserPhoneNumber);
+```
+
+#### Sample Response:
+
+No Permission
+
+```
+{
+    "kind": "single.json",
+    "permission": {
+        "status": "NO_PERMISSION"
+    },
+    "actions": [
+        {
+            "canPerformAction": true,
+            "limits": [
+                {
+                    "maxAllowed": 1,
+                    "currentUsage": 0,
+                    "timePeriod": "PT24H"
+                },
+                {
+                    "maxAllowed": 2,
+                    "currentUsage": 0,
+                    "timePeriod": "P7D"
+                }
+            ],
+            "actionName": "SEND_CALL_PERMISSION_REQUEST"
+        }
+    ]
+}
+```
+
+With Temporary Permission
+
+```
+{
+    "kind": "single.json",
+    "permission": {
+        "expirationTime": "2025-09-09 15:00:29.0",
+        "status": "TEMPORARY"
+    },
+    "actions": [
+        {
+            "canPerformAction": true,
+            "limits": [
+                {
+                    "maxAllowed": 1,
+                    "currentUsage": 0,
+                    "timePeriod": "PT24H"
+                },
+                {
+                    "maxAllowed": 2,
+                    "currentUsage": 0,
+                    "timePeriod": "P7D"
+                }
+            ],
+            "actionName": "SEND_CALL_PERMISSION_REQUEST"
+        },
+        {
+            "canPerformAction": true,
+            "limits": [
+                {
+                    "maxAllowed": 5,
+                    "currentUsage": 0,
+                    "timePeriod": "PT24H"
+                }
+            ],
+            "actionName": "START_CALL"
+        }
+    ]
+}
+```
+
+With Permanent Permission
+
+```
+{
+    "kind": "single.json",
+    "permission": {
+        "status": "PERMANENT"
+    },
+    "actions": [
+        {
+            "canPerformAction": true,
+            "limits": [
+                {
+                    "maxAllowed": 1,
+                    "currentUsage": 0,
+                    "timePeriod": "PT24H"
+                },
+                {
+                    "maxAllowed": 2,
+                    "currentUsage": 0,
+                    "timePeriod": "P7D"
+                }
+            ],
+            "actionName": "SEND_CALL_PERMISSION_REQUEST"
+        },
+        {
+            "canPerformAction": true,
+            "limits": [
+                {
+                    "maxAllowed": 5,
+                    "currentUsage": 0,
+                    "timePeriod": "PT24H"
+                }
+            ],
+            "actionName": "START_CALL"
+        }
+    ]
+}
+```
+
+## WhatsApp Phone Number Calls Settings
+
+### Add WhatsApp Phone Number Calls Settings
+
+```
+JSONObject phoneNumberSettingsJON = new JSONObject();
+
+JSONArray holidayScheduleArray = new JSONArray();
+
+JSONObject holidayScheduleItem = new JSONObject()
+    .put("date", "2026-01-01")
+    .put("startTime", "0000")
+    .put("endTime", "2359");
+holidayScheduleArray.put(holidayScheduleItem);
+
+JSONArray weeklyOperatingHoursArray = new JSONArray();
+JSONObject mondayHours = new JSONObject()
+    .put("dayOfWeek", "MONDAY")
+    .put("openTime", "0400")
+    .put("closeTime", "1020");
+
+JSONObject tuesdayHours = new JSONObject()
+    .put("dayOfWeek", "TUESDAY")
+    .put("openTime", "0108")
+    .put("closeTime", "1020");
+
+weeklyOperatingHoursArray.put(mondayHours);
+weeklyOperatingHoursArray.put(tuesdayHours);
+
+JSONObject callHours = new JSONObject()
+    .put("status", "ENABLED")
+    .put("timezoneId", "America/Manaus")
+    .put("weeklyOperatingHours", weeklyOperatingHoursArray)
+    .put("holidaySchedule", holidayScheduleArray);
+
+JSONObject calling = new JSONObject()
+    .put("status", "ENABLED")
+    .put("callIconVisibility", "DEFAULT")
+    .put("callHours", callHours)
+    .put("callbackPermissionStatus", "ENABLED");
+ phoneNumberSettingsJON.put("calling", calling);
+
+IntegrationCustomAPI integrationCustomAPIImpl = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+String wabaId = "387498749834343";
+String whatsappPhoneNumberId = "2974693749343";
+
+boolean result = integrationCustomAPIImpl.addWhatsAppPhoneNumberSettings(wabaId, whatsappPhoneNumberId, phoneNumberSettingsJON);
+```
+
+### Get WhatsApp Phone Number Calls Settings
+
+```
+IntegrationCustomAPI integrationCustomAPIImpl = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+String wabaId = "387498749834343";
+String whatsappPhoneNumberId = "2974693749343";
+
+IMBasicObject settingsJSON = integrationCustomAPIImpl.getWhatsAppPhoneNumberSettings(wabaId, whatsappPhoneNumberId);
+```
+
+Response:
+
+```
+{
+    "calling": {
+        "status": "ENABLED",
+        "callIconVisibility": "DEFAULT",
+        "callHours": {
+            "status": "ENABLED",
+            "timezoneId": "Asia/Kolkata",
+            "weeklyOperatingHours": [
+                {
+                    "dayOfWeek": "MONDAY",
+                    "openTime": "0000",
+                    "closeTime": "2359"
+                },
+                {
+                    "dayOfWeek": "TUESDAY",
+                    "openTime": "0000",
+                    "closeTime": "2359"
+                },
+                {
+                    "dayOfWeek": "WEDNESDAY",
+                    "openTime": "0000",
+                    "closeTime": "2359"
+                },
+                {
+                    "dayOfWeek": "THURSDAY",
+                    "openTime": "0000",
+                    "closeTime": "2359"
+                },
+                {
+                    "dayOfWeek": "FRIDAY",
+                    "openTime": "0000",
+                    "closeTime": "2359"
+                },
+                {
+                    "dayOfWeek": "SATURDAY",
+                    "openTime": "0000",
+                    "closeTime": "2359"
+                },
+                {
+                    "dayOfWeek": "SUNDAY",
+                    "openTime": "0000",
+                    "closeTime": "2359"
+                }
+            ]
+        },
+        "callbackPermissionStatus": "DISABLED"
+    },
+    "storageConfiguration": {
+        "status": "DEFAULT"
+    }
+}
+```
+
+#### Calling Status:
+
+When the status parameter is set to “ENABLED”, calling features are enabled for the business phone number. WhatsApp client applications will render the call button icon in both the business chat and business chat profile.
+
+When the status parameter is set to “DISABLED”, calling features are disabled, and both the business chat and business chat profile do not display the call button icon.
+
+#### Call button icon visibility:
+
+When Calling API features are enabled for a business number, you can still choose whether to show the call button icon or not by using the call\_icon\_visibility parameter. Note: Disabling call button icon visibility does not disable a WhatsApp user’s ability to make unsolicited calls to your business.
+
+DEFAULT: The Call button icon will be displayed in the chat menu bar and the business info page, allowing for unsolicited calls to the business by WhatsApp users.
+
+![Illustration](/img/inline-images/whatsapp-custom-apis/whatsapp-calls-api/1756809679745.png)
+
+DISABLE ALL: The call button icon is hidden in the chat menu bar and the business info page, and all other entry points external to the chat are also disabled. Consumers cannot make unsolicited calls to the business.
+
+![Illustration](/img/inline-images/whatsapp-custom-apis/whatsapp-calls-api/1756809693918.png)
+
+#### Callback permissions:
+
+Calling a WhatsApp user requires explicit permission from the user. One way to obtain calling permissions is to request permission when a WhatsApp user calls your business.
+
+You can configure the call permission UI to automatically show in the WhatsApp user’s client app when they call your business number. The user may change their permission selection at any time.
+
+![Illustration](/img/inline-images/whatsapp-custom-apis/whatsapp-calls-api/1756809710512.png)
+
+#### Call hours:
+
+With the call\_hours setting, you can specify the time zone, business operating hours, and holiday schedules that will be enforced for all user-initiated calls.
+
+Configuring this setting restricts calls only to available weekly hours you configure. User-initiated calls are unavailable outside of the weekly hours and holiday schedules you set.
+
+![Illustration](/img/inline-images/whatsapp-custom-apis/whatsapp-calls-api/1756809730302.png)

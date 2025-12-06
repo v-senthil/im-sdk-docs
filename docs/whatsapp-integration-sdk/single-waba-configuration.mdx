@@ -1,0 +1,77 @@
+---
+title: "Points to note:"
+sidebar_label: Single WABA Configuration
+sidebar_position: 7
+---
+## Points to note:
+
+1.  Services must contact the IM Team to have this feature enabled for them.
+2.  Incoming messages will not be processed.
+3.  Each service will be assigned a WABA per DC, totaling four phone numbers:
+
+1.  Three for active use
+2.  One as a reserve
+
+4.  If a phone number is flagged or restricted, it will be removed and replaced with the reserve number. Meta provides a webhook callback for such cases.
+5.  We will ensure that all numbers in the WABA remain connected and maintain good health status at all times. If the quality or health of any phone number declines, it will be replaced with a new number.
+
+## Channel Creation
+
+```
+//Construct Channel's config-params
+List&lt;IMConfigProperty&gt; configParams = new ArrayList&lt;&gt;();
+configParams.add(new IMConfigParam.Builder("SKIP_EMBEDDED_SIGNUP", "true").build());
+
+//Construct an instance of the Channel to be created
+IMChannel channelInstance = new IMChannel.Builder(channelName, IMIntegrationServices.WHATSAPP)
+        .setConfigParams(configParams)
+        .setIsSandBox(false)
+        .build();
+//IM Channel creation
+IMChannel createdChannel= ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getChannelAPI(USER_ID)
+    .create(channelInstance);
+```
+
+## Get Template Messages
+
+1.  Template message creation is not permitted.
+2.  Templates created in Meta will be listed through the above API.
+3.  The ID in the response refers to the Meta Template ID, not IM’s primary key.
+4.  You cannot update, activate, or deactivate these templates.
+5.  For template message placeholders, templates are created directly in the Meta Console. Therefore, service teams must be familiar with and manage the replaceable values for these placeholders.
+
+```
+IMCannedMessageQueryBuilder builder = new IMCannedMessageQueryBuilder();
+builder.addType(IMCannedMessageType.DEFAULTTEMPLATE);
+
+// provide channelId. We will be returing all the template present in the WABA which is associated to the channel provided
+builder.setChannelId(CHANNEL_ID);
+
+ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+    .getList(builder);
+```
+
+## Send Template Message
+
+```
+List&lt;String&gt; bodyPlaceholdersList = new ArrayList&lt;&gt;();
+bodyPlaceholdersList.add("12/02/2023");
+bodyPlaceholdersList.add("10:24am");
+bodyPlaceholdersList.add("Zoho Corporation");
+
+InitiateSessionMessageBuilder templateMessage = new InitiateSessionMessageBuilder.Builder(
+        TEMPLATE_MESSAGE_ID,
+        TEMPLATE_MESSAGE_LANGUAGE,
+        IM_CHANNEL_ID,
+        RECEVIER_PHONE_NUMBER)
+        .setBodyPlaceHolders(bodyPlaceholdersList)
+        .setHeaderPlaceHolder("Name")
+        .setUrlPlaceHolder("form-12818102")
+        .build();
+
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .initiateSession(intiateMessage);
+```

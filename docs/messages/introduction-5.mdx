@@ -1,0 +1,29 @@
+---
+title: Message Types Vs Integration
+sidebar_label: Introduction
+sidebar_position: 1
+description: "The message entity is a child entity of the session entity, and it is possible to have multiple messages within a single session. A message refers to a unit of communication sent by one user to another user. It could be a text-based message…"
+---
+The message entity is a child entity of the session entity, and it is possible to have multiple messages within a single session. A message refers to a unit of communication sent by one user to another user. It could be a text-based message, an image, a video, an audio recording, or any other form of media
+
+Postman Collection: [link](https://documenter.getpostman.com/view/18635004/2s935vkfHz#8ed4dc0c-6a20-4da3-9a6f-818712562828)
+
+OAuth Scopes: ZohoIM.messages.ALL
+
+Message can be sent only if an agent picks up an chat. This can be done by updating the session using agent zuId.
+
+Once an outgoing message is triggered, the message will be first QUEUED to send and then it gets SENT, DELIVERED, READ or FAILED accordingly and the status for each message can be checked in the "status" field of the IMMessage instance.
+
+### Message Types Vs Integration
+
+<table><colgroup><col /> <col /> <col /> <col /> <col /> <col /></colgroup><tbody><tr><td><div></div></td><td><div><p>Whatsapp</p></div></td><td><div><p>Telegram</p></div></td><td><div><p>Line</p></div></td><td><div><p>We chat</p></div></td><td><div><p>Facebook</p></div></td></tr><tr><td><div><p>Text Message</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td></tr><tr><td><div><p>Attachment</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td></tr><tr><td><div><p>Location Message</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td><td><div></div></td><td><div></div></td></tr><tr><td><div><p>Layout Message</p></div></td><td><div><p>✅</p></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div><p>✅</p></div></td></tr><tr><td><div><p>Initiate Session Message</p></div></td><td><div><p>✅</p></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td></tr></tbody></table>
+
+### Attachment Types Vs Integration
+
+FYI, Incoming attachments are processed with a size limit of 50 MB.
+
+<table><colgroup><col /> <col /> <col /> <col /> <col /></colgroup><tbody><tr><td><div></div></td><td><div><p>Image</p></div></td><td><div><p>Document</p></div></td><td><div><p>Video</p></div></td><td><div><p>Audio</p></div></td></tr><tr><td><div><p>Whatsapp</p></div></td><td><div><p>5 MB</p><p>jpeg, png, jpg</p></div></td><td><div><p>50 MB</p><p>pdf, text/plain,</p><p>xls, xlsx, ppt, pptx, doc, docx</p></div></td><td><div><p>16 MB</p><p>3gp, mp4</p></div></td><td><div><p>16 MB</p><p>mp3, mpeg, ogg, amr,</p><p>acc, vorbis</p></div></td></tr><tr><td><div><p>Telegram</p></div></td><td><div><p>10MB</p><p>jpeg, png, jpg</p></div></td><td><div><p>20 MB</p><p>application.pdf</p></div></td><td><div><p>20 MB</p><p>3gp, mp4</p></div></td><td><div><p>20MB</p><p>ogg, mp3, vorbis,</p><p>mpeg</p></div></td></tr><tr><td><div><p>Line</p></div></td><td><div><p>10MB</p><p>jpeg, png, jpg</p></div></td><td><div><p>-</p></div></td><td><div><p>20 MB</p><p>3gp, mp4</p></div></td><td><div><p>20 MB</p><p>ogg, vorbis, mp3</p></div></td></tr><tr><td><div><p>WeChat</p></div></td><td><div><p>10MB</p><p>jpeg, png, jpg</p></div></td><td><div></div></td><td><div><p>10 MB</p><p>mp4</p></div></td><td><div><p>2 MB</p><p>mpeg, amr, mp3</p></div></td></tr><tr><td><div><p>Facebook Messenger</p></div></td><td><div><p>8MB</p><p>jpg,jpeg,png</p></div></td><td><div><p>20MB</p><p>pdf</p></div></td><td><div><p>20MB</p><p>mp4, mpeg, quicktime</p></div></td><td><div><p>20MB</p><p>vorbis, amr, mp3, mpeg</p></div></td></tr><tr><td><div><p>Instagram</p></div></td><td><div><p>8MB<br />jpeg, png</p></div></td><td><div><p>-</p></div></td><td><div><p>20 MB<br />mp4, ogg, quicktime, x-msvideo, webm</p></div></td><td><div><p>20 MB<br />x-aac, m4a, vnd,wave, mp4</p></div></td></tr></tbody></table>
+
+### Message Status
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Message Status</p></div></td><td><div><p>Description</p></div></td></tr><tr><td><div><p>SAVED</p></div></td><td><div><p>Indicates that an incoming message has been successfully stored in the IM system.</p></div></td></tr><tr><td><div><p>QUEUED</p></div></td><td><div><p>Represents an outgoing message that has been accepted and queued for asynchronous delivery to the external service.</p></div></td></tr><tr><td><div><p>SENT</p></div></td><td><div><p>The message has been successfully dispatched to the external service.</p></div></td></tr><tr><td><div><p>DELIVERED</p></div></td><td><div><p>Confirms that the message has reached the recipient’s device.</p></div></td></tr><tr><td><div><p>READ</p></div></td><td><div><p>The recipient has opened and read the message.</p></div></td></tr><tr><td><div><p>FAILED</p></div></td><td><div><p>The attempt to send the message to the external service was unsuccessful.</p></div></td></tr><tr><td><div><p>DELETED</p></div></td><td><div><p>The message has been removed by either the agent or the end user.</p></div></td></tr></tbody></table>

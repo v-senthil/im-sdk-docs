@@ -1,0 +1,32 @@
+---
+title: Credits Statement
+sidebar_position: 6
+description: The Payment Statement API is designed to provide the payment history in IM for a specified Time duration(Maximum 31 days).
+---
+The Payment Statement API is designed to provide the payment history in IM for a specified Time duration(Maximum 31 days).
+
+Payment Statement API provides records of following events:
+
+1\. Credits Purchase,
+
+2\. Debit of IM Credits,
+
+3\. Renewal of IM Credits,
+
+4\. UnSuccessful Debit of IM Credits,
+
+5\. Pending Clearence(If any)
+
+It will be helpful to check how credits were spent in a given duration. And It will provide detailed information regarding the reason for a particular debit transaction.
+
+Note:
+
+1.  Data will be available from March 22,2023 in Live servers.
+2.  Maximum duration provided will be 30 days.
+3.  For pagination of records, the maximum limit is 100 records. By default Limit will be 30 and from will be 0.
+4.  If No Transaction Type filter given all Transaction type records will be fetched.
+5.  serviceName filter will be helpful provide the results of particular ZohoService based transaction in Bundled Integration. If it is not provided, then will be providing all the transactions in the particular bundled service like CRM Plus or Zoho One.
+
+#### Possible Errors:
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Error Code</p></div></td><td><div><p>Error Message</p></div></td><td><div><p>Comments</p></div></td></tr><tr><td><div><p>INVALID_DURATION</p></div></td><td><div><p>Please Provide a valid time duration</p></div></td><td><div><ol start="1"><li>Provided Time duration must be in GMT and in following format yyyy-MM-ddThh:mm:ss.SSSZ</li><li>Will be providing data for 31 days. (i.e Time difference between start date and end date must be less than 31 days)</li></ol></div></td></tr><tr><td><div><p>INVALID_FROM</p></div></td><td><div><p>Please Provide a valid from value</p></div></td><td><div><p>Valid From param value need to be provided.</p></div></td></tr><tr><td><div><p>INVALID_LIMIT</p></div></td><td><div><p>Please Provide a valid Limit value - must be within 1 to 100</p></div></td><td><div><p>In addition to Date filter we are providing, maximum 100 records per page. So, Limit value must be with in 1 to 100.</p></div></td></tr><tr><td><div><p>INVALID_TRANSACTIONTYPE</p></div></td><td><div><p>Please Provide valid transactionType</p></div></td><td><div><p>Transaction Type provided is invalid.</p></div></td></tr><tr><td><div><p>INVALID_PAYMENTHISTORY_QUERY</p></div></td><td><div><p>Please Provide valid Details to Query PaymentHistory</p></div></td><td><div><p>Provided Query param contains a unknown error</p></div></td></tr><tr><td><div><p>Internal Error</p></div></td><td><div><ol start="1"><li>Error while fetching Statement Records</li><li>Unknown Exception occurred</li></ol></div></td><td><div><p>Please contact server team on this case.</p></div></td></tr></tbody></table>

@@ -1,0 +1,59 @@
+---
+title: IMSessionStatus
+sidebar_label: IM Session Object
+sidebar_position: 10
+description: Reply Status
+---
+```
+{
+    "channelId": "1206000000012001",
+    "status": "ENDED",
+    "createdTime": "2022-03-23T07:59:41.000Z",
+    "lastActiveTime": "2022-05-24T06:40:27.000Z",
+    "agentId": null,
+    "actor": {
+        "id": "1206000000166301",
+        "extId": "189262331",
+        "name": "Prakash",
+        "email": null,
+        "photoURL": null,
+        "type": "END_USER",
+        "phone": null,
+        "status": "UNKNOWN",
+        "extIdType": "UUID",
+        "service": "TELEGRAM"
+    },
+    "subject": "Chat has been ended",
+    "messagesCount": "12",
+    "unreadMessagesCount": "0",
+    "id": "1206000000166303",
+    "botId": null,
+    "participantIds": [
+        "67414485"
+    ],
+    "meta": [],
+    "contactId": "1206000000166299",
+    "agentLastActiveTime": "2022-05-24T06:40:27.000Z",
+    "contactLastActiveTime": "2022-05-24T06:32:17.000Z",
+    "replyStatus": "ACCEPTED",
+    "integrationServiceId": "TELEGRAM",
+    "kind": "single.session"
+}
+```
+
+### IMSessionStatus
+
+1.  Created - When a new incoming message and a new session is created
+2.  Open - If a session already exists, when a new message is received for that session.
+3.  On Hold - If an agent takes on a session.
+4.  On Progress - When an agent responds to a session.
+5.  Ended - When an agent terminates a session.
+6.  Blocked - When an agent prohibits a session.
+
+### Reply Status
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Reply Status</p></div></td><td><div><p>Description</p></div></td></tr><tr><td><div><p>ACCEPTED</p></div></td><td><div><p>If a session can be picked up by an agent.</p></div></td></tr><tr><td><div><p>CHANNEL_INACTIVE</p></div></td><td><div><p>If the channel is not active.</p></div></td></tr><tr><td><div><p>CHANNEL_REVOKED</p></div></td><td><div><p>The channel has been revoked by integration services (Applicable only for WhatsApp)</p></div></td></tr><tr><td><div><p>SESSION_ENDED</p></div></td><td><div><p>If session status is&nbsp;ENDED</p></div></td></tr><tr><td><div><p>SESSION_BLOCKED</p></div></td><td><div><p>If session status is BLOCKED</p></div></td></tr><tr><td><div><p>SESSION_EXPIRED</p></div></td><td><div><p>If the conversation window is closed by the integration service.</p></div></td></tr><tr><td><div><p>UNASSIGNED</p></div></td><td><div><p>If a session is not assigned to any agent.</p></div></td></tr><tr><td><div><p>NOT_AN_ASSIGNEE</p></div></td><td><div><p>If session is picked up by some other agent or bot.</p></div></td></tr><tr><td><div><p>CREDIT_EXHAUSTED</p></div></td><td><div><p>If there are no credits.</p></div></td></tr><tr><td><div><p>PERMISSION_REVOKED</p></div></td><td><div><p>If the channel's permission is revoked by integration services (Applicable only for Facebook)</p></div></td></tr><tr><td><div><p>UNEXPECTED_ERROR</p></div></td><td><div><p>If the channel has an error in integration services (Applicable only for Facebook)</p></div></td></tr><tr><td><div><p>PAGE_REMOVED</p></div></td><td><div><p>If the channel's page has been removed in integration services (NoApplicablew only for Facebook)</p></div></td></tr><tr><td><div><p>SANDBOX_LIMIT_REACHED</p></div></td><td><div><p>If daily sandbox limit is reached&nbsp;(Applicable only for WhatsApp)</p></div></td></tr><tr><td><div><p>CHANNEL_DELETED</p></div></td><td><div><p>If the channel is deleted</p></div></td></tr><tr><td><div><p>ACCESSTOKEN_EXPIRED</p></div></td><td><div><p>if the access token of the channel expired.</p></div></td></tr></tbody></table>
+
+### IM Session Object
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Key</p></div></td><td><div><p>Type</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>channelId</p></div></td><td><div><p>Long</p></div></td><td><div><p>This signifies the channel ID for a specific session.</p></div></td></tr><tr><td><div><p>status</p></div></td><td><div><p>String</p></div></td><td><div><p>Denotes the session's status.</p></div></td></tr><tr><td><div><p>createdTime</p></div></td><td><div><p>String</p></div></td><td><div><p>The moment at which the session was created.</p></div></td></tr><tr><td><div><p>lastActiveTime</p></div></td><td><div><p>String</p></div></td><td><div><p>The time at which the session was last active.</p></div></td></tr><tr><td><div><p>agentId</p></div></td><td><div><p>Long</p></div></td><td><div><p>The ID of the agent who is responding to this specific session.</p></div></td></tr><tr><td><div><p>actor</p></div></td><td><div><p>IMActor Object</p></div></td><td><div><p>By whom was the message sent</p></div></td></tr><tr><td><div><p>subject</p></div></td><td><div><p>String</p></div></td><td><div><p>The last message content sent in the session</p></div></td></tr><tr><td><div><p>messagesCount</p></div></td><td><div><p>Integer</p></div></td><td><div><p>The total number of messages in the session.</p></div></td></tr><tr><td><div><p>unreadMessagesCount</p></div></td><td><div><p>Integer</p></div></td><td><div><p>The total number of unread messages in the session.</p></div></td></tr><tr><td><div><p>id</p></div></td><td><div><p>Long</p></div></td><td><div><p>The identification number of the session.</p></div></td></tr><tr><td><div><p>botId</p></div></td><td><div><p>Long</p></div></td><td><div><p>The ID of the bot that is set in the session.</p></div></td></tr><tr><td><div><p>contactId</p></div></td><td><div><p>Long</p></div></td><td><div><p>The ID of the recipient for the messages in the session.</p></div></td></tr><tr><td><div><p>agentLastActiveTime</p></div></td><td><div><p>String</p></div></td><td><div><p>The time when the agent was last active or engaged in the session</p></div></td></tr><tr><td><div><p>contactLastActiveTime</p></div></td><td><div><p>String</p></div></td><td><div><p>The time when the contact (or recipient) was last active or engaged in the session</p></div></td></tr><tr><td><div><p>replyStatus</p></div></td><td><div><p>String</p></div></td><td><div><p>It indicates if a message can be sent to a session or not</p></div></td></tr><tr><td><div><p>integrationServiceId</p></div></td><td><div><p>String</p></div></td><td><div><p>This indicates the integration service to which this session belongs.</p></div></td></tr><tr><td><div><p>kind</p></div></td><td><div><p>String</p></div></td><td><div><p>The type of this object (single.session)</p></div></td></tr><tr><td><div><p>participantIds</p></div></td><td><div><p>List&lt;Long&gt;</p></div></td><td><div><p>The ID of the&nbsp;participants of the session.</p></div></td></tr></tbody></table>

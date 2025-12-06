@@ -1,0 +1,60 @@
+---
+title: Step1 (bundle IM SDK) link
+sidebar_label: Getting Started with IM using SDK
+sidebar_position: 5
+description: Bundle the latest IM Client Java SDK in your product to get started.
+---
+### Step1 (bundle IM SDK) [link](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/bundling-im-sdk)
+
+Bundle the latest IM Client Java SDK in your product to get started.
+
+### Step 2 (obtain client ID from IAM) [link](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/im-authentication#_Toczoleurooi1ez)
+
+    Get Client ID from IAM with the following scopes or request them to add these scopes to the existing Client ID if available using which org-oauth2 token needs to be created.
+
+Zoho IM Scopes List:
+
+ZohoIM.organizations.ALL,ZohoIM.channels.ALL,ZohoIM.conversations.ALL,ZohoIM.messages.ALL,ZohoIM.search.READ,ZohoIM.bots.ALL,ZohoIM.users.ALL,ZohoIM.contacts.ALL
+
+### Step 3 (implement IM Client API handler) [link](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/im-authentication#_Tocgueq5yavjz85)
+
+1.  Implement com.zoho.im.client.api.schema.IMClientAPIHandler - interface and provide the implemented class name in im.properties file
+2.  Implement the method getIMOAuthtoken(serviceOrgId, IMOrgId, allowedAuthTypes) and return the token (Org-OAuthtoken or CurrentTicket based on allowedAuthTypes param) with IM admin userId and IM's scopes.
+
+### Step 4 (create organization) [link](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/create-an-im-organization)
+
+It is highly recommended to ensure that there aren't any existing Organizations present before creating a new one by getting all Organizations from IM each time.
+
+Creating an IM Organization requires:
+
+1.  IM Organization name in String (should be unique)
+2.  Service Org ID or AppAccount ID of the invoking service
+3.  Zoho User ZUID
+
+### Step 5 (get integration services) [link](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/get-available-integrations)
+
+Integration Service in IM refers to the messaging platforms such as WhatsApp, Telegram, Line, etc., which are integrated in IM. Use the config params in each integration service to create a corresponding IM Channel.
+
+####
+
+### Step 6 (create a channel) [link](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/create-an-im-channel)
+
+    Each Integration Service account requires an IM Channel to be created with the necessary configuration parameters. Each channel refers to an configuration.
+
+For example, In whatsapp each phone number is a channel and in Telegram a single bot is a channel.
+
+### Step 7 (session) [link](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/introduction-4)
+
+Once a Channel is created and configured properly, it is ready for messaging. Whenever a new message is added for a contact, a new session is created and further messages get appended to the session. Hence, every message is bound to a Session in IM.
+
+### Step 8 (pick up the session) [link](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/update-a-session)
+
+Currently, IM allows only user messages as the first message and a business cannot initiate a message to an end user (Except for WhatsApp). So, try sending a message from the end user perspective to the created Channel first, which will create a new IM Session and the incoming message will be added.
+
+### Step 9 (send a message) [link](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/send-a-text-message)
+
+Now you can send a message to the created and picked up session.
+
+### Step 10 (Real time notifications) [link](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/introduction-8)
+
+    IM will create a dedicated Kafka topic and will be shared to the service teams.  All events, including messages are written into that topic. Teams have to make a consumer up for listening and share its details to the IM team to map the topic to the consumer.

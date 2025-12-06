@@ -1,0 +1,37 @@
+---
+title: "Event sample in JSON format:"
+sidebar_label: Credit Deduction Event
+sidebar_position: 7
+description: The event will be triggered when some amount of credits has to be deducted. This event will only be pushed to serviced who have their own credit system.
+---
+The event will be triggered when some amount of credits has to be deducted. This event will only be pushed to serviced who have their own credit system.
+
+Kindly contact the IM Team if your service wishes to use this event.
+
+```
+public void imCreditsUsageEvent(IMEventMeta eventMeta, IMCreditDeductionEvent event)
+```
+
+### Event sample in JSON format:
+
+```
+{
+    "data": {
+        "conversationType": "MARKETING",
+        "imOrgId": 74486999,
+        "toCharge": 0.0107,
+        "serviceOrgId": 58398899,
+        "messageId": 2322000000699999,
+        "sessionId": 2322000000639999,
+        "region": "India",
+        "channelId": 2322000000599999
+    },
+    "meta": {
+        "service": "ZOHO_VOICE",    //Zoho Service
+        "serviceOrgId": 58398899,   // Zoho Service Org ID
+        "orgId": 74486999         // Zoho IM Org ID
+    },
+    "id": 1730107174591,
+    "type": "com.zoho.im.client.model.event.IMCreditDeductionEvent"
+}
+```

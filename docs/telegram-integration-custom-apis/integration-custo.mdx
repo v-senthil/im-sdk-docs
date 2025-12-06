@@ -1,0 +1,29 @@
+---
+title: Get webhook configuration
+sidebar_position: 1
+description: IM channels created for integration service such as Telegram has its own webhook configured in order to receive incoming events .Each channel is associated with a bot created in Telegram . In order to get the configured webhook URL of the b…
+---
+IM channels created for integration service such as Telegram has its own webhook configured in order to receive incoming events  .Each channel is associated with a bot  created in Telegram  .  In order to get the configured webhook URL of the bot one needs to pass the channelId and the  associated  IMintegrationService as parameters .
+
+NOTE :  The API is applicable only for TELEGRAM and LINE channels .
+
+```
+//IntegrationService
+IMIntegrationServices integerationService  =  IMIntegrationServices.TELEGRAM;
+//IntegrationCustomAPIImpl
+IntegrationCustomAPI  integrationCustomAPIImpl  =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+//webhookInforesponse
+IMBasicObject  webhookResponse  = integrationCustomAPIImpl.getWebhookInfo(integrationService ,CHANNEL_ID);
+```
+
+```
+Response
+ {"data":
+   {"webhookURL":         "https://af6b1b9c.ngrok.io/integrations/telegram/incomingCallback.do?ECTX=b6908c2f7986a5c5c75*****5bf49",
+   "isActive"   : "true"
+   },
+   "kind": "single.json"
+ }
+```
+
+    The status of the bot is active when bot  has successfully processed all received updates from Telegram, and there are no new updates waiting to be processed .

@@ -1,0 +1,213 @@
+---
+title: Update a Template Message
+sidebar_position: 5
+description: Only the Contents of the Template and name of the Template can be edited.
+---
+Only the Contents of the Template and name of the Template can be edited.
+
+Constraints in Editing a Template Message:
+1\. The Template Type with which the template was created cannot be changed.
+2\. The WABA which is associated with the template cannot be changed.
+3\. The language of the template cannot be changed.
+4\. Authentication Type Template Cannot be edited.
+5\. Template of Status - DELETION\_IN\_PROGRESS, PENDING, PENDING\_DELETION cannot be edited.
+6\. An Approved template can be edit only once per 24 hours.
+
+Edit  a Template Message with Body Message:
+
+```
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+IMCannedMessageTranslation trans = new IMCannedMessageTranslation
+        .Builder("en", "message", null).build();
+
+translationList.add(trans);
+IMCannedMessage cannedMessage = new IMCannedMessage.Builder("title", "message", "marketing", IMCannedMessageType.TEMPLATE)
+        .setTranslation(translationList)
+    .setId(cannedMessageId)
+        .build();
+
+// Update Canned Message in IM
+IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+        .update(cannedMessage);
+```
+
+Edit a Template Message with Body Message and header Message:
+
+```
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+
+IMCannedMessageTranslation trans = new IMCannedMessageTranslation.Builder("en", "message", translationProperty.build()).build();
+
+translationList.add(trans);
+
+IMCannedMessage cannedMessage = new IMCannedMessage.Builder("title", "message", "marketing", IMCannedMessageType.TEMPLATE)
+    .setTranslation(translationList)
+    .setId(cannedMessageId)
+    .build();
+
+// Update Canned Message in IM
+IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+        .update(cannedMessage);
+```
+
+Create a Template Message with Body Message and static header Attachment:
+
+```
+IMAttachment attachment = new IMAttachment.Builder(FILE_NAME, FILE_INPUT_STREAM)
+        .setContentType(FILE_CONTENT_TYPE)
+        .setContentLength(FILE_SIZE)
+        .build();
+
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.IMAGE, null));
+
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+IMCannedMessageTranslation trans = new IMCannedMessageTranslation.Builder("en", "message", translationProperty.build())
+.build();
+translationList.add(trans);
+
+IMCannedMessage cannedMessage = new IMCannedMessage.Builder("title", "message", "marketing", IMCannedMessageType.TEMPLATE)
+    .setTranslation(translationList)
+    .setId(cannedMessageId)
+    .build();
+
+// Update Canned Message in IM
+IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+        .updateCannedMessageWithAttachment(cannedMessage, attachment);
+```
+
+Create a Template Message with Body Message and dynamic header Attachment:
+
+```
+/ Create Template Header Attachment Object
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.IMAGE, null));
+
+// Create Canned Messages Translation Object
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+IMCannedMessageTranslation trans = new IMCannedMessageTranslation
+        .Builder("en", "message", translationProperty.build())
+        .build();
+translationList.add(trans);
+
+// Create Canned Message Object
+IMCannedMessage cannedMessage = new IMCannedMessage
+        .Builder("title", "message", "marketing", IMCannedMessageType.TEMPLATE)
+        .setTranslation(translationList)
+    .setId(cannedMessageId)
+        .build();
+
+// Update Canned Message in IM
+IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+     .update(cannedMessage);
+```
+
+Create a Template Message with Body Message, Header Message and Footer Message:
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "hello footer"));
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+IMCannedMessageTranslation trans = new IMCannedMessageTranslation
+        .Builder("en", "message", translationProperty.build())
+        .build();
+translationList.add(trans);
+
+IMCannedMessage cannedMessage = new IMCannedMessage
+        .Builder("title", "message", "marketing", IMCannedMessageType.TEMPLATE)
+        .setTranslation(translationList)
+    .setId(cannedMessageId)
+        .build();
+
+// Update Canned Message in IM
+IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+        .update(cannedMessage);
+```
+
+Add Template with Body, Header, Footer Message and Quick Reply buttons:
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+
+// Create Template Header Object
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+
+// Create Template Footer Object
+translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "hello footer"));
+
+// Create Template Button Object
+List&lt;IMButton&gt; buttonsList = new ArrayList&lt;&gt;();
+IMButton quickReplyButtonOne = new IMButton(IMTemplateButtonType.QUICK_REPLY, "Yes", null);
+IMButton quickReplyButtonTwo = new IMButton(IMTemplateButtonType.QUICK_REPLY, "No", null;
+IMButton quickReplyButtonThree = new IMButton(IMTemplateButtonType.QUICK_REPLY, "I do not have this information", null);
+buttonsList.add(quickReplyButtonOne);
+buttonsList.add(quickReplyButtonTwo);
+buttonsList.add(quickReplyButtonThree);
+translationProperty.setButtons(buttonsList);
+
+// Create Canned Messages Translation Object
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+IMCannedMessageTranslation trans = new IMCannedMessageTranslation
+        .Builder("en", "message", translationProperty.build())
+        .build();
+translationList.add(trans);
+
+// Create Canned Message Object
+IMCannedMessage cannedMessage = new IMCannedMessage
+        .Builder("title", "message", "marketing", IMCannedMessageType.TEMPLATE)
+        .setTranslation(translationList)
+    .setId(cannedMessageId)
+        .build();
+
+// Update Canned Message in IM
+IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+        .update(cannedMessage);
+```
+
+Add Template with Body, Header, Footer Message and phone and URL buttons:
+
+```
+Builder translationProperty = new IMTemplateItems.Builder();
+
+// Create Template Header Object
+translationProperty.setHeader(new IMTemplateHeader(IMTemplateHeaderType.TEXT, "hello header"));
+
+// Create Template Footer Object
+translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "hello footer"));
+
+// Create Template Button Object
+List&lt;IMButton&gt; buttonsList = new ArrayList&lt;&gt;();
+IMButton phoneButton = new IMButton(IMTemplateButtonType.PHONE_NUMBER, "service center", "+919481119742");
+IMButton urlButton = new IMButton(IMTemplateButtonType.URL, "visit website", "https://www.zoho.com");
+buttonsList.add(phoneButton);
+buttonsList.add(urlButton);
+translationProperty.setButtons(buttonsList);
+
+// Create Canned Messages Translation Object
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+IMCannedMessageTranslation trans = new IMCannedMessageTranslation
+        .Builder("en", "message", translationProperty.build())
+        .build();
+translationList.add(trans);
+
+// Create Canned Message Object
+IMCannedMessage cannedMessage = new IMCannedMessage
+        .Builder("title", "message", "marketing", IMCannedMessageType.TEMPLATE)
+        .setTranslation(translationList)
+    .setId(cannedMessageId)
+        .build();
+
+// Update Canned Message in IM
+IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+        .update(cannedMessage);
+```

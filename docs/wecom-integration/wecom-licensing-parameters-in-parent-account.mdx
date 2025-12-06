@@ -1,0 +1,100 @@
+---
+title: 1. TRIAL_START_TIME
+sidebar_label: WeCom Licensing Parameters in Parent Account
+sidebar_position: 7
+description: "To provide better clarity to the service teams regarding the WeCom account's license and trial status, we are now including the necessary details in the parent account parameters itself. Using these parameters, the service team can:…"
+---
+To provide better clarity to the service teams regarding the WeCom account's license and trial status, we are now including the necessary details in the parent account parameters itself. Using these parameters, the service team can:
+
+-   Inform the customer when to purchase a license.
+-   Notify the customer when their trial is about to expire.
+-   Identify the current status of the license.
+
+#### Sample Parent Account response:
+
+```
+{
+    "idType": "WECOM_CORP_ID",
+    "addedTime": "2025-08-13 06:03:13.568",
+    "externalId": "wpkYPqDwAAQUpjhlhkjhjklh",
+    "integrationService": "WECOM",
+    "accountParamList": [
+        {
+            "name": "LICENSE_ACTIVATED_TIME",
+            "lastUpdatedTime": "2025-08-26 07:26:59.229",
+            "id": 1440000000125013,
+            "value": "2025-08-26T07:26:59Z"
+        },
+        {
+            "name": "LICENSE_EXPIRY_TIME",
+            "lastUpdatedTime": "2025-08-26 07:26:59.228",
+            "id": 1440000000125009,
+            "value": "2025-09-26T16:00:00Z"
+        },
+        {
+            "name": "TRAIL_START_TIME",
+            "lastUpdatedTime": "2025-08-13 06:03:13.569",
+            "id": 1440000000070059,
+            "value": "2025-08-13T06:03:06Z"
+        },
+        {
+            "name": "CORP_NAME",
+            "lastUpdatedTime": "2025-08-13 06:03:13.569",
+            "id": 1440000000070061,
+            "value": "卓豪(中国)技术有限公司"
+        },
+        {
+            "name": "LICENSE_STATUS",
+            "lastUpdatedTime": "2025-08-13 06:03:13.569",
+            "id": 1440000000070063,
+            "value": "LICENSE_ACTIVATED"
+        },
+        {
+            "name": "TRAIL_END_TIME",
+            "lastUpdatedTime": "2025-08-13 06:03:13.569",
+            "id": 1440000000070069,
+            "value": "2025-11-11T16:00:00Z"
+        }
+    ],
+    "id": 1440000000070045
+}
+```
+
+### 1\. TRIAL\_START\_TIME
+
+-   Represents the start time of the WeCom account trial configured in IM.
+-   This is the timestamp when the customer first authorized their WeCom account in Zoho IM.
+
+### 2\. TRIAL\_END\_TIME
+
+-   Represents the end time of the trial period.
+-   By default, WeCom provides a 90-day trial from the trial start time.
+-   The trial end time is recorded in this parameter.
+
+### 3\. LICENSE\_STATUS
+
+-   Represents the current license status of the WeCom account in IM.
+-   Possible values:
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Value</p></div></td><td><div><p>Meaning</p></div></td></tr><tr><td><div><p>LICENSE_ACTIVATED</p></div></td><td><div><p>License has been successfully activated.</p></div></td></tr><tr><td><div><p>LICENSE_EXPIRED</p></div></td><td><div><p>Purchased license has expired.</p></div></td></tr><tr><td><div><p>IN_TRIAL</p></div></td><td><div><p>Account is currently in trial period.</p></div></td></tr><tr><td><div><p>TRIAL_EXPIRED</p></div></td><td><div><p>Free 90-day trial period has expired.</p></div></td></tr><tr><td><div><p>NONE</p></div></td><td><div><p>No license or trial is associated with the account.</p></div></td></tr></tbody></table>
+
+### 4\. LICENSE\_ACTIVATED\_TIME
+
+-   The timestamp when a purchased license was activated.
+
+### 5\. LICENSE\_EXPIRY\_TIME
+
+-   The timestamp when the purchased license expires.
+
+### 6\. CORP\_NAME
+
+-   By default, the corporate name of the parent WeCom account is stored in this parameter.
+
+## Notes
+
+-   All parameters are optional except CORP\_NAME.
+-   Trial-related parameters (TRIAL\_START\_TIME and TRIAL\_END\_TIME) are available only if the customer is in trial.
+-   License-related parameters (LICENSE\_ACTIVATED\_TIME and LICENSE\_EXPIRY\_TIME) are available only if the license is purchased via IM Credits.
+-   If no license or trial information is available, the LICENSE\_STATUS will be set to NONE.
+-   Service teams can access these details by invoking the Parent Accounts API.
+-   All of the time is available in GMT.

@@ -1,0 +1,100 @@
+---
+title: WhatsApp Pricing Calculator
+sidebar_position: 8
+description: Overview
+---
+Overview
+
+A WhatsApp Pricing Calculator(WPC) is typically a tool designed to estimate the costs associated with using WhatsApp's Business APIs for communication. WhatsApp charges businesses based on conversation-based pricing, which depends on the type of conversation, the number of messages sent, and the region of the recipient.
+
+![Illustration](/img/inline-images/efc/whatsapp-pricing-calculator/image-6.png)
+
+Initialization
+
+Before using the SDK, an object named ZOHOIM must be initialised on the window object as follows :
+
+```
+window.ZOHOIM = window.ZOHOIM || {};
+```
+
+Setting Required Properties
+
+To render the WPC, certain properties must be set within the window.ZOHOIM object. These include:
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Prop Name</p></div></td><td><div><p>Type</p></div></td><td><div><p>Description</p></div></td></tr><tr><td><div><p>widgetProps</p></div></td><td><div><p>object</p></div></td><td><div><p>Contains the configuration options required to render the WPC.</p></div></td></tr><tr><td><div><p>widgetProps.isNeedTitle</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Specifies whether the WPC title is required.</p></div></td></tr><tr><td><div><p>widgetProps.isBuyCreditsBtnNeeded</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Determines if the "Buy Credits" button should be displayed in the WPC.</p></div></td></tr><tr><td><div><p>widgetProps.handleBuyCredits</p></div></td><td><div><p>function</p></div></td><td><div><p>Callback function triggered when the "Buy Credits" button is clicked.</p></div></td></tr><tr><td><div><p>widgetProps.activeTemplate</p></div></td><td><div><p>string</p></div></td><td><div><p>'utility' || 'marketing' || 'authentication'<br /><br />You can select the default template from the available templates using this option.</p></div></td></tr><tr><td><div><p>widgetContainerId</p></div></td><td><div><p>string</p></div></td><td><div><p>This parameter is used to display the WPC under the specified ID.</p></div></td></tr></tbody></table>
+
+CSS Customization
+
+We've added class names in the marked areas. If you want, you can use below class names to write your own CSS.
+
+1.  marketing\_tag
+2.  utility\_tag
+3.  authentication\_tag
+4.  marketingConversations\_row
+5.  utilityConversations\_row
+6.  authenticationConversations\_row
+7.  BuyCreditBtn
+
+![Illustration](/img/inline-images/efc/whatsapp-pricing-calculator/wpc.png)
+
+SDK Script for WPC
+
+```
+&lt;html&gt;
+
+&lt;head&gt;
+  &lt;title&gt;WPC</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  &lt;script&gt;
+  function initWhatsAppEmbeddedSdk() {
+        window.ZOHOIM = window.ZOHOIM || {};
+        window.ZOHOIM.widgetProps = {
+                isBuyCreditsBtnNeeded: false,
+                isNeedTitle: true,
+                handleBuyCredits: () => {
+                    alert('hi')
+                },
+                activeTemplate: 'utility'
+            },
+
+            jQuery.ajax({
+                url: `https://im.zoho.com/api/v1/public/sdk/efc?widgetType=whatsAppCalculator`,
+
+                type: "GET",
+                contentType: "application/json",
+                success: function(response) {
+                    var { data } = response;
+                    var newScript = document.createElement("script");
+                    let parser = new DOMParser();
+                    let doc = parser.parseFromString(data, 'text/html');
+
+                    let scriptElement = doc.querySelector('script[type="text/javascript"]');
+                    var scriptStr = "";
+                    if (scriptElement) {
+                        scriptStr = scriptElement.textContent;
+                        console.log(scriptStr);
+                    } else {
+                        console.log("No matching &lt;script&gt; tag found.");
+                    }
+                    newScript.appendChild(document.createTextNode(scriptStr));
+                    document.head.append(newScript);
+                },
+                error: function() {
+                    console.error("Failed to load the WhatsApp Pricing Calculator script.");
+                }
+            });
+    }
+
+function loadWpc() {
+    initWhatsAppEmbeddedSdk();
+}
+  </script>
+</head>
+
+&lt;body&gt;
+  <div id="whatsApp-pricing-calculator"></div>
+  <button onclick="loadWpc()">Load WPC</button>
+</body>
+
+</html>
+```

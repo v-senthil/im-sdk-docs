@@ -1,0 +1,85 @@
+---
+title: Agent Responsiveness Metrics
+sidebar_position: 5
+---
+```
+IMAgentMetricsQueryBuilder builder = (IMAgentMetricsQueryBuilder) new IMAgentMetricsQueryBuilder()
+        .startDate(new Timestamp(1000876164181L))            // Mandatory
+        .endDate(new Timestamp(100003765471634L))            // Mandatory
+        .integrationService(IMIntegrationServices.WHATSAPP);
+builder.channelIds(Arrays.asList(100000076511171L));            // Optional
+IMMetrics metrics = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIMMetricsAPI(USER_ID)
+        .getAgentResponsivenessMetrics(builder);
+```
+
+```
+Sample Response Json:    {
+  "entity": "AGENT",
+  "data": [
+    {
+      "id": "11300957",
+      "values": [
+        {
+          "attribute": "ATTENDED_CHATS",
+          "value": "14"
+        },
+        {
+          "attribute": "AVG_FIRST_RESPONSE_TIME",
+          "value": "00:02:15"
+        },
+        {
+          "attribute": "AVG_PICKUP_TIME",
+          "value": "00:02:02"
+        },
+        {
+          "attribute": "AVG_RESPONSE_TIME",
+          "value": "00:01:42"
+        }
+      ]
+    },
+    {
+      "id": "60349799",
+      "values": [
+        {
+          "attribute": "ATTENDED_CHATS",
+          "value": "2"
+        },
+        {
+          "attribute": "AVG_FIRST_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "attribute": "AVG_PICKUP_TIME",
+          "value": "-"
+        },
+        {
+          "attribute": "AVG_RESPONSE_TIME",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "id": "67854487",
+      "values": [
+        {
+          "attribute": "ATTENDED_CHATS",
+          "value": "3"
+        },
+        {
+          "attribute": "AVG_FIRST_RESPONSE_TIME",
+          "value": "00:00:15"
+        },
+        {
+          "attribute": "AVG_PICKUP_TIME",
+          "value": "00:00:07"
+        },
+        {
+          "attribute": "AVG_RESPONSE_TIME",
+          "value": "00:00:09"
+        }
+      ]
+    }
+  ]
+}
+```

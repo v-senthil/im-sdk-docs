@@ -1,0 +1,78 @@
+---
+title: Whatsapp Phone Number Verification
+sidebar_position: 6
+description: Postman Documentation - link
+---
+Postman Documentation - [link](https://documenter.getpostman.com/view/18635004/2s935vkfHz#63e4acb8-9954-45e5-8049-5a6f6b8e128d)
+
+######
+
+Note:
+
+###### The waiting buffer between OTP requests is random & dynamic at Meta's end and we don't get the exact wait-time. Hence, sequential OTP request calls may fail with a "please try again after some time" error message.
+
+Request OTP
+
+```
+import com.zoho.im.client.api.IMIntegrationCustomAPIImpl.IntegrationCustomAPIVerificationMode;
+import com.zoho.im.client.api.ZohoIM;
+import com.zoho.im.client.model.IMBasicObject;
+
+public class Example {
+
+    public static final Long IM_ORG_ID = 74203785L;         //Created by IMOrganization Creation
+    public static final Long SERVICE_ORG_ID = 74199498L;      //Zoho ServiceOrg ID or AppAccount ID
+    public static final Long USER_ID = 69718860L;          //Zoho User ID
+    public static final String PHONE_NUMBER_ID = "728546181486487";         //Phone Number can be taken from the previous call (get WA Phone Numbers)
+    public static void main(String[] a) {
+        try {
+             IMBasicObject waPhoneNumber = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID).requestVerificationCode(PHONE_NUMBER_ID, IntegrationCustomAPIVerificationMode.VOICE);
+             System.out.println(waPhoneNumber);
+        } catch (Exception e) {
+             System.out.println(e.getLocalizedMessage());
+        }
+   }
+}
+```
+
+Response:
+
+```
+{
+  "success": true,
+  "kind": "single.json"
+}
+```
+
+Verify OTP
+
+```
+import com.zoho.im.client.api.ZohoIM;
+import com.zoho.im.client.model.IMBasicObject;
+
+public class Example {
+
+    public static final Long IM_ORG_ID = 74203785L;         //Created by IMOrganization Creation
+    public static final Long SERVICE_ORG_ID = 74199498L;      //Zoho ServiceOrg ID or AppAccount ID
+    public static final Long USER_ID = 69718860L;          //Zoho User ID
+    public static final String PHONE_NUMBER_ID = "728546181486487";          //The phone number Id for which you request the code
+    public static final String SIX_DIGIT_CODE = "123456";
+    public static void main(String[] a) {
+        try {
+             IMBasicObject waPhoneNumber = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID).submitVerificationCode(PHONE_NUMBER_ID, SIX_DIGIT_CODE);
+             System.out.println(waPhoneNumber);
+        } catch (Exception e) {
+             System.out.println(e.getLocalizedMessage());
+        }
+   }
+}
+```
+
+Response:
+
+```
+{
+  "success": true,
+  "kind": "single.json"
+}
+```

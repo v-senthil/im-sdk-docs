@@ -1,0 +1,53 @@
+---
+title: Get an IM Channel
+sidebar_label: Get Channels
+sidebar_position: 4
+description: Use the IMChannelQueryBuilder to apply filters while getting the channels.
+---
+### Get an IM Channel
+
+```
+IMChannel channel = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getChannelAPI(USER_ID)
+                .get(IM_CHANNEL_ID);
+```
+
+### List all IM Channels
+
+Use the  IMChannelQueryBuilder to apply filters while getting the channels.
+
+Available methods in IMChannelQueryBuilder
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Method</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>integrationService(IMIntegrationServices integrationService)</p></div></td><td><div><p>Filter channels based on integration service</p></div></td></tr><tr><td><div><p>isSandBox(Boolean isSandBox)</p></div></td><td><div><p>Used to get only sandbox channels</p></div></td></tr><tr><td><div><p>isActive(Boolean isActive)</p></div></td><td><div><p>Used to get only active / deactivated channels</p></div></td></tr><tr><td><div><p>onlyDeleted(Boolean onlyDeleted)</p></div></td><td><div><p>Used to get only deleted channels</p></div></td></tr><tr><td><div><p>includeDeleted(Boolean includeDeleted)</p></div></td><td><div><p>Used to get all channels including deleted channels</p></div></td></tr><tr><td><div><p>include(Set&lt;CHANNELS_INCLUDE&gt; channelsInclude)</p></div></td><td><div><p>Used to get Meta and Config param of Channels</p></div></td></tr></tbody></table>
+
+```
+//Construct channel filter query
+IMChannelQueryBuilder channelQueryBuilder = new IMChannel.IMChannelQueryBuilder();
+channelQueryBuilder.integrationService(IMIntegrationServices.TELEGRAM); //To filter based on IntegrationService
+channelQueryBuilder.isActive(true); //To filter based on Channel's active status
+channelQueryBuilder.range(1, 20); //To get Channels in a given range
+
+//Fetch from ZohoIM
+IMEntityList&lt;IMChannel&gt; channelEntityList =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getChannelAPI(USER_ID)
+                .getChannels(channelQueryBuilder);
+
+//Fetch IMChannels list from IMEntityList
+List&lt;IMChannel&gt; channelsList = channelEntityList.getEntities();
+```
+
+### Get IM Channels Count
+
+Available methods in IMChannelCountQueryBuilder
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Method</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>integrationService(IMIntegrationServices integrationService)</p></div></td><td><div><p>Filter channels based on integration service</p></div></td></tr><tr><td><div><p>includeSandBox(Boolean isSandBox)</p></div></td><td><div><p>Used to get only sandbox channels</p></div></td></tr><tr><td><div><p>isActive(Boolean isActive)</p></div></td><td><div><p>Used to get only active / deactivated channels</p></div></td></tr><tr><td><div><p>onlyDeleted(Boolean onlyDeleted)</p></div></td><td><div><p>Used to get only deleted channels</p></div></td></tr><tr><td><div><p>includeDeleted(Boolean includeDeleted)</p></div></td><td><div><p>Used to get all channels including deleted channels</p></div></td></tr></tbody></table>
+
+```
+IMChannelCountQueryBuilder channelCountQueryBuilder = new IMChannelCountQueryBuilder();
+
+channelCountQueryBuilder.integrationService(IMIntegrationServices.TELEGRAM);
+
+int count = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIntegrationCustomAPI(USER_ID)
+        .getChannelsCount(channelCountQueryBuilder).getRawJSON().getInt("count");
+```

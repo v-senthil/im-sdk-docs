@@ -1,0 +1,101 @@
+---
+title: Messages Added Event
+sidebar_position: 2
+description: The event will be triggered when a new message is received.
+---
+The event will be triggered when a new message is received.
+
+```
+public void messageAdded(IMEventMeta eventMeta, IMMessageAddedEvent messageAddedEvent)
+```
+
+IMEventMeta - Reference [link](/portal/zohocorp/manual/sdk-reference/article/introduction-8#_Tocx9f5qofl8hsz)
+
+All the event will contain IMMessageAddedEvent as an argument, which contains:
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Methods Available</p></div></td><td><div><p>Return Type</p></div></td></tr><tr><td><div><p>getMessage()</p></div></td><td><div><p>IMMessage Object</p></div></td></tr><tr><td><div><p>getContactLastActiveTime()</p></div></td><td><div><p>TimeStamp</p></div></td></tr><tr><td><div><p>getSessionAgents()</p></div></td><td><div><p>Set&lt;Long&gt;</p></div></td></tr><tr><td><div><p>getSessionAssigneeId()</p></div></td><td><div><p>Long</p></div></td></tr><tr><td><div><p>getCurrentSessionStatus()</p></div></td><td><div><p>IMSessionStatus enum</p></div></td></tr><tr><td><div><p>getAssigneeType()</p></div></td><td><div><p>IMActor.AuthorType enum</p></div></td></tr><tr><td><div><p>getSessionReplyStatus()</p></div></td><td><div><p>ReplyStatus enum</p></div></td></tr><tr><td><div><p>getContactDetails()</p></div></td><td><div><p>IMActor Object</p></div></td></tr></tbody></table>
+
+Payload JSON for message added event is :-
+
+```
+{
+    "data": {
+        "session": {
+            "contact": {
+                "photoURL": null,
+                "phone": null,
+                "service": "IM_TALK",
+                "name": "Visitor #340",
+                "id": "2031000003147003",
+                "extId": "P#340#$2483893078845122419",
+                "type": "END_USER",
+                "extIdType": "UUID",
+                "email": null,
+                "status": "UNKNOWN"
+            },
+            "replyStatus": "ACCEPTED",
+            "participantIds": [],
+            "contactLastActiveTime": "2024-02-05T06:35:05.000Z",
+            "status": "ON_HOLD"
+        },
+        "assignee": {
+            "id": 2031000001986957,
+            "type": "BOT"
+        },
+        "message": {
+            "template": null,
+            "externalInfo": null,
+            "isRead": false,
+            "type": "TEXT",
+            "uuid": "aa8c2b38ae3a559bb7f599d7237c401d",
+            "displayMessage": "How to create departments?",
+            "attachment": null,
+            "replyToMessage": null,
+            "createdTime": "2024-02-05T06:35:05.000Z",
+            "action": null,
+            "id": "2031000003147024",
+            "text": {
+                "message": "How to create departments?"
+            },
+            "contentType": "text/plain",
+            "direction": "in",
+            "info": null,
+            "fullContentURL": null,
+            "kind": "single.session.message",
+            "index": "4",
+            "sessionId": "2031000003147005",
+            "actor": {
+                "photoURL": null,
+                "phone": null,
+                "service": "IM_TALK",
+                "name": "Visitor #340",
+                "id": "2031000003147003",
+                "extId": "P#340#$2483893078845122419",
+                "type": "END_USER",
+                "extIdType": "UUID",
+                "email": null,
+                "status": "UNKNOWN"
+            },
+            "layout": null,
+            "statusHistory": [
+                {
+                    "updatedTime": "2024-02-05T06:35:05.000Z",
+                    "status": "QUEUED"
+                }
+            ],
+            "meta": null,
+            "statusUpdatedTime": "2024-02-05T06:35:05.000Z",
+            "location": null,
+            "status": "SAVED"
+        }
+    },
+    "meta": {
+        "service": "ZOHO_DESK",
+        "serviceOrgId": 72869807,
+        "orgId": 73073610,
+        "channelId": 2031000001988051
+    },
+    "id": 1707114905478,
+    "type": "com.zoho.im.client.model.event.IMMessageAddedEvent"
+}
+```

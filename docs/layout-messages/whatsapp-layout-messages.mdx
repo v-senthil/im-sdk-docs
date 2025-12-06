@@ -1,0 +1,130 @@
+---
+title: WhatsApp Layout Messages
+sidebar_position: 2
+description: IM entities translated to WhatsApp entities
+---
+IM entities translated to WhatsApp entities
+
+"layoutType" - Refers interactive entities for that integration service (IM by default we use LIST)
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>IM</p></div></td><td><div><p>WhatsApp</p></div></td></tr><tr><td><div><p>TITLE</p></div></td><td><div><p>HEADER</p></div></td></tr><tr><td><div><p>SUB_TITLE</p></div></td><td><div><p>BODY</p></div></td></tr><tr><td><div><p>DESCRIPTION</p></div></td><td><div><p>FOOTER</p></div></td></tr><tr><td><div><p>REPLY</p></div></td><td><div><p>QUICK_REPLY</p></div></td></tr></tbody></table>
+
+###
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div></div></td><td><div><p>List Message</p></div></td><td><div><p>Button Message</p></div></td></tr><tr><td><div></div></td><td><div><p><span><img height="393" src="/img/inline-images/layout-messages/whatsapp-layout-messages/1690369930703.png" width="207" alt="Illustration" /></span></p></div></td><td><div><p><span><img height="394" src="/img/inline-images/layout-messages/whatsapp-layout-messages/1690369930947.png" width="207" alt="Illustration" /></span></p></div></td></tr><tr><td><div><p>Header - Text</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td></tr><tr><td><div><p>Header - Media</p></div></td><td><div></div></td><td><div><p>✅</p></div></td></tr><tr><td><div><p>Body</p></div></td><td><div><p>✅ (Required)</p></div></td><td><div><p>✅ (Required)</p></div></td></tr><tr><td><div><p>Footer</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td></tr><tr><td><div><p>Button Action (PhoneNumber and URL)</p></div></td><td><div></div></td><td><div></div></td></tr><tr><td><div><p>Button Quick Reply</p></div></td><td><div><p>✅ (Required) only 10 no's</p></div></td><td><div><p>✅ (Required) only 3 no's</p></div></td></tr><tr><td><div><p>When can it be sent</p></div></td><td><div><p>Normal Session Message</p></div></td><td><div><p>Normal Session Message</p></div></td></tr><tr><td><div><p>Dependencies</p></div></td><td><div><p>No</p></div></td><td><div><p>No</p></div></td></tr><tr><td><div><p>Implemented in IM</p></div></td><td><div><p>✅</p></div></td><td><div><p>✅</p></div></td></tr><tr><td><div><p>Reference</p></div></td><td><div><p><a href="https://developers.facebook.com/docs/whatsapp/guides/interactive-messages#list-messages" rel="noreferrer" target="_blank">Link</a></p></div></td><td><div><p><a href="https://developers.facebook.com/docs/whatsapp/guides/interactive-messages#reply-buttons" rel="noreferrer" target="_blank">Link</a></p></div></td></tr></tbody></table>
+
+###
+
+###
+
+### Send a normal Layout Message
+
+```
+IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+// Set Message Title
+builder.setTitle("Hello", IMLayoutTitleType.TEXT);
+
+// Set Message Sub Stitle
+builder.setSubTitle("SubTitle Message");
+
+// Set Message Description
+builder.setDescription("Description Message");
+
+// Set buttons
+IMLayoutButton buttonOne = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "Yes").build();
+IMLayoutButton buttonTwo = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "No").build();
+IMLayoutButton buttonThree = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "No idea").build();
+List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+buttons.add(buttonOne);
+buttons.add(buttonTwo);
+buttons.add(buttonThree);
+
+IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.Builder
+        (IMLayoutButtonStyle.REPLY,
+        IMLayoutButtonType.BUTTON,
+        "Button Title",
+        buttons)
+        .build();
+builder.setButtons(layoutButton);
+
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .layoutMessage(builder.build());
+```
+
+### Send Layout Message with Attachment
+
+```
+IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+// Set Message Title
+builder.setTitle(IMLayoutTitleType.IMAGE);
+
+// Set Message Sub Stitle
+builder.setSubTitle("SubTitle Message");
+
+// Set Message Description
+builder.setDescription("Description Message");
+
+// Set buttons
+IMLayoutButton buttonOne = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "Yes").build();
+IMLayoutButton buttonTwo = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "No").build();
+IMLayoutButton buttonThree = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "No idea").build();
+List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+buttons.add(buttonOne);
+buttons.add(buttonTwo);
+buttons.add(buttonThree);
+
+IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.Builder
+        (IMLayoutButtonStyle.REPLY,
+        IMLayoutButtonType.BUTTON,
+        "Button Title",
+        buttons)
+        .build();
+
+builder.setButtons(layoutButton);
+
+IMAttachment attachment = new IMAttachment.Builder(ATTACHMENT_NAME, ATTACHMENT_INPUT_STREAM)
+        .setContentType(ATTACHMENT_CONTENT_TYPE)
+        .setContentLength(ATTACHMENT_SIZE)
+        .build();
+
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .layoutMessage(builder.build(), attachment);
+```
+
+### Send URL Button
+
+```
+IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+// Set Message Sub Stitle
+builder.setSubTitle("SubTitle Message");
+
+// Set Message Description
+builder.setDescription("Description Message");
+
+// Set buttons
+IMLayoutButton buttonOne = new IMLayoutButton.Builder(IMLayoutButtonElementType.REDIRECT, "Visit Us", "https://zoho.com").build();
+List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+buttons.add(buttonOne);
+
+IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.Builder
+        (IMLayoutButtonStyle.REPLY,
+        IMLayoutButtonType.BUTTON,
+        "Button Title",
+        buttons)
+        .build();
+
+builder.setButtons(layoutButton);
+
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .layoutMessage(builder.build());
+```
+
+### Send WhatsApp Flows
+
+[https://learn.zoho.com/portal/zohocorp/manual/sdk-reference/article/whatsapp-flows-api#\_Toc1h9v9m4nyhin](/portal/zohocorp/manual/sdk-reference/article/whatsapp-flows-api#_Toc1h9v9m4nyhin)

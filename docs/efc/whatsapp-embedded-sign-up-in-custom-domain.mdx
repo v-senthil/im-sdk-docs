@@ -1,0 +1,77 @@
+---
+title: Impact of Custom Domains
+sidebar_label: Whatsapp Embedded Sign Up in Custom Domain
+sidebar_position: 3
+description: "How does Embedded Signup work?"
+---
+How does Embedded Signup work?
+
+The Embedded Signup feature uses a Facebook widget to facilitate connections between WhatsApp Business Accounts (WABA) and user phone numbers.
+
+kindly refer to this [document](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/whatsapp-embedded-sign-up) for the embedded signup related details.
+
+Does your service have a custom domain that affects WhatsApp embedded Signup?
+
+yes
+
+### Impact of Custom Domains
+
+-   Domain Whitelisting: Facebook requires domain whitelisting to ensure that only approved domains can access the WhatsApp Embedded Signup flow widget.
+-   Challenges: Custom domains complicate this process, as whitelisting individual customer domains can be impractical and lead to connectivity issues with Facebook's services.
+
+How do we solve this?
+
+-   To resolve the whitelisting issue,  we are utilizing our base domain (eg. https://desk.zoho.com ) in an iframe.
+-   By serving the signup widget through our base domain, we can effectively bypass the need to whitelist individual custom domains.
+
+### Benefits of This Approach
+
+-   Using an iframe allows you to maintain functionality without requiring extensive domain whitelisting.
+-   This approach centralizes the integration, making it easier to manage and deploy across various customer domains.
+
+Flow:
+
+   We are using an iframe concept to do the embedded sign-up. We have added an iframe with our basedomain(https://desk.zoho.com). It will resolve the domain whitelisting case for the custom domain.
+
+![Illustration](/img/inline-images/efc/whatsapp-embedded-sign-up-in-custom-domain/1728563930444.png)
+
+    In Iframe, we are doing WhatsApp embedded signup widget initiation. we are having a method to do the actions of embedded sign-up action.
+
+Here, We are posting a message to the iframe to communicate.
+
+Sample:
+
+```
+ const iframeEle = document.getElementById('whatsAppEmbeddedSignup');
+    if (iframeEle) {
+      iframeEle.contentWindow.postMessage(
+        JSON.stringify({
+          type:EMBEDDED_SIGNUP_TRIGGER,
+         fatureType: "only_waba_sharing"
+        }),
+        '*'
+      );
+ }
+```
+
+In Iframe Code:
+
+   We have added listeners for the on message action.
+
+  In this action, we initiated the whatsapp embedded sign-up widget rendering by using the below method.
+
+```
+window.ZOHOIM.context = "/support";
+var props = {
+    orgId,
+ userZuId,
+ csrfParamName,
+ csrfToken,
+ featureType: args.featureType,
+};
+window.ZOHOIM.launchWhatsAppEmbeddedSignup(props, widgetSuccessCallback, widgetFailureCallback);
+```
+
+Reference:
+
+![Illustration](/img/inline-images/efc/whatsapp-embedded-sign-up-in-custom-domain/1728563938214.png)

@@ -1,0 +1,65 @@
+---
+title: "Credits Widget:"
+sidebar_label: Payment Widget
+sidebar_position: 4
+description: For more information visit
+---
+### Credits Widget:
+
+For more information [visit](/portal/zohocorp/team/zohoim/manual/im-developers-corner/article/im-credits)
+
+Purchasing Credits through [Payments widget](https://intranet.wiki.zoho.com/zstore/ZSWidget-API-Docs2.html) will help to send Messages, purchase phone numbers & purchase template messages for IM Integrations.
+
+However, the service teams need not have to implement the payments widget separately. Instead they can use the Payments EFC which handles all the cases for the Credits purchase provided by the ZohoIM team.
+
+Create a div in your application before invoking the EFC:
+
+```
+<div class="zs_widget"></div>
+```
+
+### Implementing the Payments Widget EFC:
+
+```
+function initPaymentsWidget() {
+    window.ZOHOIM = window.ZOHOIM || {};
+    window.ZOHOIM.paymentsVersion = "v9"; //based on store zip added in the Service teams
+    jQuery.ajax({
+        url : `/api/v1/im/efc?orgId=60349982&widgetType=paymentsWidget`,
+        type : "GET",
+        contentType : "application/json",
+        headers : {
+            'X-ZCSRF-TOKEN' : getCSRFCookieName() + '='+ getCSRFCookie()
+        },
+        success : function(response){
+            var { data } = response;
+            var newScript = document.createElement("script");
+            var scriptStr = data.replace("<script type='text/javascript'>", "").replace("</script>", "");
+            newScript.appendChild(document.createTextNode(scriptStr));
+            document.head.append(newScript);
+        },
+        error : function() {}
+    });
+```
+
+Once the script is loaded invoke below method with given properties to initiate payment widget for purchasing credits.
+
+```
+window.ZOHOIM.renderPaymentWidget({
+      csrfToken: "",
+      csrfParamName: "",
+      fieldLabel: "",
+      successTitle: "",
+      successInfo: "",
+      upgradeTitle: "",
+      upgradeInfo: "",
+      successCallback: () => {
+        //success callback
+      },
+      cancelCallback: () => {
+    //cancel callback
+      }
+});
+```
+
+Once the script is loaded, If the window.ZOHOIM.zohoStoreWidgetInitInfo object is empty, payment widget is not supported for the portal. In this case, you can check the payment source from our license API and use our AddOn APIs to purchase credits.

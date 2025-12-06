@@ -1,0 +1,8 @@
+---
+title: Failure reasons
+sidebar_position: 3
+description: "When a request fails internally in Line, the error code LINE_INTEGRATION_ERROR is always returned and based on the failure reasons the error message is returned ."
+---
+When a request fails internally in Line, the error code LINE\_INTEGRATION\_ERROR is always returned and based on the failure reasons the error message is returned .
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;Error message</p></div></td><td><div><p>&nbsp; &nbsp; &nbsp; &nbsp; Cause</p></div></td></tr><tr><td><div><p>&nbsp; &nbsp;&nbsp; &nbsp;UNAUTHORIZED &nbsp;&nbsp;</p></div></td><td><div><p>Line channel Access Token is not valid</p></div></td></tr><tr><td><div><p>&nbsp; &nbsp;&nbsp; &nbsp;FORBIDDEN</p></div></td><td><div><p>i) Unauthorized due to security issues&nbsp;</p><p>ii) Current plan does not support this operation</p></div></td></tr><tr><td><div><p>&nbsp; &nbsp; &nbsp; NOT_FOUND</p></div></td><td><div><p>i)Webhook not configured&nbsp;</p><p>ii) Resource does not exist</p></div></td></tr><tr><td><div><p>&nbsp; &nbsp; &nbsp; BAD_REQUEST</p></div></td><td><div><p>Request not constructed properly&nbsp;</p></div></td></tr><tr><td><div><p>&nbsp; &nbsp; &nbsp;SC_INTERNAL_SERVER_ERROR</p></div></td><td><div><p>Request failed internally in line&nbsp;</p></div></td></tr></tbody></table>

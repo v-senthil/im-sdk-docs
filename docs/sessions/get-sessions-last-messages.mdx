@@ -1,0 +1,17 @@
+---
+title: Get Session Last Messages
+sidebar_label: Get Sessions Last messages
+sidebar_position: 6
+---
+### Get Session Last Messages
+
+```
+Set&lt;Long&gt; sessionIdsSet = new HashSet&lt;&gt;();
+sessionIdsSet.add(SESSION_ID_1);
+sessionIdsSet.add(SESSION_ID_2);
+
+IMEntityList&lt;IMMessage&gt; messages = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .getSessionsLastMessages(sessionIdsSet);
+List&lt;IMMessage&gt; messagesList = messages.getEntities();
+```

@@ -1,0 +1,32 @@
+---
+title: Update an IM Channel
+sidebar_position: 3
+description: "In a single organization, two same bots or phone number cannot have 2 channels. One bot or phone number can be mapped to a single channel only"
+---
+```
+//input Channel Name
+String channelName = "Telegram Demo Channel";
+
+//Shall be fetched from IMIntegrationService Detail
+String BOT_AUTH_TOKEN = "BOT_AUTH_TOKEN";
+
+//Input Bot Secret Token generated from Telegram BotFather
+String botToken = "6212126408:AAGdVa5HnCND7******************";
+
+//Construct Channel's config-params
+List&lt;IMConfigProperty&gt; configParams = new ArrayList&lt;&gt;();
+configParams.add(new IMConfigParam.Builder(BOT_AUTH_TOKEN, botToken).build());
+
+//Construct an instance of the Channel to be udpated
+IMChannel channelInstance = new IMChannel.Builder(channelName, IMIntegrationServices.TELEGRAM)
+                .setChannelId(IM_CHANNEL_ID);
+                .setConfigParams(configParams)
+                .build();
+
+//IM Channel creation
+IMChannel channelInstance = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getChannelAPI(USER_ID)
+                .update(channelInstance);
+```
+
+In a single organization, two same bots or phone number cannot have 2 channels. One bot or phone number can be mapped to a single channel only

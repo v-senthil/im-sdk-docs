@@ -1,0 +1,33 @@
+---
+title: Get a Broadcast
+sidebar_label: Get Broadcast
+sidebar_position: 3
+description: Use the IMBroadcasteQueryBuilder to apply filters while getting the broadcasts.
+---
+### Get a Broadcast
+
+```
+IMBroadcast broadcast = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getBroadcastAPI(USER_ID).get(BROADCAST_ID);
+```
+
+### Get a Broadcast List
+
+Use the  IMBroadcasteQueryBuilder to apply filters while getting the broadcasts.
+
+Available methods in IMBroadcasteQueryBuilder
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Method</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>integrationService(IMIntegrationServices integrationService)</p></div></td><td><div><p>Filter b based on integration service</p></div></td></tr><tr><td><div><p>setStatus(IMBroadcastStatus status)</p></div></td><td><div><p>Filter out broadcasts with a specific status</p></div></td></tr><tr><td><div><p>setBrodcastIds(Set&lt;Long&gt; boadcastIds)</p></div></td><td><div><p>Get only the broadcasts mentioned</p></div></td></tr></tbody></table>
+
+#### Broadcast Status
+
+1.  SUBMITTED
+2.  PROCESSING
+3.  COMPLETED
+4.  DELETED
+
+```
+IMBroadcasteQueryBuilder builder = new IMBroadcasteQueryBuilder();
+builder.range(0, 10);
+builder.setStatus(IMBroadcastStatus.COMPLETED);
+IMEntityList&lt;IMBroadcast&gt; broadcastList = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getBroadcastAPI(USER_ID).getList(builder.build());
+```

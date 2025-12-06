@@ -1,0 +1,28 @@
+---
+title: Resend a message
+sidebar_label: Resend and Delete a Message
+sidebar_position: 6
+description: We will only delete the message in IM and not in the external service
+---
+### Resend a message
+
+```
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getMessageAPI(USER_ID)
+            .resendMessage(IM_SESSION_ID, IM_MESSAGE_ID);
+```
+
+### Delete a Message
+
+    We will only delete the message in IM and not in the external service
+
+Note:
+
+1.  you can delete an outgoing message
+2.  you can delete only Queued or failed messages.
+
+```
+Optional&lt;IMMessage&gt; message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getMessageAPI(USER_ID)
+            .delete(IM_SESSION_ID, IM_MESSAGE_ID);
+```

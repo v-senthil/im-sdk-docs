@@ -1,0 +1,82 @@
+---
+title: Multi-Lingual Template Messages
+sidebar_position: 15
+description: "WhatsApp multi-lingual Templates Messages enable businesses to send messages to customers in their preferred language, making communication more personalized and effective."
+---
+WhatsApp multi-lingual [Templates Messages](https://one.zoho.com/zohoone/zohocorp/home/cxapp/learn/portal/zohocorp/team/zohoim/manual/sdk-reference/article/introduction-6) enable businesses to send messages to customers in their preferred language, making communication more personalized and effective.
+
+A single canned message entity can hold multi translation having translated into different languages, which then can be used to share with different customers with their preferred language.
+
+Limitations :-
+
+1.  A template message can be created with up to five translations, keeping one as the primary language.
+2.  A template message can only be updated with the primary language translation in the update payload; if any other translation language is present, then api will error.
+
+To use the multi-lingual feature in IM, use this following [IM SDK](/portal/zohocorp/manual/im-developers-corner/article/changelog-1#_Toci7zfcxr8edll)
+
+Multi-lingual canned message add :-
+
+```
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+        IMCannedMessageTranslation translationEnglish = new IMCannedMessageTranslation
+                .Builder("en", "message in english", null).build();
+        IMCannedMessageTranslation translationBengali = new IMCannedMessageTranslation
+                .Builder("bn", "ইংরেজিতে বার্তা", null).build();
+        IMCannedMessageTranslation translationTamil = new IMCannedMessageTranslation
+                .Builder("ta", "ஆங்கிலத்தில் செய்தி", null).build();
+        IMCannedMessageTranslation translationHindi = new IMCannedMessageTranslation
+                .Builder("hi", "अंग्���ेजी में संदेश", null).build();
+        IMCannedMessageTranslation translationFrench = new IMCannedMessageTranslation
+                .Builder("fr", "message en anglais", null).build();
+
+        translationList.add(translationEnglish);
+        translationList.add(translationBengali);
+        translationList.add(translationTamil);
+        translationList.add(translationHindi);
+        translationList.add(translationFrench);        // add upto 5 translations in CannedMessage add api
+
+        // Provide WABA ID in case of multi-waba
+        Map<IMCannedMessageMeta, String> metaMap = new HashMap&lt;&gt;();
+        metaMap.put(IMCannedMessageMeta.WABA_ID, "83648368472684");
+
+        IMCannedMessage cannedMessage = new IMCannedMessage.Builder("title", "message", "marketing", IMCannedMessageType.TEMPLATE)
+                .setTranslation(translationList)
+                .setMeta(metaMap)
+                .setPrimaryLanguage("bn")    // set the primary language of the translation, if not provided, then the first translation will be considered as primary language translation
+                .build();
+
+        IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageAPI(USER_ID)
+         .create(cannedMessage);
+```
+
+Multi-lingual canned message update :-
+
+This api remains the same as discussed for template messages in this [learn doc](https://one.zoho.com/zohoone/zohocorp/home/cxapp/learn/portal/zohocorp/team/zohoim/manual/sdk-reference/article/update-a-template-message) but the point should be kept in mind that only primary language translation should be given in the payload while updating. No other translation object should be given apart from this otherwise, the api will throw an error.
+
+```
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+IMCannedMessageTranslation trans = new IMCannedMessageTranslation
+        .Builder("bn", "ইংরেজিতে বার্তা updated for testing", null).build();
+
+translationList.add(trans);
+IMCannedMessage cannedMessage = new IMCannedMessage.Builder("title", "message", "marketing", IMCannedMessageType.TEMPLATE)
+        .setTranslation(translationList)
+    .setId(cannedMessageId)
+        .build();
+
+// Update Canned Message in IM
+IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+ .update(cannedMessage);
+```
+
+Multi-lingual canned message delete :-
+
+This api remains the same as discussed for template messages in this [learn doc](https://one.zoho.com/zohoone/zohocorp/home/cxapp/learn/portal/zohocorp/team/zohoim/manual/sdk-reference/article/delete-template-message).
+
+Multi-lingual canned message get :-
+
+This api remains the same as discussed for template messages in this [learn doc](/portal/zohocorp/manual/sdk-reference/article/get-a-template-message#_Tocnmumokyqbrs3). Only one extra setLanguage(String language) method is added newly which acts as a filter and fetch all the canned message list which contains the provided language translation in the filter.
+
+Note :- We have also added translation related sdk, which will allow you to perform CRUD operation for a specific canned message translation. Follow this link for more details.

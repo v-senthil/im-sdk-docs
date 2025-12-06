@@ -1,0 +1,31 @@
+---
+title: Get bot Profile
+sidebar_position: 2
+description: Channels created in IM for integration services such as Telegram are associated with a bot created in Telegram. In order to get the basic profile details of the bot one need to pass the channelId and the associated IMintegrationService as p…
+---
+Channels created in IM for integration services such as Telegram are associated with a bot created in Telegram. In order to get the basic profile details of the bot one need to pass the channelId and the  associated  IMintegrationService as parameters .
+
+  NOTE : The API is applicable only to LINE and Telegram channels .
+
+```
+ //IntegrationService
+IMIntegrationServices integerationService  =  IMIntegrationServices.TELEGRAM;
+//IntegrationCustomAPIImpl
+IntegrationCustomAPI  integrationCustomAPIImpl  =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+//botInfoResponse
+IMBasicObject  botInfoResponse  = integrationCustomAPIImpl.getBotInfo(integrationService ,CHANNEL_ID);
+```
+
+```
+Response :
+{
+    "data": {
+        "responseMode": "bot",
+        "displayName": "IMtele***t",
+        "pictureUrl":  "https://static.zohocdn.com/zohoim/images/telegram.****",
+        "botId": "5801***3"
+
+           },
+    "kind": "single.json"
+}
+```

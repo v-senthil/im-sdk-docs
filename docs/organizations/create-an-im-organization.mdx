@@ -1,0 +1,24 @@
+---
+title: Create an IM Organization
+sidebar_position: 2
+description: "It is highly recommended to ensure that there aren't any existing Organizations present before creating a new one by getting all Organizations from IM each time. While using the SDK, this API uses Current Ticket."
+---
+It is highly recommended to ensure that there aren't any existing Organizations present before creating a new one by getting all Organizations from IM each time. While using the SDK, this API uses Current Ticket.
+
+Creating an IM Organization requires:
+
+1.  IM Organization name in String (should be unique)
+2.  Service Org ID or AppAccount ID of the invoking service
+3.  Zoho User ZUID
+
+```
+String IM_ORGANIZATION_NAME = "ZOHO_DESK_17191691";            // some services follow a pattern for Org Name - {ServiceName}_{ServiceOrgId}
+
+//Construct IMOrganization builder
+IMOrganization imOrgBuilder = new IMOrganization.Builder(IM_ORGANIZATION_NAME).build();
+
+//Invoke IM Organization creation API
+IMOrganization createdOrganization = ZohoIM.getInstance(null, SERVICE_ORG_ID)
+        .getOrganizationAPI(USER_ID)
+        .createOrganization(imOrgBuilder);
+```

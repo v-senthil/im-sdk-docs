@@ -1,0 +1,36 @@
+---
+title: Get Messages in a Session
+sidebar_label: Get session Messages
+sidebar_position: 3
+description: Available methods in IMMessageQueryBuilder
+---
+### Get Messages in a Session
+
+```
+IMMessageQueryBuilder  queryBuilder = new new IMSession.IMMessageQueryBuilder();
+messageQueryBuilder.range(from, limit);
+messageQueryBuilder.modifiedAfter(modifiedAfterTimestamp);
+messageQueryBuilder.messageType(MessageType.TEXT);
+
+//Get session message from IM
+List&lt;IMMessage&gt; sessionMessagesList = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .getMessages(imSessionId, queryBuilder)
+        .getEntities();
+```
+
+    Available methods in IMMessageQueryBuilder
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Method</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>Message Type</p></div></td><td><div><p>Used to get a specified type of message in a session.</p></div></td></tr><tr><td><div><p>Modified After</p></div></td><td><div><p>Used to get messages which are modified after the given time.</p></div></td></tr><tr><td><div><p>Range</p></div></td><td><div><p>From and Limit can be mentioned to get a&nbsp;specified range of messages in a session.&nbsp;</p></div></td></tr></tbody></table>
+
+Possible Message Types :
+
+1.  Text
+2.  Template
+
+Messages fetching logic for UI rendering: (eg. limit = 50)
+
+1.  To fetch the initial set of messages the from and limit will be 0 and 50 respectively.
+2.  Then while scrolling up, we have to fetch the another set of messages. For that, we have to set the from value to (firstMessageIndex - limit).
+3.  Let's say we fetched (0,50) messages initially. Now, the first messageIndex is 125 and last messageIndex is 175. To fetch the another set of messages the from value is (125 - 50). Now, the from and limit will be 75 and 50.
+4.  To fetch the final set of messages, if the from value is &lt;= 1 (by applying the logic from point 2), then the from value will be set to 1 and if the previous from is less than the limit we have to change the limit to ( prevFrom - 1 ). eg. (1, 24).

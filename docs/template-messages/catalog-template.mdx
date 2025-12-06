@@ -1,0 +1,64 @@
+---
+title: Catalog Template
+sidebar_position: 13
+description: "Introduction :-"
+---
+Introduction :-
+
+Catalog templates are marketing templates that allow you to showcase your product catalog entirely within WhatsApp.
+
+To show a catalog products and sell items in whatsApp, follow this [link](https://developers.facebook.com/docs/whatsapp/cloud-api/guides/sell-products-and-services) for more info.
+
+![Illustration](/img/inline-images/template-messages/catalog-template/1720765584689)
+
+When a customer taps the View catalog button in a catalog template message, your product catalog appears within WhatsApp.
+
+                 ![Illustration](/img/inline-images/template-messages/catalog-template/1720768979663)
+
+NOTE :-  Only body, footer and a button is supported for this template. Product thumbnail will be taken as a default image and description.
+The button text should be always "View catalog". If a different text is passed, then it will be taken as "View catalog" only.
+
+Catalog template is a type of marketing template is only supported for Marketing template type
+
+Template Creation:
+
+Use the following [IM Client SDK](https://build.zohocorp.com/zoho/zohoim/milestones/master/ZOHOIM_SDK_V33/zohoim_client.zip) for Catalog Templates.
+
+```
+IMTemplateItems.Builder translationProperty = new IMTemplateItems.Builder();
+        translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "This is footer"));
+        IMButton catalogButton = new IMButton(IMTemplateButtonType.CATALOG, "View catalog", "");
+        List&lt;IMButton&gt; buttons = new ArrayList&lt;&gt;();
+        buttons.add(catalogButton);
+        translationProperty.setButtons(buttons);
+
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+IMCannedMessageTranslation translation = new IMCannedMessageTranslation
+                                     .Builder("en", "This is message", translationProperty.build())
+                                     .build();
+translationList.add(translation);
+
+Map<IMCannedMessageMeta, String> metaMap=new EnumMap&lt;&gt;(IMCannedMessageMeta.class);
+metaMap.put(IMCannedMessageMeta.WABA_ID, "83648368472684");
+
+IMCannedMessage cannedMessage = new IMCannedMessage
+                .Builder("This is title", "This is message", "Marketing", IMCannedMessageType.TEMPLATE)
+                        .setTranslation(translationList)
+                        .setMeta(metaMap)
+                        .build();
+
+IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getCannedMessageAPI(USER_ID)
+         .create(cannedMessage);
+```
+
+Template Send:
+
+```
+InitiateSessionMessageBuilder templateMessage =  new InitiateSessionMessageBuilder.Builder(IM_TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE, IM_CHANNEL_ID, RECEVIER_PHONE_NUMBER)
+                .build();
+
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                 .getMessageAPI(USER_ID)
+                 .initiateSession(templateMessage);
+```

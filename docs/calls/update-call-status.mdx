@@ -1,0 +1,32 @@
+---
+title: Pick up / Answer WhatsApp Call
+sidebar_label: Update Call Status
+sidebar_position: 6
+description: "In order to pickup a WhatsApp call, you have to provide SDP Answer"
+---
+### Pick up / Answer WhatsApp Call
+
+In order to pickup a WhatsApp call, you have to provide SDP Answer
+
+```
+Long callsId = 2000000053017L;
+IMCallsStatus status = IMCallsStatus.IN_PROGRESS;
+Map<IMCallsMetaType, String> metaMap = new HashMap&lt;&gt;();
+metaMap.add(IMCallsMetaType.SDP_ANSWER, {Generated SDP Answer});
+
+ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCallsAPI(USER_ID)
+          .updateStatus(IM_CALLS_ID, status, metaMap);
+```
+
+### Rejected Call
+
+```
+Long callsId = 2000000053017L;
+IMCallsStatus status = IMCallsStatus.REJECTED;
+Map<IMCallsMetaType, String> metaMap = new HashMap&lt;&gt;();
+
+ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCallsAPI(USER_ID)
+          .updateStatus(IM_CALLS_ID, status, metaMap);
+```

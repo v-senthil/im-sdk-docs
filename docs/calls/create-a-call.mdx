@@ -1,0 +1,23 @@
+---
+title: Initiate WhatsApp Business Call
+sidebar_label: Create a call
+sidebar_position: 4
+description: "In order to initiate whatsapp business calls, you need to get the end user's permission. Refer"
+---
+### Initiate WhatsApp Business Call
+
+In order to initiate whatsapp business calls, you need to get the end user's permission. [Refer](/portal/zohocorp/knowledge/manual/sdk-reference/article/whatsapp-calls-api)
+
+```
+Map<IMCallsMetaType, String> metaList = new HashMap&lt;&gt;();
+metaList.add(IMCallsMetaType.IM_SESSION_ID, IM_SESSION_ID);
+metaList.add(IMCallsMetaType.SDP_OFFER, {Generated SDP Offer});
+
+IMCalls call = new IMCalls.IMCallsBuilder(IMCallsPlatform.WHATSAPP, IM_SESSION_ID)
+        .setMeta(metaList)
+        .build();
+
+call = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCallsAPI(USER_ID)
+          .create(call);
+```

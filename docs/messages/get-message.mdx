@@ -1,0 +1,64 @@
+---
+title: Get a Message
+sidebar_label: Get Message
+sidebar_position: 7
+description: "https://learn.zoho.com/portal/zohocorp/knowledge/manual/sdk-reference/article/whatsapp-referral-messages"
+---
+### Get a Message
+
+```
+IMMessage sentMessage = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getMessageAPI(USER_ID)
+            .getMessage(IM_SESSION_ID, IM_MESSAGE_ID);
+```
+
+### Get Message Raw Content
+
+```
+IMRawMessageContent sentMessage = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getRawMessageAPI(USER_ID)
+            .getRawMessageContent(IM_SESSION_ID, IM_MESSAGE_ID);
+```
+
+### Get a Message's Full Content
+
+```
+IMAttachment sentMessage = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getAttachmentAPI(USER_ID)
+            .getMessageFullContent(IM_SESSION_ID, IM_MESSAGE_ID);
+```
+
+### Get a WhatsApp Referral Data from Message
+
+[https://learn.zoho.com/portal/zohocorp/knowledge/manual/sdk-reference/article/whatsapp-referral-messages](/portal/zohocorp/knowledge/manual/sdk-reference/article/whatsapp-referral-messages)
+
+```
+IMMessage sentMessage = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getMessageAPI(USER_ID)
+            .getMessage(IM_SESSION_ID, IM_MESSAGE_ID);
+
+IMMessageLayout layoutMessage = (IMMessageLayout) sentMessage.getMessageEntity();
+IMLayoutMetaItem meta = layoutMessage.getLayoutMeta().get(0);
+String metaType = meta.getType(); // whatsapp_referral
+WhatsAppReferralLayoutMessageMeta data = (WhatsAppReferralLayoutMessageMeta) meta.getData().get(0);
+String ctwaClid = data.getCtwaClid();
+```
+
+### Get WhatsApp Flow Data from Message
+
+[https://learn.zoho.com/portal/zohocorp/manual/sdk-reference/article/whatsapp-flows-api#\_Tocgozecjjcvdee](/portal/zohocorp/manual/sdk-reference/article/whatsapp-flows-api#_Tocgozecjjcvdee)
+
+```
+IMMessage sentMessage = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getMessageAPI(USER_ID)
+            .getMessage(IM_SESSION_ID, IM_MESSAGE_ID);
+
+MessageType messageType = sentMessage.getType(); // MessageType.LAYOUT
+
+IMMessageLayout layoutMessage = (IMMessageLayout) sentMessage.getMessageEntity();
+IMLayoutMetaItem meta = layoutMessage.getLayoutMeta().get(0);
+String metaType = meta.getType(); // whatsapp_flow
+
+WhatsAppFlowMessageMeta data = (WhatsAppFlowMessageMeta) meta.getData().get(0);
+List&lt;IMLayoutMetaAttributes&gt; flowResponse = data.getReplyAttributes();
+```

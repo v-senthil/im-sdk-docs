@@ -1,0 +1,127 @@
+---
+title: Whatsapp Channel
+sidebar_label: Create an IM Channel
+sidebar_position: 2
+description: Channel creation for each integration service will differ depending on the configuration parameters of each integration service.
+---
+Channel creation for each integration service will differ depending on the configuration parameters of each integration service.
+
+### Whatsapp Channel
+
+```
+String channelName = "WhatsApp Demo Channel";              //input Channel Name
+String phoneNumber = "+919876543210";                    //input Phone number with country code
+String wabaId = "112233445566789";                        //input WhatsApp Business Account ID
+
+IMIntegrationService integrationService= ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIntegrationServiceAPI(USER_ID)
+        .getIntegrationService(IMIntegrationServices.WHATSAPP);
+
+//Construct Channel's config-params
+List&lt;IMConfigProperty&gt; configParams = new ArrayList&lt;&gt;();
+
+configParams.add(new IMConfigParam.Builder(PHONE_NUMBER, phoneNumber).build());
+configParams.add(new IMConfigParam.Builder(WABA_ID, wabaId).build());
+
+//Construct an instance of the Channel to be created
+IMChannel channelInstance = new IMChannel.Builder(channelName, IMIntegrationServices.WHATSAPP)
+        .setConfigParams(configParams)
+        .setExternalAccountId(phoneNumber)
+        .setIsSandBox(false)
+        .build();
+//IM Channel creation
+IMChannel createdChannel= ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getChannelAPI(USER_ID)
+        .create(channelInstance);
+```
+
+### Telegram Channel
+
+```
+//input Channel Name
+String channelName = "Telegram Demo Channel";
+
+//Shall be fetched from IMIntegrationService Detail
+String BOT_AUTH_TOKEN = "BOT_AUTH_TOKEN";
+
+//Input Bot Secret Token generated from Telegram BotFather
+String botToken = "6212126408:AAGdVa5HnCND7******************";
+
+//Construct Channel's config-params
+List&lt;IMConfigProperty&gt; configParams = new ArrayList&lt;&gt;();
+configParams.add(new IMConfigParam.Builder(BOT_AUTH_TOKEN, botToken).build());
+
+//Construct an instance of the Channel to be created
+IMChannel channelInstance = new IMChannel.Builder(channelName, IMIntegrationServices.TELEGRAM)
+                .setConfigParams(configParams)
+                .build();
+
+//IM Channel creation
+IMChannel createdChannel= ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getChannelAPI(USER_ID)
+                .create(channelInstance);
+```
+
+### We Chat Channel
+
+```
+String channelName = "WeChat Demo Channel";              //input Channel Name
+String wechatOrginalID = "73713198301123";
+String wechatAppID = "7151815191";
+String wechatAppSecret = "731731hdiu1hdiu1ye9881dhx278yeud3872";
+String wechatToken = "112233445566789";
+String wechatAesKey = "112233445566789";
+
+IMIntegrationService integrationService= ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIntegrationServiceAPI(USER_ID)
+        .getIntegrationService(IMIntegrationServices.WECHAT);
+
+//Construct Channel's config-params
+List&lt;IMConfigProperty&gt; configParams = integrationService.getConfigParams();
+
+configParams.add(new IMConfigParam.Builder(ORIGINAL_ID, wechatOrginalID).build());
+configParams.add(new IMConfigParam.Builder(APP_ID, wechatAppID).build());
+configParams.add(new IMConfigParam.Builder(APP_SECRET, wechatAppSecret).build());
+configParams.add(new IMConfigParam.Builder(TOKEN, wechatToken).build());
+configParams.add(new IMConfigParam.Builder(AES_KEY, wechatAesKey).build());
+
+//Construct an instance of the Channel to be created
+IMChannel channelInstance = new IMChannel.Builder(channelName, IMIntegrationServices.WECHAT)
+        .setConfigParams(configParams)
+        .build();
+//IM Channel creation
+IMChannel createdChannel= ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getChannelAPI(USER_ID)
+        .create(channelInstance);
+```
+
+### Line Channel
+
+```
+String channelName = "Line Demo Channel";              //input Channel Name
+String lineChannelID = "73713198301123";
+String lineChannelSecret = "731731hdiu1hdiu1ye9881dhx278yeud3872";
+
+IMIntegrationService integrationService= ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIntegrationServiceAPI(USER_ID)
+        .getIntegrationService(IMIntegrationServices.LINE);
+
+//Construct Channel's config-params
+List&lt;IMConfigProperty&gt; configParams = integrationService.getConfigParams();
+
+configParams.add(new IMConfigParam.Builder(CHANNEL_ID, lineChannelID).build());
+configParams.add(new IMConfigParam.Builder(CHANNEL_SECRET, lineChannelSecret).build());
+
+//Construct an instance of the Channel to be created
+IMChannel channelInstance = new IMChannel.Builder(channelName, IMIntegrationServices.LINE)
+        .setConfigParams(configParams)
+        .build();
+//IM Channel creation
+IMChannel createdChannel= ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getChannelAPI(USER_ID)
+        .create(channelInstance);
+```
+
+Facebook Channel
+
+Please follow this [link](https://one.zoho.com/zohoone/zohocorp/home/cxapp/learn/portal/zohocorp/team/zohoim/manual/im-developers-corner/article/facebook-channel-creation) to create a facebook channel.

@@ -1,0 +1,70 @@
+---
+title: WhatsApp Pricing Public API
+sidebar_position: 2
+description: Postman link
+---
+Postman [link](https://documenter.getpostman.com/view/18635004/2s935vkfHz#48785e94-2613-47c2-95e9-2a3cb4b880fb)
+
+This is a public API. You can provide the number of conversations with respect to the country to get the total credits and amount that will be spent.
+
+```
+JSONObject payloadJSON = new JSONObject();
+payloadJSON.put("currency", "USD");
+JSONArray dataArray = new JSONArray();
+JSONObject indianPhoneNumberJSON = new JSONObject();
+indianPhoneNumberJSON.put("countryCode", "+91");
+indianPhoneNumberJSON.put("marketing", 10000);
+indianPhoneNumberJSON.put("service", 100);
+dataArray.put(indianPhoneNumberJSON);
+payloadJSON.put("data", dataArray);
+IMBasicObject resultJSON = ZohoIM.getInstance(null, null)
+        .getIMWhatsAppPublicAPI(null)
+        .getPublicWhatsAppPricing(payloadJSON);
+```
+
+Request:
+
+```
+{
+    "currency": "INR",  // possible values USD|JPY|SGD|AUD|GBP|INR|EUR|CAD|ZAR|MXN|BRL|AED|SAR|CNY|NGN|KES|EGP
+    "data": [
+        {
+            "countryCode": "+91",
+            "marketing": 80000,
+            "service": 80000
+        },
+        {
+            "countryCode": "+1",
+            "utility": 100,
+            "authentication": 100
+        }
+    ]
+}
+```
+
+Response:
+
+```
+{
+  "total": 359905.2,
+  "creditsCount": 3000,
+  "category": [
+    {
+      "type": "marketing",
+      "value": 289920
+    },
+    {
+      "type": "utility",
+      "value": 202.8
+    },
+    {
+      "type": "authentication",
+      "value": 182.4
+    },
+    {
+      "type": "service",
+      "value": 69600
+    }
+  ]
+}
+```

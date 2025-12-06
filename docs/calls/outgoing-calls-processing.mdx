@@ -1,0 +1,94 @@
+---
+title: Initiate WhatsApp Business Call
+sidebar_label: Outgoing Calls Processing
+sidebar_position: 3
+description: Customer should have minimum 5 credits balance in their organization in order to initiate a WhatsApp Business Call.
+---
+## Initiate WhatsApp Business Call
+
+Customer should have minimum 5 credits balance in their organization in order to initiate a WhatsApp Business Call.
+
+Step 1: Check if calls Permission is provided by End User
+
+[https://learn.zoho.com/portal/zohocorp/manual/sdk-reference/article/whatsapp-calls-api#\_Toc2cha8ydo5li7](/portal/zohocorp/manual/sdk-reference/article/whatsapp-calls-api#_Toc2cha8ydo5li7)
+
+If not, you can send a template message to get permission from the end user, [Refer](/portal/zohocorp/manual/sdk-reference/article/create-a-template-message#_Toc9ds99u6k300c)
+
+If the customer approves permission, the below message will be automatically added,
+
+![Illustration](/img/inline-images/calls/outgoing-calls-processing/1756810297247.png)
+
+Step 2: If Call permission is provided, generate SDP Offer and create a call
+
+```
+const sessionId = IM_SESSION_ID;
+const extId = END_USER_PHONE_NUMBER;
+const channelId = IM_CHANNEL_ID;
+const platform = "WHATSAPP";
+
+initializeBusinessPeerConnection();
+
+const offerConstraints = {
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: false
+};
+
+ const offer = await peerConnection.createOffer(offerConstraints);
+ await peerConnection.setLocalDescription(offer);
+
+function initializeBusinessPeerConnection() {
+    const configuration = {
+        iceServers: [
+            { urls: 'stun:stun1.l.google.com:19302' }
+        ],
+        iceCandidatePoolSize: 10,
+        bundlePolicy: 'max-bundle',
+        rtcpMuxPolicy: 'require',
+        iceTransportPolicy: 'all'
+    };
+
+    peerConnection = new RTCPeerConnection(configuration);
+
+   };
+}
+```
+
+Step 3: Create call using Session ID and SDP Offer
+
+[https://learn.zoho.com/portal/zohocorp/manual/sdk-reference/article/create-a-call#\_Toctxfjt5mhj39s](/portal/zohocorp/manual/sdk-reference/article/create-a-call#_Toctxfjt5mhj39s)
+
+Step 4: Calls Status change calls back will be received
+
+This callback will be triggered when the End User accepts the call. In this case call's status will be changed.
+
+```
+@Override
+public void callsStatusUpdateEvent(IMEventMeta eventMeta, IMCallsStatusUpdateEvent eventData) {
+        IMCalls call = eventData.getCalls();
+        IMCallsStatus oldCallsStatus = eventData.getOldStatus();
+        IMCallsStatus currentCallsStatus = eventData.getStatus();
+}
+```
+
+Step 5: Process SDP Answer in Client
+
+```
+async function processBusinessCallAnswer(sdpAnswer) {
+    try {
+
+        // Normalize SDP text
+        const normalizedSdp = normalizeSdpText(sdpAnswer);
+
+        // Set remote description (SDP answer from the end user)
+        const answerDescription = new RTCSessionDescription({
+            type: 'answer',
+            sdp: normalizedSdp
+        });
+          await peerConnection.setRemoteDescription(answerDescription);
+    } catch (error) {
+        console.error('SDP Answer processing error:', error);
+    }
+}
+```
+
+Call will be connected, once the SDP Answer is set in Remote Description

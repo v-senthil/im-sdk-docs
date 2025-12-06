@@ -1,0 +1,24 @@
+---
+title: Add a Zoho GC Bot in IM
+sidebar_label: Create a Bot
+sidebar_position: 1
+description: "Once a GC Flow is created, an IM Bot has to be created."
+---
+### Add a Zoho GC Bot in IM
+
+Once a GC Flow is created, an IM Bot has to be created.
+
+```
+List&lt;IMConfigProperty&gt; botConfigProperties = new ArrayList&lt;&gt;();
+botConfigProperties.add(new IMConfigProperty.Builder("ORG_ID", gcOrgId).build());
+botConfigProperties.add(new IMConfigProperty.Builder("BOT_ID", gcFlowId).build());
+
+IMBot imBot = new IMBot.Builder("botName",IMBotServices.ZOHO_GC_BOT)
+        .setExternalAccountId(gcFlowId)
+        .setConfigParams(botConfigProperties)
+        .build();
+
+imBot = ZohoIM.getInstance(IM_ORG_ID,SERVICE_ORG_ID)
+        .getBotAPI(USER_ID)
+        .create(imBot);
+```

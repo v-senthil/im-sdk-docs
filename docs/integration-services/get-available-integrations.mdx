@@ -1,0 +1,17 @@
+---
+title: Get all available Integrations
+sidebar_label: Get available integrations
+sidebar_position: 2
+---
+### Get all available Integrations
+
+```
+IMEntityList&lt;IMIntegrationService&gt; integrationsEntity = ZohoIM.getInstance(IM_ORG_ID,  SERVICE_ORG_ID).getIntegrationServiceAPI(USER_ID).getList(null);
+List&lt;IMIntegrationService&gt; integrationsList = integrationsEntity.getEntities();
+```
+
+### Get an Integration
+
+```
+IMIntegrationService integration = ZohoIM.getInstance(IM_ORG_ID,  SERVICE_ORG_ID).getIntegrationServiceAPI(USER_ID).getIntegrationService(IMIntegrationServices.WHATSAPP);
+```

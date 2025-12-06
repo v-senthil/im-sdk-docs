@@ -1,0 +1,26 @@
+---
+title: Block a Session
+sidebar_position: 8
+description: "Block a particular Session :-"
+---
+Block a particular Session :-
+
+There will be cases when the end user may be abusive, and you don't let that user send a message to a particular session. You can just block a session by using this method, and no messages will be received from that user.
+
+```
+IMSession sessionToUpdate = new IMSession.Builder(IM_SESSION_ID).setStatus(IMSessionStatus.BLOCKED).build();
+IMSession session = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getSessionAPI(USER_ID)
+        .update(sessionToUpdate);
+```
+
+Unblock a particular Session :-
+
+Also, you can unblock a previously blocked session. Just you have to make the session status as "OPEN".
+
+```
+IMSession sessionToUpdate = new IMSession.Builder(IM_SESSION_ID).setStatus(IMSessionStatus.OPEN).build();
+IMSession session = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getSessionAPI(USER_ID)
+        .update(sessionToUpdate);
+```

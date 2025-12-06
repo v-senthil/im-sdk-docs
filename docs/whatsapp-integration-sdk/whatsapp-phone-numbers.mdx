@@ -1,0 +1,89 @@
+---
+title: Whatsapp Phone Numbers
+sidebar_position: 5
+description: This API fetches all the phone numbers present in the WhatsApp Business Account along with their statuses in real time.
+---
+### Whatsapp Phone Numbers
+
+This API fetches all the phone numbers present in the WhatsApp Business Account along with their statuses in real time.
+
+Postman Documentation - [link](https://documenter.getpostman.com/view/18635004/2s935vkfHz#52ce936a-956e-4f55-9574-04f704937906)
+
+```
+import com.zoho.im.client.api.ZohoIM;
+import com.zoho.im.client.model.IMBasicObject;
+
+public class Example {
+
+    public static final Long IM_ORG_ID = 74203785L;                 //Created by IMOrganization Creation
+    public static final Long SERVICE_ORG_ID = 74199498L;          //Zoho ServiceOrg ID or AppAccount ID
+    public static final Long USER_ID = 69718860L;                  //Zoho User ID
+    public static final String WABA_ID = null;                      // If you have the hold of WABA ID you can pass it else pass null
+    public static void main(String[] a) {
+        try {
+             IMBasicObject waPhoneNumber = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID).getAllWhatsAppPhoneNumbers(WABA_ID);
+             System.out.println(waPhoneNumber);
+        } catch (Exception e) {
+             System.out.println(e.getLocalizedMessage());
+        }
+   }
+}
+```
+
+Response:
+
+```
+{
+    "data": [
+        {
+            "nameVerificationStatus": "APPROVED",
+            "commerceSettings": {
+                "isCartEnabled": true,
+                "isCatalogVisible": true
+            },
+            "hasCertificate": true,
+            "quality": "GREEN",
+            "phoneNumber": "+14694059939",
+            "connectionMessage": "CONFIGURED_IN_CHANNEL",
+            "tier": "TIER_100K",
+            "connectionStatus": "CONNECTED",
+            "canConnect": false,
+            "id": "102911859442155",
+            "verifiedName": "Zoho Developer",
+            "throughput": "STANDARD",
+            "codeVerificationStatus": "VERIFIED"
+        }
+    ],
+    "kind": "single.json"
+}
+```
+
+Note:
+
+1\. Hassle-free configuration of phone number happens only if "canConnect":true,
+
+2. "connectionMessage" has the reason for the "canConnect" value,
+
+Response Detail:
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Field</p></div></td><td><div><p>Possible Values</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>nameVerificationStatus</p></div></td><td><div><p>APPROVED,&nbsp;</p><p>DECLINED,&nbsp;</p><p>AVAILABLE_WITHOUT_REVIEW</p></div></td><td><div><p>Whether the business name provided for the phone number is verified by Meta (FB) or not. &nbsp;&nbsp;<a href="https://developers.facebook.com/docs/whatsapp/display-name" rel="noreferrer" target="_blank">Display name guidelines</a></p></div></td></tr><tr><td><div><p>phoneNumber</p></div></td><td><div><p>&lt;String value&gt;&nbsp;</p></div></td><td><div><p>Display phone number as provided in Meta's console</p></div></td></tr><tr><td><div><p>connectionStatus</p></div></td><td><div><p>CONNECTED, DISCONNECTED, PENDING</p></div></td><td><div><p>Whether the phone number is connected to WhatsApp or not</p></div></td></tr><tr><td><div><p>hasCertificate</p></div></td><td><div><p>true,</p><p>false</p></div></td><td><div><p>Whether certificate is present or absent.<br />Possible reasons for the absence of certificate:</p><ol start="1"><li>Phone number already connected to WhatsApp.</li><li>NameVerificationStatus is DECLINED.</li><li>Account DISABLED by Meta stating community guidelines violation.</li></ol></div></td></tr><tr><td><div><p>id</p></div></td><td><div><p>&lt;String value&gt;</p></div></td><td><div><p>Phone number id, should be used for OTP verification</p></div></td></tr><tr><td><div><p>verifiedName</p></div></td><td><div><p>&lt;String value&gt;</p></div></td><td><div><p>Verified business name provided for the phone number.&nbsp;</p></div></td></tr><tr><td><div><p>codeVerificationStatus</p></div></td><td><div><p>VERIFIED<br />NOT_VERIFIED</p></div></td><td><div><p>OTP verification status for the phone number<br />Validity is 14 days. If not connected within 14 days, need to re-verify post 14 days</p></div></td></tr><tr><td><div><p>canConnect</p></div></td><td><div><p>true,</p><p>false</p></div></td><td><div><p>Whether the number is ready to be connected or not.</p></div></td></tr><tr><td><div><p>connectionMessage</p></div></td><td><div><p>NAME_STATUS_DECLINED,</p><p>CERTIFICATE_NOT_FOUND,</p><p>OTP_VERIFICATION_PENDING,</p><p>CONFIGURED_IN_CHANNEL,</p><p>NAME_STATUS_PENDING,</p><p>AVAILABLE</p></div></td><td><div><p>connectionMessage will be "AVAILABLE" only for canConnect=true.<br /><br />Other values are the possible reasons for the number's unavailability for connection.</p></div></td></tr><tr><td><div><p>tier</p></div></td><td><div><p>NO_TIER,</p><p>TIER_50,</p><p>TIER_250,</p><p>TIER_1K,</p><p>TIER_10K,</p><p>TIER_100K,</p><p>TIER_UNLIMITED</p></div></td><td><div><p>tier represents the messaging limit tier provided by whatsApp. Tier information will be available only if the phone number is is the connected status. If the phone number is not connected, tier info will be provided as "NO_TIER".</p></div></td></tr><tr><td><div><p>quality</p></div></td><td><div><p>GREEN</p><p>YELLOW</p><p>RED</p><p>NO_QUALITY</p></div></td><td><div><p>This is determined by Meta.<br />Quality rating based on the recent messages that your customers have received over the past seven days.&nbsp;This rating is determined by the feedback from your customers, such as the recent blocks, your phone number, and other reporting issues.</p></div></td></tr><tr><td><div><p>throughput</p></div></td><td><div><p>STANDARD<br />HIGH<br />NOT_APPLICABLE</p></div></td><td><div><p>This is determined by Meta.<br />For each registered business phone number, Cloud API supports up to 80 messages per second (mps) by default, and up to 1,000 mps by automatic upgrade.&nbsp;Throughput is inclusive of inbound and outbound messages and all message types. Note that business phone numbers, regardless of throughput, are still subject to their WhatsApp Business Account's business use case rate limit and template messaging limits.<br /><br /></p><p>Reference&nbsp;<a href="https://developers.facebook.com/docs/whatsapp/cloud-api/overview/#throughput" rel="noreferrer" target="_blank">link</a></p></div></td></tr><tr><td><div><p>commerceSettings</p></div></td><td><div><p>JSONObject</p><p>\{</p><p>"isCartEnabled": true,</p><p>"isCatalogVisible": true</p><p>\}</p></div></td><td><div><p>isCartEnabled -&nbsp;enable cart and display cart-related buttons in the business phone number's messages, catalogs, and product details.<br /><br /></p><p>isCatalogVisible -&nbsp;When enabled, catalog storefront icon and catalog-related buttons appear in the business phone number's messages and business profile.<br /><br /></p></div></td></tr></tbody></table>
+
+### Phone number FAQs
+
+[Why didn't I receive a one-time password (OTP) after using WhatsApp embedded signup?](https://developers.facebook.com/docs/whatsapp/embedded-signup/faq#faq_848120369076858)
+
+Businesses using phone numbers that are already registered to WhatsApp Messenger or the WhatsApp Business App can’t use these numbers for embedded signup. If their number is currently being used for the Business App then they need to delete it.
+
+The instructions on how to delete the number and then request the number for WhatsApp embedded signup are located at [Migrate Phone Number](https://developers.facebook.com/docs/whatsapp/guides/phone-number#migrate).
+
+[Which phone number and display name should a business sign up with?](https://developers.facebook.com/docs/whatsapp/embedded-signup/faq#faq_691326491573701)
+
+A business should sign up with the phone number and display\_name they want to use with the WhatsApp Business API. We strongly discourage signing up with a test or personal phone number or test display name as they will be difficult to change afterwards.
+
+A business cannot sign up with a phone number that has already been registered for use with WhatsApp Messenger or the WhatsApp Business App.
+
+[When can we download the certificate?](https://developers.facebook.com/docs/whatsapp/embedded-signup/faq#faq_1296500774019000)
+
+BSPs can download certificates as soon as a business has signed up. At this time, you should also start up the WhatsApp Business API client, so that the business can send messages while in an unverified state.
+
+Certificates can be downloaded for phone numbers in trial experience and for phone numbers that have completed all reviews (Business Verification, WhatsApp checks, an display name review).  Only the BSPs can download certificates —businesses are not allowed to do this.

@@ -1,0 +1,100 @@
+---
+title: Template Message Object
+sidebar_position: 10
+description: Key
+---
+```
+{
+    "id": "1000000035011",
+    "title": "Customer fills lead form",
+    "message": "Thank you for reaching out to Zoho. Our window consultant will call you shortly.",
+    "tags": "AUTO_REPLY",
+    "status": "PENDING",
+    "createdBy": "15721183",
+    "uuid": "728d2d9aa960557480cc5ea042755f4e",
+    "displayMessage": "Thank you for reaching out to Zoho. Our window consultant will call you shortly.",
+    "translations": [
+        {
+            "id": "1000000035013",
+            "language": "en",
+            "displayMessage": "Thank you for reaching out to Zoho. Our window consultant will call you shortly",
+            "uuid": "d29e4e965f105ea7851c1e694fc8b101",
+            "rejectionReason": null,
+            "status": "PENDING",
+            "templateItems": {
+                "header": {
+                    "type": "IMAGE",
+                    "message": null,
+                    "attachment": {
+                        "attachmentId": "1000000035009",
+                        "title": "mascot.png",
+                        "type": "image/png",
+                        "size": "4814",
+                        "attachmentStatus": "SUCCESS",
+                        "uploadedTime": "1650975389961",
+                        "attachmentType": "TEMPLATE",
+                        "uuid": "de00c62a5eb65a18a479c8f5c6359515",
+                        "url": "https://senthil-11424.csez.zohocorpin.com/api/v1/attachments/de00c62a5eb65a18a479c8f5c6359515?orgId=15804668"
+                    }
+                },
+                "footer":{
+                    "type":"TEXT",
+                    "text":"Zoho Corporation"
+                },
+                "buttons": [
+                    {
+                        "type": "URL",
+                        "message": "Visit Website",
+                        "action": "https://www.zoho.com"
+                    },
+                    {
+                        "type": "PHONE_NUMBER",
+                        "message": "Call",
+                        "action": "+12301772138"
+                    }
+                ]
+            },
+            "message": "Thank you for reaching out to Zoho. Our window consultant will call you shortly"
+        }
+    ],
+    "type": "TEMPLATE",
+    "kind": "single.cannedMessage",
+    "isActive": true,
+    "meta": [
+        {
+            "uuid": "348460f733245b74ad4599933f042eb1",
+            "value": "WHATSAPP",
+            "name": "INTEGRATION_SERVICE"
+        },
+        {
+            "uuid": "31da09a83c585a22bc6879e4c647aef2",
+            "value": "PENDING",
+            "name": "TEMPLATEMSG_STATUS"
+        },
+        {
+            "uuid": "90hadiqy1ue09191jdhdoiqje18091i1",
+            "value": "109830173108301",
+            "name": "WABA_ID"
+        },
+        {
+            "uuid": "89caca7yca7caycaca8cauhca9ca9c7a",
+            "value": "16983749141098408141",
+            "name": "TEMPLATEMSG_EXTERNAL_ID"
+        },
+        {
+            "uuid": "a6ca76ca8cx8as6cx8a6da86c8asa8sd",
+            "value": "t1000000035011",
+            "name": "TEMPLATEMSG_NAME"
+        },
+        {
+            "uuid": "cacsd7vsfb7sf98bvad89vs6a98vda98",
+            "value": "null",
+            "name": "REJECTION_REASON"
+        }
+    ],
+    "modifiedTime": "2022-04-26T12:16:30.000Z",
+    "isPrivate": false
+}
+```
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Key</p></div></td><td><div><p>Type</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>id</p></div></td><td><div><p>Long</p></div></td><td><div><p>The ID of template Message</p></div></td></tr><tr><td><div><p>title</p></div></td><td><div><p>String</p></div></td><td><div><p>Name of the template Message</p></div></td></tr><tr><td><div><p>message</p></div></td><td><div><p>String</p></div></td><td><div><p>Predefined message saved</p></div></td></tr><tr><td><div><p>tags</p></div></td><td><div><p>String</p></div></td><td><div><p>Labels or keywords that are used to categorise or identify content</p></div></td></tr><tr><td><div><p>status</p></div></td><td><div><p>String</p></div></td><td><div><p>Status of the template in whatsapp</p></div></td></tr><tr><td><div><p>createdBy</p></div></td><td><div><p>Long</p></div></td><td><div><p>The ID of the user who created the template message</p></div></td></tr><tr><td><div><p>UUID</p></div></td><td><div><p>String</p></div></td><td><div><p>The unique identifier of this template message</p></div></td></tr><tr><td><div><p>displayMessage</p></div></td><td><div><p>String</p></div></td><td><div><p>Predefined message saved</p></div></td></tr><tr><td><div><p>translations</p></div></td><td><div><p>IMCannedMessageTranslation Object</p></div></td><td><div></div></td></tr><tr><td><div><p>type</p></div></td><td><div><p>String</p></div></td><td><div><p>Type of the pre-defined message</p></div></td></tr><tr><td><div><p>isActive</p></div></td><td><div><p>Boolean</p></div></td><td><div><p>indicates if the template message is active</p></div></td></tr><tr><td><div><p>meta</p></div></td><td><div><p>IMCannedMessageMeta Object</p></div></td><td><div></div></td></tr><tr><td><div><p>modifiedTime</p></div></td><td><div><p>String</p></div></td><td><div><p>Time at which the template message was updated</p></div></td></tr><tr><td><div><p>isPrivate</p></div></td><td><div><p>Boolean</p></div></td><td><div><p>indicates if the particular template message is available only for the created user</p></div></td></tr><tr><td><div><p>kind</p></div></td><td><div><p>String</p></div></td><td><div><p>The type of this object (single.cannedMessage)</p></div></td></tr></tbody></table>

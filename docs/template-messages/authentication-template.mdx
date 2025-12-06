@@ -1,0 +1,61 @@
+---
+title: Authentication Template
+sidebar_position: 12
+description: "Introduction: Authentication Template Provides offers users the option to receive one-time passwords or verification codes via WhatsApp."
+---
+Introduction:
+    Authentication Template Provides offers users the option to receive one-time passwords or verification codes via WhatsApp.
+
+![Illustration](/img/inline-images/template-messages/authentication-template/screenshot-2024-03-19-at-3-26-57-pm.png)
+
+Template Creation:
+
+Use the following [IM Client SDK](https://build.zohocorp.com/zoho/zohoim/milestones/master/ZOHOIM_SDK_V28/zohoim_client.zip) for Authentication Templates.
+
+```
+IMTemplateItems.Builder translationProperty = new IMTemplateItems.Builder();
+translationProperty.setFooter(new IMTemplateFooter(IMTemplateFooterType.TEXT, "This code expires in &lt;EXPIRE_TIME&gt; minutes."));
+
+List&lt;IMCannedMessageTranslation&gt; translationList = new ArrayList&lt;&gt;();
+IMCannedMessageTranslation translation = new IMCannedMessageTranslation
+                            .Builder("en", "message", translationProperty.build())
+                            .build();
+translationList.add(translation);
+
+Map<IMCannedMessageMeta, String> metaMap=new EnumMap&lt;&gt;(IMCannedMessageMeta.class);
+metaMap.put(IMCannedMessageMeta.WABA_ID, "83648368472684");
+
+IMCannedMessage cannedMessage = new IMCannedMessage
+    .Builder("title", "message", "AUTHENTICATION", IMCannedMessageType.TEMPLATE)
+    .setTranslation(translationList)
+    .setMeta(metaMap)
+    .build();
+
+IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+        .create(cannedMessage);
+```
+
+\*Note:
+
+Body:    The Message Provided in Request Body will not be saved in Template Message. As WhatsApp does not allow modification of message content to be sent during Authentication Template, default Message which is sent by WhatsApp for Authentication Templates will be saved.
+
+Footer: The Footer message must be provided as "This code expires in &lt;EXPIRE\_TIME&gt; minutes." Instead of &lt;EXPIRE\_TIME&gt; the time in minutes must by mentioned. Example: If expire time is 10 minute. Then the footer message must be "This code expires in 10 minutes.".
+The expire time must be between 1 minute to 90 minutes.
+The footer message should not be change, this is the default message provided by WhatsApp.
+If footer is given the Expiration Warning will be displayed in message.
+
+Template Update:
+Authentication Template cannot be updated.
+
+Template Send:
+
+```
+InitiateSessionMessageBuilder templateMessage =  new InitiateSessionMessageBuilder.Builder(IM_TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE, IM_CHANNEL_ID, RECEVIER_PHONE_NUMBER)
+    .setOtpPlaceHolder("&lt;OTP_TO_BE_SENT&gt;")
+    .build();
+
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .initiateSession(templateMessage);
+```

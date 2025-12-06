@@ -1,0 +1,18 @@
+---
+title: WhatsApp User Access Token Callback
+sidebar_position: 9
+description: This callback is currently enabled only for Zoho Social Lead Service
+---
+This callback is currently enabled only for Zoho Social Lead Service
+
+```
+@Override
+public void whatsappEmbeddedSignUpToken(IMEventMeta eventMeta, Long zuId, JSONObject wabaDetails, String facebookUserAccessToken) {}
+```
+
+The "facebookUserAccessToken" will be encrypted. You can use the below method to decrypt the data.
+
+```
+IMEncryption encryption = IMEncryption(imOrgId, serviceOrgId, ZohoService);
+String accessToken = encryption.decrypt(facebookUserAccessToken);
+```

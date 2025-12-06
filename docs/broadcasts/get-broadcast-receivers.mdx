@@ -1,0 +1,53 @@
+---
+title: Get Broadcast Receivers (Deprecated)
+sidebar_position: 6
+description: "Response:"
+---
+```
+IMBroadcastReceiversQueryBuilder builder = IMBroadcastReceiversQueryBuilder(BROADCAST_ID).range(0,5).build();
+
+List&lt;IMBroadcastReceivers&gt; receiversList = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getBroadcastReceiversAPI(USER_ID)
+        .getBroadcastReceivers(builder).getEntities();
+```
+
+Response:
+
+```
+{
+    "data": [
+        {
+            "status": "READ",
+            "statusComment": "READ",
+            "receiverId": "+9177080****",
+            "profileId": "1955000000042257"
+        },
+        {
+            "status": "FAILED",
+            "statusComment": "INVALID_RECEIVER_ID",
+            "receiverId": "+9194811****",
+            "profileId": "1955000000042015"
+        },
+        {
+            "status": "READ",
+            "statusComment": "READ",
+            "receiverId": "+9188070****",
+            "profileId": "1955000000027361"
+        },
+        {
+            "status": "FAILED",
+            "statusComment": "INVALID_RECEIVER_ID",
+            "receiverId": "+9194811****",
+            "profileId": "1955000000042494"
+        },
+        {
+            "status": "DELIVERED",
+            "statusComment": "DELIVERED",
+            "receiverId": "+9181970****",
+            "profileId": "1955000000009093"
+        }
+    ],
+    "kind": "list.broadcast.receivers",
+    "hasMore": true
+}
+```

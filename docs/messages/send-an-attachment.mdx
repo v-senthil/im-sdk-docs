@@ -1,0 +1,87 @@
+---
+title: Support for 100 MB Document
+sidebar_label: Send an Attachment Message
+sidebar_position: 3
+description: "Response:"
+---
+### Support for 100 MB Document
+
+1.  If the send attachment API is invoked, the socket timeout will default to 20 seconds. However, this can be customized in im.properties using the key "zohoim.attachment.http.socket.timeout.ms".
+2.  By default, attachments up to 50 MB are supported, but this limit can be increased to a maximum of 100 MB upon customer request for both incoming and outgoing IM messages.
+3.  In Local Zoho, sending 100 MB files is not possible because attachments are streamed using an internal framework called AWS, which does not support such large file streams.
+
+### Send Attachment to a Session
+
+```
+//Message to be send
+String messageToSend= "Here is your payment bill";
+
+// constrcut IMAttachment Object
+IMAttachment attachment = new IMAttachment.Builder(ATTACHMENT_NAME, ATTACHMENT_INPUT_STREAM)
+      .setContentType(ATTACHMENT_CONTENT_TYPE)
+      .setContentLength(ATTACHMENT_SIZE)
+      .build();
+
+//send attchment message through IM
+IMMessage sentMessage = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+     .getMessageAPI(USER_ID)
+     .sendAttachment(IM_SESSION_ID, null, messageToSend, attachment);
+```
+
+Response:
+
+```
+{
+    "sessionId": "1241000001631442",
+    "displayMessage": "Here is your payment bill",
+    "statusUpdatedTime": "2023-03-30T07:39:31.000Z",
+    "actor": {
+        "id": "67915789",
+        "extId": null,
+        "name": "",
+        "email": null,
+        "photoURL": null,
+        "type": "AGENT",
+        "phone": null,
+        "status": null,
+        "service": "ZOHO_IM",
+        "extIdType": null
+    },
+    "statusHistory": [
+        {
+            "updatedTime": "2023-03-30T07:39:31.000Z",
+            "status": "QUEUED"
+        }
+    ],
+    "direction": "out",
+    "id": "1241000001751003",
+    "createdTime": "2023-03-30T07:39:31.000Z",
+    "index": "39",
+    "replyToMessage": null,
+    "uuid": "6d2b7d6077d35493a71f8f7bf8695c0e",
+    "attachment": {
+        "name": "payment.png",
+        "size": "100837",
+        "type": "image/png",
+        "createdTime": "2023-03-30T07:39:31.000Z",
+        "id": "1241000001751001",
+        "url": "https://imcd.localzoho.com/api/v1/sessions/1241000001631442/attachments/1241000001751001?orgId=67915797",
+        "publicUrl": "https://309e-121-244-91-31.ngrok.io/api/v1/public/conversations/attachments/6d6b83c1b778576e154191ace8c93cf5592c215a2c76264ecaedc31d347e9778bbe0c992f68a294c1c36854e0685db20f8dc0d8b847fce3ce1bd7f2581a4e5754a6ce4588b2aa6eeb881ae1fd1bc1fc1b146c48958356ae675163ca810946a24?inline=false",
+        "kind": "single.attachment"
+    },
+    "meta": [],
+    "fullContentURL": null,
+    "template": null,
+    "contentType": "text/plain",
+    "status": "QUEUED",
+    "info": null,
+    "text": null,
+    "location": null,
+    "externalInfo": null,
+    "layout": null,
+    "action": null,
+    "type": "ATTACHMENT",
+    "isRead": true,
+    "kind": "single.session.message"
+}
+```

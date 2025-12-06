@@ -1,0 +1,14 @@
+---
+title: Message Status Updated Event
+sidebar_position: 4
+description: The event will be triggered when a message status is updated.
+---
+The event will be triggered when a message status is updated.
+
+```
+public void messageStatusUpdated(IMEventMeta eventMeta, IMMessageStatusUpdatedEvent messageStatusUpdatedEvent);
+```
+
+Available methods in IMMessageStatusUpdatedEvent Object:
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Methods Available</p></div></td><td><div><p>Return Type</p></div></td><td><div><p>Child Methods available in return type</p></div></td></tr><tr><td><div><p>getMessageId()</p></div></td><td><div><p>Long</p></div></td><td><div></div></td></tr><tr><td><div><p>getSessionId()</p></div></td><td><div><p>Long</p></div></td><td><div></div></td></tr><tr><td><div><p>getMessageStatus()</p></div></td><td><div><p>IMMessageStatus Object</p></div></td><td><div><p>1. getType()<br />2. getUpdatedTime()</p></div></td></tr><tr><td><div><p>getSessionAgents()</p></div></td><td><div><p>Set&lt;Long&gt;</p></div></td><td><div></div></td></tr><tr><td><div><p>getPreviousMessageStatus()</p></div></td><td><div><p>MessageStatusType</p></div></td><td><div></div></td></tr><tr><td><div><p>getEventType()</p></div></td><td><div><p>IMEventType</p></div></td><td><div></div></td></tr></tbody></table>

@@ -1,0 +1,353 @@
+---
+title: Introduction
+sidebar_label: WhatsApp Flows API
+sidebar_position: 4
+description: "WhatsApp Flows is a way to build structured interactions for business messaging. With Flows, businesses can define, configure, and customize messages with rich interactions that give customers more structure in the way they communicate. You…"
+---
+## Introduction
+
+WhatsApp Flows is a way to build structured interactions for business messaging. With Flows, businesses can define, configure, and customize messages with rich interactions that give customers more structure in the way they communicate. You can use Flows to generate leads, recommend products, get new sales leads, or anything else where structured communication is more natural or comfortable for your customers.
+
+Pre Requisites
+
+1.  You will need to verify your business and maintain a high message quality.
+
+![Illustration](/img/inline-images/whatsapp-custom-apis/whatsapp-flows-api/1750818213948.png)
+
+#### Service Team should:
+
+1.  The service team must maintain clear mappings between the keys used in the flow response (like ticket\_cf9, screen\_1\_Delivery\_and\_setup\_1, etc.) and the corresponding fields in the database — specific to each flow ID.
+2.  This mapping can only be ensured if flows are created and updated through your service.
+3.  If a customer creates or modifies flows directly in Meta and uses them in IM, it may break the flow functionality because the necessary database mappings will not exist on your side.
+
+#### Get WhatsApp Flows Response Keys
+
+Each flowJSON typically includes an on-click-action named "complete", with a payload that looks like this:
+
+```
+{
+    "type": "Footer",
+    "label": "Done",
+    "on-click-action": {
+        "name": "complete",
+        "payload": {
+            "ticket_cf9": "${form.Purchase_experience}",
+            "screen_1_Delivery_and_setup_1": "${form.Delivery_and_setup}",
+            "screen_1_Customer_service_2": "${form.Customer_service}",
+            "screen_0_Choose_one_0": "${data.screen_0_Choose_one_0}",
+            "screen_0_Leave_a_comment_1": "${data.screen_0_Leave_a_comment_1}"
+        }
+    }
+ }
+```
+
+In this example, all the keys inside payload (like ticket\_cf9) must have corresponding mappings in the database. If these mappings aren't managed by your service during creation or updates, the integration won't function properly.
+
+Points to Note:
+
+1.  When a flow is created, its initial status is PUBLISHED.
+2.  If the flow is edited, its status automatically changes to DRAFT.
+3.  You must publish the flow again after making changes for them to take effect.
+4.  Published flows cannot be deleted. However, you can mark them as deprecated if they are no longer needed.
+
+###
+
+### Get WhatsApp Flows
+
+```
+IntegrationCustomAPI integrationCustomAPIImpl =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+IMBasicObject whatsAppFlowsJSON = integrationCustomAPIImpl.getWhatsAppFlows(WABA_ID);
+```
+
+Response:
+
+```
+{
+    "data": [
+        {
+            "preview": {
+                "previewUrl": "https://business.facebook.com/wa/manage/flows/4229832480630415/preview/?token=0511ffaa-d7d5-4f56-b024-ee6bb45442ab",
+                "expiresAt": "2025-07-24T08:01:34+0000"
+            },
+            "name": "Testing new two4",
+            "validationErrors": [],
+            "jsonVersion": "7.1",
+            "id": "4229832480630415",
+            "categories": [
+                "SIGN_UP"
+            ],
+            "updatedAt": "2025-06-24T08:01:29+0000",
+            "status": "DRAFT"
+        },
+        {
+            "preview": {
+                "previewUrl": "https://business.facebook.com/wa/manage/flows/992085066334528/preview/?token=664c31bd-567e-4694-91cd-95661c12de1b",
+                "expiresAt": "2025-07-24T07:15:23+0000"
+            },
+            "name": "Testing new two1",
+            "validationErrors": [],
+            "jsonVersion": "7.1",
+            "id": "992085066334528",
+            "categories": [
+                "SIGN_UP"
+            ],
+            "updatedAt": "2025-06-24T07:49:49+0000",
+            "status": "PUBLISH"
+        }
+    ],
+    "kind": "single.json"
+}
+```
+
+###
+
+### Get WhatsApp Single Flow
+
+```
+IntegrationCustomAPI integrationCustomAPIImpl =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+IMBasicObject whatsAppFlowsJSON = integrationCustomAPIImpl.getWhatsAppFlows(WABA_ID, FLOW_ID);
+```
+
+Response:
+
+```
+{
+    "data": {
+        "preview": {
+            "previewUrl": "https://business.facebook.com/wa/manage/flows/4229832480630415/preview/?token=0511ffaa-d7d5-4f56-b024-ee6bb45442ab",
+            "expiresAt": "2025-07-24T08:01:34+0000"
+        },
+        "name": "Testing new two4",
+        "validationErrors": [],
+        "jsonVersion": "7.1",
+        "id": "4229832480630415",
+        "categories": [
+            "SIGN_UP"
+        ],
+        "updatedAt": "2025-06-24T09:23:27+0000",
+        "status": "DEPRECATED"
+    },
+    "kind": "single.json"
+}
+```
+
+### Visualizing and interacting with your Flow using the Web Preview
+
+You can make use of the "previewUrl" which is present in Get Flows or Get Single Flow Response to visualize the flow in your service
+
+```
+<iframe src="https://business.facebook.com/wa/manage/flows/550.../preview/?token=b9d6...." width="430" height="800" ></iframe>
+```
+
+### Create WhatsApp Flows
+
+```
+IntegrationCustomAPI integrationCustomAPIImpl =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+Set&lt;String&gt; categories = new HashSet&lt;&gt;();     // SIGN_UP|SIGN_IN|APPOINTMENT_BOOKING|LEAD_GENERATION|CONTACT_US|CUSTOMER_SUPPORT|SURVEY|OTHER
+JSONObject flowJSON = new JSONObject();     //https://developers.facebook.com/docs/whatsapp/flows/playground
+IMBasicObject whatsAppFlowsJSON = integrationCustomAPIImpl.createWhatsAppFlows(WABA_ID, FLOW_NAME, categories, flowJSON);
+```
+
+Response:
+
+```
+{
+    "kind": "single.json",
+    "validationErrors": [],
+    "flowId": "1634040877269790"
+}
+```
+
+### Update WhatsApp Flows
+
+Return Type: boolean
+
+```
+IntegrationCustomAPI integrationCustomAPIImpl =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+JSONObject flowJSON = new JSONObject();     //https://developers.facebook.com/docs/whatsapp/flows/playground
+
+boolean isUpated = integrationCustomAPIImpl.createWhatsAppFlows(WABA_ID, FLOW_ID, flowJSON);
+```
+
+### Delete WhatsApp Flows
+
+Return Type: boolean
+
+```
+IntegrationCustomAPI integrationCustomAPIImpl =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+boolean isDeleted = integrationCustomAPIImpl.deleteWhatsAppFlows(WABA_ID, FLOW_ID);
+```
+
+### Publish WhatsApp Flows
+
+Return Type: boolean
+
+```
+IntegrationCustomAPI integrationCustomAPIImpl =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+boolean isPublished = integrationCustomAPIImpl.publishWhatsAppFlows(WABA_ID, FLOW_ID);
+```
+
+### Deprecate WhatsApp Flows
+
+Return Type: boolean
+
+```
+IntegrationCustomAPI integrationCustomAPIImpl =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+boolean isDeprecated = integrationCustomAPIImpl.deprecateWhatsAppFlows(WABA_ID, FLOW_ID);
+```
+
+### Send Flow to WhatsApp End User
+
+Note:
+
+1.  Header (Title) Attachment is not supported. Only Header (Title) text is supported
+2.  Only a published flow can be sent as a message to the end user
+3.  If flow is deprecated, the message will fail.
+
+```
+IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+// Set Message Title - Optional
+builder.setTitle("Hello", IMLayoutTitleType.TEXT);
+
+// Set Message Sub Stitle - Mandatory
+builder.setSubTitle("SubTitle Message");
+
+// Set Message Description - Optional
+builder.setDescription("Description Message");
+
+// Set buttons
+String whatsAppFlowId = "139498749837494434";
+IMLayoutButton flowButton = new IMLayoutButton.
+        Builder(IMLayoutButtonElementType.FLOW_ID, "flow", whatsAppFlowId).build();
+
+List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+buttons.add(flowButton);
+
+IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.Builder(IMLayoutButtonStyle.FLOW,
+        IMLayoutButtonType.BUTTON,
+        "Button Title",
+        buttons)
+        .build();
+builder.setButtons(layoutButton);
+
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .layoutMessage(builder.build());
+```
+
+### Get real time callback post flow completion
+
+```
+IMMessage sentMessage = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getMessageAPI(USER_ID)
+            .getMessage(IM_SESSION_ID, IM_MESSAGE_ID);
+
+MessageType messageType = sentMessage.getType(); // MessageType.LAYOUT
+
+IMMessageLayout layoutMessage = (IMMessageLayout) sentMessage.getMessageEntity();
+IMLayoutMetaItem meta = layoutMessage.getLayoutMeta().get(0);
+String metaType = meta.getType(); // whatsapp_flow
+
+WhatsAppFlowMessageMeta data = (WhatsAppFlowMessageMeta) meta.getData().get(0);
+List&lt;IMLayoutMetaAttributes&gt; flowResponse = data.getReplyAttributes();
+```
+
+```
+{
+    "sessionId": "7122000009218009",
+    "displayMessage": "",
+    "statusUpdatedTime": "2025-06-24T06:26:04.669Z",
+    "actor": {
+        "id": "7122000000274003",
+        "extId": "+918197002143",
+        "name": "Senthil V",
+        "email": null,
+        "photoURL": null,
+        "type": "END_USER",
+        "phone": "+918197002143",
+        "status": "UNKNOWN",
+        "extIdType": "PHONE_NUMBER",
+        "service": "WHATSAPP"
+    },
+    "direction": "in",
+    "id": "7122000009970001",
+    "createdTime": "2025-06-24T06:24:02.175Z",
+    "index": "1012",
+    "replyToMessage": null,
+    "uuid": "164483c1da8f576d96077b441d88fd90",
+    "isRead": true,
+    "template": null,
+    "fullContentURL": null,
+    "contentType": "text/plain",
+    "status": "SAVED",
+    "info": null,
+    "text": null,
+    "location": null,
+    "externalInfo": null,
+    "layout": {
+        "meta": [
+            {
+                "data": [
+                    {
+                        "attributes": [
+                            {
+                                "type": "screen_0_Name_0",
+                                "value": "Senthul"
+                            },
+                            {
+                                "type": "screen_0_Order_number_1",
+                                "value": "152184"
+                            },
+                            {
+                                "type": "screen_0_Description_of_issue_3",
+                                "value": "Nill ok"
+                            },
+                            {
+                                "type": "screen_0_Choose_a_topic_2",
+                                "value": "0_Orders_and_payments"
+                            },
+                            {
+                                "type": "flow_token***",
+                                "value": "unused"
+                            }
+                        ]
+                    }
+                ],
+                "type": "whatsapp_flow"
+            }
+        ],
+        "rows": [
+            {
+                "arrangement": "list",
+                "columns": [
+                    {
+                        "html": {
+                            "source": "<div> Flow Response Received </div>"
+                        },
+                        "type": "HTML"
+                    }
+                ]
+            }
+        ]
+    },
+    "action": null,
+    "meta": null,
+   "type": "LAYOUT",
+    "attachment": null,
+    "kind": "single.session.message"
+}
+```
+
+###
+
+### Possible Errors during WhatsApp Flow CRUD
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Error Code</p></div></td><td><div><p>Description</p></div></td></tr><tr><td><div><p>UNKNOWN_ERROR</p></div></td><td><div><p>Unknown error from WhatsApp</p></div></td></tr><tr><td><div><p>UNIQUE_NAME</p></div></td><td><div><p>Flow name is not unique</p></div></td></tr><tr><td><div><p>PUBLISH_FAILED</p></div></td><td><div><p>Flow was created, but publishing failed</p></div></td></tr><tr><td><div><p>CANNOT_DELETE</p></div></td><td><div><p>Delete published flow</p></div></td></tr></tbody></table>

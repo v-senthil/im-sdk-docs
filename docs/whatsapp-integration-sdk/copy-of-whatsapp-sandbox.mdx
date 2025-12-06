@@ -1,0 +1,54 @@
+---
+title: Create a Sandbox Channel
+sidebar_label: WhatsApp Sandbox
+sidebar_position: 2
+description: Channel creation for WhatsApp Sandbox Channel.
+---
+### Create a Sandbox Channel
+
+    Channel creation for WhatsApp Sandbox Channel.
+
+```
+IMChannel channelInstance = new IMChannel.Builder(channelName, IMIntegrationServices.WHATSAPP)
+        .setIsSandBox(true)
+        .build();
+
+//IM Channel creation
+IMChannel createdChannel= ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getChannelAPI(USER_ID)
+        .create(channelInstance);
+```
+
+The Channel will be created and the phone number dedicated to the DataCenter will be configured.
+
+### Add/Update Sandbox Testers
+
+```
+List&lt;String&gt; sandboxTestNumbers = new ArrayList&lt;&gt;();
+sandboxTestNumbers.add("+919876543210");
+
+IMBasicObject whatsAppSandBoxTesters = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                            .getIntegrationCustomAPI(USER_ID)
+                            .addOrUpdateWASandboxTesters(sandboxTestNumbers);
+```
+
+###
+
+### Constraints:
+
+-   Phone numbers added as testers should be in WhatsApp.
+-   Tester numbers should be in the format of +919876543210. Other formats wont work.
+-   A maximum of 3 customers test number can only be added.
+-   A maximum of 1000 messages can be sent from each of those 3 numbers for each day.
+-   Please reach out if you have any more clarifications.
+
+### Get Sandbox Testers
+
+```
+IMBasicObject whatsAppSandBoxTesters = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                            .getIntegrationCustomAPI(USER_ID)
+                            .getWhatsAppSandBoxTesters();
+```
+
+Check [here](/portal/zohocorp/team/zohoim/manual/available-integrations/article/whatsapp-sandbox) for more details on WhatsApp Sandbox.
+[Postman API Reference](https://documenter.getpostman.com/view/18635004/2s935vkfHz#be3b4fc7-ea7b-40c5-a96e-011415947ad3)

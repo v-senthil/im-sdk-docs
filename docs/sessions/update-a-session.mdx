@@ -1,0 +1,21 @@
+---
+title: Update a Session
+sidebar_position: 4
+description: Messages in a Session are sent by Agents. An Agent can either be an authorized user or an assigned Bot.
+---
+Messages in a Session are sent by Agents. An Agent can either be an authorized user or an assigned Bot.
+
+Updating an Agent to a Session will replace the previously assigned Agent if any, which implies a Session can have only one  Agent assigned at a time.
+
+To start sending messages, you need to assign yourself (zuid) as an agent to the Session.
+
+IM Session Builder
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Method</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>setAgentId(Long agentId)</p></div></td><td><div><p>Assign an agent to a session</p></div></td></tr><tr><td><div><p>setStatus(IMSessionStatus sessionStatus)</p></div></td><td><div><p>update session status</p></div></td></tr><tr><td><div><p>setBotId(Long botId)</p></div></td><td><div><p>Assign a bot to a session</p></div></td></tr></tbody></table>
+
+```
+IMSession sessionToUpdate = new IMSession.Builder(IM_SESSION_ID).setAgentId(AGENT_ZUID).build();
+IMSession session = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getSessionAPI(USER_ZUID)
+        .update(sessionToUpdate);
+```

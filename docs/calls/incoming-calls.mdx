@@ -1,0 +1,132 @@
+---
+title: WhatsApp Incoming Calls
+sidebar_label: Incoming Calls Processing
+sidebar_position: 2
+description: You will receive a Calls Added Event in Kafka Callback
+---
+You will receive a Calls Added Event in Kafka Callback
+
+```
+@Override
+public void callsAddedEvent(IMEventMeta eventMeta, IMCallsAddedEvent eventData) {
+        IMCalls call = eventData.getCalls();
+}
+```
+
+## WhatsApp Incoming Calls
+
+IMCalls object will contain SDP Offer provide by WhatsApp. In client side, you have to initialise a RTCPeerConnection along with SDP Offer like below
+
+Step 1: Extract SDP Offer from Calls Object
+
+```
+if (callDetails.meta) {
+    const sdpOfferMeta = callDetails.meta.find(meta => meta.type === 'SDP_OFFER');
+    if (sdpOfferMeta) {
+        sdpOffer = sdpOfferMeta.value;
+    }
+}
+```
+
+Step 2: Initialize WebRTC Connection
+
+```
+function initializePeerConnection() {
+const configuration = {
+        iceServers: [
+            { urls: 'stun:stun1.l.google.com:19302' },
+            { urls: 'stun:stun2.l.google.com:19302' }
+        ],
+        iceCandidatePoolSize: 10,
+        bundlePolicy: 'max-bundle',
+        rtcpMuxPolicy: 'require',
+        iceTransportPolicy: 'all'
+    };
+    peerConnection = new RTCPeerConnection(configuration);
+    // ... additional setup for ICE candidates, signaling state, and remote tracks
+
+if (peerConnection) {
+    peerConnection.close();
+}
+initializePeerConnection();
+```
+
+Step 3: Process SDP Offer
+
+```
+function normalizeSdpText(sdpText) {
+        let normalized = sdpText.replace(/\\r\\n/g, '\r\n');
+        normalized = normalized.replace(/\\n/g, '\n');
+        if (!normalized.endsWith('\r\n') && !normalized.endsWith('\n')) {
+            normalized += '\r\n';
+        }
+        return normalized;
+ }
+
+const normalizedSdp = normalizeSdpText(sdpOffer);
+
+// Set remote description (SDP offer from the call)
+const offerDescription = new RTCSessionDescription({
+    type: 'offer',
+    sdp: normalizedSdp
+});
+
+await peerConnection.setRemoteDescription(offerDescription);
+```
+
+Step 4: Create SDP Answer
+
+```
+const answerConstraints = {
+    offerToReceiveAudio: true,
+    offerToReceiveVideo: false
+};
+
+const answerDescription = await peerConnection.createAnswer(answerConstraints);
+await peerConnection.setLocalDescription(answerDescription);
+```
+
+Step 5: Process ICE Candidates
+
+```
+// Parse and add ICE candidates from the SDP offer
+const sdpLines = normalizedSdp.split(/\r?\n/);
+let sdpMid = null;
+let sdpMLineIndex = -1;
+
+// Find the media line index and sdpMid
+for (let i = 0; i < sdpLines.length; i++) {
+    if (sdpLines[i].startsWith("m=audio")) {
+        sdpMLineIndex = 0; // Since we're only dealing with one media line
+    }
+    if (sdpLines[i].startsWith("a=mid:")) {
+        sdpMid = sdpLines[i].substring(6).trim();
+    }
+}
+
+// Extract and add ICE candidates
+const candidateLines = sdpLines.filter(line => line.startsWith("a=candidate:"));
+console.log(`Found ${candidateLines.length} ICE candidates to process`);
+
+for (const line of candidateLines) {
+    const candidate = line.substring(2); // remove "a="
+
+    try {
+        const iceCandidate = new RTCIceCandidate({
+            candidate,
+            sdpMid,
+            sdpMLineIndex
+        });
+
+        await peerConnection.addIceCandidate(iceCandidate);
+        console.log('ICE candidate added successfully:', candidate);
+
+    } catch (error) {
+        console.error("Error adding ICE candidate:", error);
+    }
+}
+```
+
+Step 6: Answer Call
+
+[https://learn.zoho.com/portal/zohocorp/manual/sdk-reference/article/update-call-status#\_Toc1ax4v1dvhzw4](/portal/zohocorp/manual/sdk-reference/article/update-call-status#_Toc1ax4v1dvhzw4)

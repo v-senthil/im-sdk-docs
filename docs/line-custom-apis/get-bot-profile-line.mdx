@@ -1,0 +1,29 @@
+---
+title: Get bot Profile
+sidebar_position: 2
+description: Channels created in IM for integration services such as LINE are associated with a bot channel created in LINE platform. In order to get the basic profile details of the bot one needs to pass the channelId and the associated IMintegrationSe…
+---
+Channels created in IM for integration services such as LINE are associated with a bot channel created in LINE platform. In order to get the basic profile details of the bot one needs to pass the channelId and the  associated  IMintegrationService  as parameters .
+
+  NOTE : The API is applicable only to LINE and TELEGRAM channels .
+
+```
+//IntegrationService
+ IMIntegrationServices integerationService  =  IMIntegrationServices.LINE;
+//IntegrationCustomAPIImpl
+IntegrationCustomAPI  integrationCustomAPIImpl  =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+//botInfoResponse
+IMBasicObject  botInfoResponse = integrationCustomAPIImpl.getBotInfo(integrationService ,CHANNEL_ID);
+```
+
+```
+    Response : {
+    "data": {
+        "responseMode": "bot",
+        "displayName" : "chanel***34",
+        "botId"       : "@29***spq",
+        "pictureUrl"  :"https://example.com/*****.jpg"
+            },
+    "kind": "single.json"
+         }
+```

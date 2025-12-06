@@ -1,0 +1,15 @@
+---
+title: Template Message Status Sync
+sidebar_position: 9
+description: You can use this SDK to Sync the template messages status in IM from whatsApp.
+---
+You can use this SDK to Sync the template messages status in IM from whatsApp.
+
+```
+//IntegrationCustomAPIImpl
+IntegrationCustomAPI  integrationCustomAPIImpl  = ZohoIM.getInstance(IM_ORG_ID,SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+//webhookInforesponse
+boolean isSynced  = integrationCustomAPIImpl.whatsAppTemplateSync(IMTemplateSyncType.STATUS);
+```
+
+Note: Right now only Type status is provided in IMTemplateSyncType for Template Message Sync API.
