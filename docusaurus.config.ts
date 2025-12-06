@@ -108,7 +108,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Zoho IM SDK Documentation © ${new Date().getFullYear()} Zoho Corporation Pvt. Ltd.`,
+      copyright: ``,
     },
     prism: {
       theme: prismThemes.github,
