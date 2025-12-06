@@ -7,7 +7,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 const config: Config = {
   title: 'Zoho IM SDK',
   tagline: 'Unified Instant Messaging Integration Platform',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon.png',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -66,8 +66,8 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    // Social card image for link previews
+    image: 'img/social-card.png',
     colorMode: {
       respectPrefersColorScheme: true,
     },
@@ -75,7 +75,7 @@ const config: Config = {
       title: 'Zoho IM SDK',
       logo: {
         alt: 'Zoho IM SDK Logo',
-        src: 'img/logo.svg',
+        src: 'img/zoho-im-logo.png',
       },
       items: [
         {
