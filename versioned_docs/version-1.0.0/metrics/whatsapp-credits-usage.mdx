@@ -1,0 +1,133 @@
+---
+title: WhatsApp Credits Usage
+sidebar_position: 4
+description: This API will provide Time Series data of Credit Usage in Whatsapp channel for a given duration. It will provide Data up to 31 days. It can provide data both in Hourly and Day wise time series. It will provide results in Service specific cu…
+---
+This API will provide Time Series data of Credit Usage in Whatsapp channel for a given duration.  It will provide Data up to 31 days. It can provide data both in Hourly and Day wise time series. It will provide results in Service specific currency.
+
+Note:
+
+1.  Data will be available from March 22,2023 in Live servers.
+2.  WA\_USER\_INITIATED and WA\_BUSINESS\_INITIATED deductions will be available only till May 2023. From June 1, 2023, Whatsapp introduced New Pricing categories (WA\_MARKETING, WA\_UTILITY, WA\_AUTHENTICATION, WA\_SERVICE). So, This type of deduction will be available only after June 1.
+
+api/v1/metrics/payment/timeseries?startdate=\{sd\}&enddate=\{ed\}&dimension=WA\_CREDIT\_USAGE&dimensionValue=\{TOTAL,WA\_USER\_INITIATED,WA\_BUSINESS\_INITIATED,WA\_MARKETING,WA\_UTILITY,WA\_AUTHENTICATION,WA\_SERVICE\}&granularity=\{hour|day\}&channelIds=\{chId\}
+
+```
+IMTimeSeriesMetricsQueryBuilder builder = new IMTimeSeriesMetricsQueryBuilder()
+        .startDate(new TimeStamp(1000876164181L))             // Mandatory
+        .endDate(new Timestamp(100003765471634L))              // Mandatory
+        .granularity(Granularity.DAY.name());                 // Mandatory
+
+builder.channelIds(Arrays.asList(100000076511171L));                  // Optional
+builder.dimensionAndValues(TimeSeriesDimensions.WA_CREDIT_USAGE.name(), Arrays.asList("TOTAL","WA_MARKETING","WA_UTILITY","WA_AUTHENTICATION","WA_SERVICE"));
+
+IMTimeSeriesMetrics metrics = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIMTimeSeriesMetricsAPI(USER_ID)
+        .getWhatsAppCreditUsageMetrics(builder);
+```
+
+Sample Response:
+
+```
+{
+  "aggregatedMetrics": [
+    {
+      "dimension": "TOTAL",
+      "value": "0.016 USD"
+    },
+    {
+      "dimension": "WA_MARKETING",
+      "value": "0.0 USD"
+    },
+    {
+      "dimension": "WA_UTILITY",
+      "value": "0.016 USD"
+    },
+    {
+      "dimension": "WA_AUTHENTICATION",
+      "value": "0.0 USD"
+    },
+    {
+      "dimension": "WA_SERVICE",
+      "value": "0.0 USD"
+    }
+  ],
+  "trendDataList": [
+    {
+      "time": "2023-03-01",
+      "data": [
+        {
+              "dimension": "TOTAL",
+              "value": "0.016 USD"
+        },
+        {
+              "dimension": "WA_MARKETING",
+              "value": "0.0 USD"
+            },
+        {
+              "dimension": "WA_UTILITY",
+              "value": "0.016 USD"
+        },
+        {
+              "dimension": "WA_AUTHENTICATION",
+              "value": "0.0 USD"
+        },
+        {
+              "dimension": "WA_SERVICE",
+              "value": "0.0 USD"
+        }
+      ]
+    },
+    {
+      "time": "2023-03-02",
+      "data": [
+        {
+        "dimension": "TOTAL",
+        "value": "0.0 USD"
+    },
+    {
+        "dimension": "WA_MARKETING",
+        "value": "0.0 USD"
+         },
+    {
+        "dimension": "WA_UTILITY",
+        "value": "0.0 USD"
+    },
+     {
+        "dimension": "WA_AUTHENTICATION",
+        "value": "0.0 USD"
+    },
+     {
+        "dimension": "WA_SERVICE",
+        "value": "0.0 USD"
+    }
+      ]
+    },
+    {
+      "time": "2023-03-03",
+      "data": [
+        {
+        "dimension": "TOTAL",
+        "value": "0.0 USD"
+        },
+        {
+        "dimension": "WA_MARKETING",
+        "value": "0.0 USD"
+             },
+        {
+        "dimension": "WA_UTILITY",
+        "value": "0.0 USD"
+        },
+         {
+        "dimension": "WA_AUTHENTICATION",
+        "value": "0.0 USD"
+        },
+         {
+        "dimension": "WA_SERVICE",
+        "value": "0.0 USD"
+        }
+      ]
+    }
+  ]
+}
+```

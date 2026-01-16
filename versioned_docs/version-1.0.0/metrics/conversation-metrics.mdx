@@ -1,0 +1,89 @@
+---
+title: Conversation Metrics
+sidebar_position: 1
+---
+```
+IMConversationTimeSeriesMetricsQueryBuilder builder = (IMConversationTimeSeriesMetricsQueryBuilder) new IMConversationTimeSeriesMetricsQueryBuilder()
+        .startDate(new TimeStamp(1000876164181L))                // Mandatory
+        .endDate(new Timestamp(100003765471634L))                // Mandatory
+        .granularity(Granularity.DAY.name());                    // Mandatory
+
+builder.channelIds(Arrays.asList(100000076511171L));                    // Optional
+builder.integrationService(IMIntegrationServices.WHATSAPP);                // Optional
+builder.dimensionAndValues(TimeSeriesDimensions.CONVERSATION_STATUS.name(), new ArrayList&lt;&gt;());    // Optional
+builder.basedOn(BasedOnFilters.END_TIME.name());                    // Optional
+builder.agentIds(Arrays.asList(10000016271517L));                    // Optional
+
+IMTimeSeriesMetrics metrics = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIMTimeSeriesMetricsAPI(USER_ID)
+        .getConversationTimeSeriesMetrics(builder);
+```
+
+```
+Sample JSON Response:
+
+{
+  "aggregatedMetrics": [
+    {
+      "dimension": "TOTAL",
+      "value": "2"
+    },
+    {
+      "dimension": "UNASSIGNED",
+      "value": "0"
+    },
+    {
+      "dimension": "ATTENDED",
+      "value": "2"
+    },
+    {
+      "dimension": "MISSED",
+      "value": "0"
+    }
+  ],
+  "trendDataList": [
+    {
+      "time": "23-12-2021",
+      "data": [
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        },
+        {
+          "dimension": "ATTENDED",
+          "value": "0"
+        },
+        {
+          "dimension": "MISSED",
+          "value": "0"
+        },
+        {
+          "dimension": "UNASSIGNED",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "24-12-2021",
+      "data": [
+        {
+          "dimension": "TOTAL",
+          "value": "2"
+        },
+        {
+          "dimension": "ATTENDED",
+          "value": "2"
+        },
+        {
+          "dimension": "MISSED",
+          "value": "0"
+        },
+        {
+          "dimension": "UNASSIGNED",
+          "value": "0"
+        }
+      ]
+    }
+  ]
+}
+```

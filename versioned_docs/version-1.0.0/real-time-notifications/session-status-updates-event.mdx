@@ -1,0 +1,22 @@
+---
+title: Session Status Updates Event
+sidebar_position: 6
+description: The event will be triggered when a Session status is updated.
+---
+The event will be triggered when a Session status is updated.
+
+```
+public void sessionStatusUpdated(IMEventMeta eventMeta, IMSessionStatusUpdatedEvent sessionStatusUpdatedEvent);
+```
+
+Available methods in IMSessionStatusUpdatedEvent Object:
+
+1.  getSessionId()
+2.  getCurrentAssigneeId()
+3.  getSessionStatus()
+4.  getSessionOldStatus()
+5.  getReplyStatus()
+6.  getMessagesCount()
+7.  getAssigneeType()
+8.  getSessionAgents()
+9.  getEventType()

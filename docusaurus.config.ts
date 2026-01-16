@@ -30,9 +30,7 @@ const config: Config = {
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
+  // Internationalization configuration
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -44,6 +42,16 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+          // Versioning configuration
+          lastVersion: '1.0.0',
+          versions: {
+            '1.0.0': {
+              label: '1.0.0',
+              path: '',
+            },
+          },
+          // Enable "Edit this page" links (optional)
+          // editUrl: 'https://github.com/v-senthil/im-sdk-docs/tree/main/',
         },
         blog: false,
         theme: {
@@ -83,6 +91,11 @@ const config: Config = {
           sidebarId: 'tutorialSidebar',
           position: 'left',
           label: 'Documentation',
+        },
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
+          dropdownActiveClassDisabled: true,
         },
       ],
     },

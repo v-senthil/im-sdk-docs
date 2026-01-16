@@ -1,0 +1,508 @@
+---
+title: "What is WhatsApp Catalog ?"
+sidebar_label: WhatsApp Catalog API
+sidebar_position: 3
+description: Customers can showcase and share their products and services with end users for them to browse items and add to a cart without leaving the chat which is displayed on their business profile. End consumers will view and purchase a product bas…
+---
+### What is WhatsApp Catalog ?
+
+Customers can showcase and share their products and services with end users for them to browse items and add to a cart without leaving the chat which is displayed on their business profile. End consumers will view and purchase a product based on the needs. Ask for any information on a product or send an order. To setup WhatsApp commerce platform, we need to do following steps:
+
+1.  Create a Catalog
+2.  Link catalog with the WhatsApp business account.
+3.  Enable Cart and Catalog for a specific mobile number.
+
+For this, we have exposed an APIs.
+
+Example of WhatsApp Catalog:
+
+                                                                ![Illustration](/img/inline-images/whatsapp-custom-apis/whatsapp-catalogs/screenshot-2024-06-18-at-3-12-55-pm.png)
+
+### SDK for Get Catalog connected with WABA
+
+Request:
+
+```
+IMBasicObject catalogDetails = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                            .getIntegrationCustomAPI(ZUID)
+                         .getWabaCatalog(wabaId);
+```
+
+Response
+
+```
+{
+    "data": [
+        {
+            "name": "Zylker Catalog",
+            "id": "1751710589558678"
+        }
+    ],
+    "kind": "single.json"
+}
+```
+
+### SDK for Connect catalog with WABA
+
+###
+[Using this API, we can connect a catalog with a WhatsApp business account.](https://documenter.getpostman.com/view/18635004/2s935vkfHz#48a3dd8c-e043-40b0-911e-bdb90d8f2393)
+
+[Request:](https://documenter.getpostman.com/view/18635004/2s935vkfHz#48a3dd8c-e043-40b0-911e-bdb90d8f2393)
+
+```
+Long imOrgId = 5467487L;
+Long serviceOrgId = 87534345L;
+Long userId = 832748234L;
+String catalogId= "2397423478";
+IMCatalog catalog = new IMCatalog(catalogId);
+String wabaId = "2342347892";
+boolean isLinked = ZohoIM.getInstance(imOrgId, serviceOrgId)
+                            .getIntegrationCustomAPI(userId)
+                         .linkCatalogWithWaba(wabaId, catalog);
+```
+
+### SDK for Disconnect catalog with WABA
+
+Using this API, we can disconnect a catalog from WhatsApp business account
+
+[Request:](https://documenter.getpostman.com/view/18635004/2s935vkfHz#c29eb11a-1588-4719-acca-7a6dc7fb074b)
+
+```
+Long imOrgId = 5467487L;
+Long serviceOrgId = 87534345L;
+Long userId = 832748234L;
+String catalogId= "2397423478";
+IMCatalog catalog = new IMCatalog(catalogId);
+String wabaId = "2342347892";
+boolean isUnLinked = ZohoIM.getInstance(imOrgId, serviceOrgId)
+                .getIntegrationCustomAPI(userId)
+                .unLinkCatalogWithWaba(wabaId, catalog);
+```
+
+### SDK to Apply Cart Settings to WhatsApp
+
+Enable/Disable Cart: When the cart is disabled, customers can see products and their details, but all cart related buttons will not appear in any view.
+
+Enable/Disable Catalog: When the catalog is disabled, the storefront icon and catalog-related buttons will not appear in any views and the catalog preview with thumbnails will not appear in the business profile view.
+
+Using this API, we can enable or disable cart and catalog for a specific WhatsApp phone number.
+
+Request:
+
+```
+Long imOrgId = 5467487L;
+Long serviceOrgId = 87534345L;
+Long userId = 832748234L;
+Long phoneNumberId = 893745387L;
+IMCommerceSettings imCommerceSettings = new IMCommerceSettings(true, true); // Params can be vary based on required in case user wishes to disable cart they can create object like this { new IMCommerceSettings(false, true); }, similary it can be vary.
+boolean isCartSettingsApplied = ZohoIM.getInstance(imOrgId, serviceOrgId)
+                .getIntegrationCustomAPI(userId)
+                .applyCartSettingsToBusinessPhoneNumber(phoneNumberId, imCommerceSettings);
+```
+
+### Ask for Information
+
+In the WhatsApp catalog, we can select a specific product and ask questions. Such messages will have Extra meta data which normal messages does not have those are CATALOG\_ID & PRODUCT\_ID. From the following example JSON, we see those parameters in this path: data -> message -> meta.
+
+Example of Ask for information message follows,
+
+```
+{
+    "data": {
+        "session": {
+            "contact": {
+                "photoURL": null,
+                "phone": "+9944155259",
+                "service": "WHATSAPP",
+                "name": "Ranjith",
+                "id": "1597000003010463",
+                "extId": "+9944155259",
+                "type": "END_USER",
+                "extIdType": "PHONE_NUMBER",
+                "email": null,
+                "status": "UNKNOWN"
+            },
+            "replyStatus": "ACCEPTED",
+            "participantIds": [
+                70128095
+            ],
+            "contactLastActiveTime": "2024-06-10T17:36:08.000Z",
+            "status": "ON_HOLD"
+        },
+        "assignee": {
+            "id": 70128095,
+            "type": "AGENT"
+        },
+        "message": {
+            "template": null,
+            "externalInfo": null,
+            "isRead": false,
+            "type": "TEXT",
+            "uuid": "89dcb857254e5121baf9e1f8b3159bff",
+            "displayMessage": "IM whatsapp ask for information data",
+            "attachment": null,
+            "replyToMessage": null,
+            "createdTime": "2024-06-13T07:10:38.000Z",
+            "action": null,
+            "id": "1597000003280019",
+            "text": {
+                "message": "IM whatsapp ask for information data"
+            },
+            "contentType": "text/plain",
+            "direction": "in",
+            "info": null,
+            "fullContentURL": null,
+            "kind": "single.session.message",
+            "index": "38",
+            "sessionId": "1597000003010465",
+            "actor": {
+                "photoURL": null,
+                "phone": "+9944155259",
+                "service": "WHATSAPP",
+                "name": "Ranjith",
+                "id": "1597000003010463",
+                "extId": "+9944155259",
+                "type": "END_USER",
+                "extIdType": "PHONE_NUMBER",
+                "email": null,
+                "status": "UNKNOWN"
+            },
+            "layout": null,
+            "statusHistory": [
+                {
+                    "updatedTime": "2024-06-13T07:10:38.000Z",
+                    "status": "QUEUED"
+                }
+            ],
+            "meta": [
+               {
+                    "name": "CATALOG_ID",
+                    "value": "297381266377112"
+                },
+                {
+                    "name": "PRODUCT_ID",
+                    "value": "x3434iqqi"
+                }
+            ],
+            "statusUpdatedTime": "2024-06-13T07:10:38.000Z",
+            "location": null,
+            "status": "SAVED"
+        }
+    },
+    "meta": {
+        "service": "ZOHO_DESK",
+        "serviceOrgId": 70127975,
+        "orgId": 74373381,
+        "channelId": 1597000002328013
+    },
+    "id": 1718262638683,
+    "type": "com.zoho.im.client.model.event.IMMessageAddedEvent"
+}
+```
+
+### Incoming Order Message
+
+In the WhatsApp catalog, we can select products and their quantities and place order. Such messages will have Extra meta data in the layout object, which normal messages do not have. From the following example JSON, we see those parameters in this path: data -> message -> meta.
+
+Example of Incoming Order Message follows,
+
+```
+
+    "data": {
+        "session": {
+            "contact": {
+                "photoURL": null,
+                "phone": "+9944155259",
+                "service": "WHATSAPP",
+                "name": "Ranjith",
+                "id": "1597000003010463",
+                "extId": "+9944155259",
+                "type": "END_USER",
+                "extIdType": "PHONE_NUMBER",
+                "email": null,
+                "status": "UNKNOWN"
+            },
+            "replyStatus": "ACCEPTED",
+            "participantIds": [
+                70128095
+            ],
+            "contactLastActiveTime": "2024-06-13T07:10:38.000Z",
+            "status": "ON_HOLD"
+        },
+        "assignee": {
+            "id": 70128095,
+            "type": "AGENT"
+        },
+        "message": {
+            "template": null,
+            "externalInfo": null,
+            "isRead": false,
+            "type": "LAYOUT",
+            "uuid": "f6d336bbc71c56f3bd181fcc0e8fecb2",
+            "displayMessage": "",
+            "attachment": null,
+            "replyToMessage": null,
+            "createdTime": "2024-06-18T06:12:44.000Z",
+            "action": null,
+            "id": "1597000003351043",
+            "text": null,
+            "contentType": "text/plain",
+            "direction": "in",
+            "info": null,
+            "fullContentURL": null,
+            "kind": "single.session.message",
+            "index": "39",
+            "sessionId": "1597000003010465",
+            "actor": {
+                "photoURL": null,
+                "phone": "+9944155259",
+                "service": "WHATSAPP",
+                "name": "Ranjith",
+                "id": "1597000003010463",
+                "extId": "+9944155259",
+                "type": "END_USER",
+                "extIdType": "PHONE_NUMBER",
+                "email": null,
+                "status": "UNKNOWN"
+            },
+            "layout": {
+                "meta": [
+                    {
+                        "data": [
+                            {
+                                "catalogId": "297381266377112",
+                                "productItems": [
+                                    {
+                                        "quantity": 1,
+                                        "productId": "1",
+                                        "itemPrice": 10,
+                                        "currency": "INR"
+                                    },
+                                    {
+                                        "quantity": 1,
+                                        "productId": "2",
+                                        "itemPrice": 10,
+                                        "currency": "INR"
+                                    },
+                                    {
+                                        "quantity": 1,
+                                        "productId": "3",
+                                        "itemPrice": 10,
+                                        "currency": "INR"
+                                    },
+                                    {
+                                        "quantity": 1,
+                                        "productId": "4",
+                                        "itemPrice": 10,
+                                        "currency": "INR"
+                                    },
+                                    {
+                                        "quantity": 1,
+                                        "productId": "5",
+                                        "itemPrice": 10,
+                                        "currency": "INR"
+                                    },
+                                    {
+                                        "quantity": 1,
+                                        "productId": "6",
+                                        "itemPrice": 10,
+                                        "currency": "INR"
+                                    }
+                                ]
+                            }
+                        ],
+                        "type": "whatsapp_order"
+                    }
+                ],
+                "rows": [
+                    {
+                        "arrangement": "list",
+                        "columns": [
+                            {
+                                "html": {
+                                    "source": "<div> Order received for catalogId - 297381266377112 <\\/div>"
+                                },
+                                "type": "HTML"
+                            }
+                        ]
+                    },
+                    {
+                        "arrangement": "list",
+                        "columns": [
+                            {
+                                "html": {
+                                    "source": "<div>quantity - 1<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>product_retailer_id - 1<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>item_price - 10<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>currency - INR<\\/div>"
+                                },
+                                "type": "HTML"
+                            }
+                        ]
+                    },
+                    {
+                        "arrangement": "list",
+                        "columns": [
+                            {
+                                "html": {
+                                    "source": "<div>quantity - 1<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>product_retailer_id - 2<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>item_price - 10<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>currency - INR<\\/div>"
+                                },
+                                "type": "HTML"
+                            }
+                        ]
+                    },
+                    {
+                        "arrangement": "list",
+                        "columns": [
+                            {
+                                "html": {
+                                    "source": "<div>quantity - 1<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>product_retailer_id - 3<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>item_price - 10<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>currency - INR<\\/div>"
+                                },
+                                "type": "HTML"
+                            }
+                        ]
+                    },
+                    {
+                        "arrangement": "list",
+                        "columns": [
+                            {
+                                "html": {
+                                    "source": "<div>quantity - 1<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>product_retailer_id - 4<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>item_price - 10<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>currency - INR<\\/div>"
+                                },
+                                "type": "HTML"
+                            }
+                        ]
+                    },
+                    {
+                        "arrangement": "list",
+                        "columns": [
+                            {
+                                "html": {
+                                    "source": "<div>quantity - 1<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>product_retailer_id - 5<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>item_price - 10<\\/div>"
+                                },
+                                "type": "HTML"
+                            },
+                            {
+                                "html": {
+                                    "source": "<div>currency - INR<\\/div>"
+                                },
+                                "type": "HTML"
+                            }
+                        ]
+                    },
+                    {
+                        "arrangement": "list",
+                        "columns": [
+                            {
+                                "html": {
+                                    "source": "<div> 1 more products <\\/div>"
+                                },
+                                "type": "HTML"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "statusHistory": [
+                {
+                    "updatedTime": "2024-06-18T06:12:44.000Z",
+                    "status": "QUEUED"
+                }
+            ],
+            "meta": null,
+            "statusUpdatedTime": "2024-06-18T06:12:45.000Z",
+            "location": null,
+            "status": "SAVED"
+        }
+    },
+    "meta": {
+        "service": "ZOHO_DESK",
+        "serviceOrgId": 70127975,
+        "orgId": 74373381,
+        "channelId": 1597000002328013
+    },
+    "id": 1718691165187,
+    "type": "com.zoho.im.client.model.event.IMMessageAddedEvent"
+}
+```

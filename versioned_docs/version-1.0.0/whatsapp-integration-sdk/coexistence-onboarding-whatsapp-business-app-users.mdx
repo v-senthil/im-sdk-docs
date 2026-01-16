@@ -1,0 +1,63 @@
+---
+title: Coexistence - Onboarding WhatsApp Business app users
+sidebar_position: 9
+description: "By default, the Coexistence Embedded Signup feature is turned off and is only enabled upon customer request."
+---
+##
+
+By default, the Coexistence Embedded Signup feature is turned off and is only enabled upon customer request.
+
+## Requirements
+
+-   Customer must have a facebook business account
+-   the business customer must be using WhatsApp Business app version 2.24.17 or higher.
+-   the business customer's phone number country code must be supported
+
+## Unsupported countries
+
+1.  Nigeria
+2.  South Africa
+
+## Limitations:
+
+1.  In order to remain compatible with the WhatsApp Business app, business phone numbers that are in use with both the WhatsApp Business app and Cloud API have a fixed throughput of 20 mps.
+2.  If your business customer worked with a partner in the past and still shares the previous credit line, they may see an error when attempting to switch to a new partner. Follow the [guide](https://developers.facebook.com/docs/whatsapp/solution-providers/support/business-customer-support) to resolve the error.
+
+## Pricing
+
+After a business customer has been onboarded to Cloud API, messages sent by the business via the WhatsApp Business app will continue to be free, but messages sent via API will be subject to Cloud API pricing.
+
+[See](https://developers.facebook.com/resources/API-solutions-for-WhatsApp-Business-App-users.pdf) [API Solutions for WhatsApp Business App Users pricing explainer PDF](https://developers.facebook.com/micro_site/url/?click_from_context_menu=true&country=IN&destination=https%3A%2F%2Fdevelopers.facebook.com%2Fresources%2FAPI-solutions-for-WhatsApp-Business-App-users.pdf&event_type=click&last_nav_impression_id=1p5yFPT7Uwz8331Nk&max_percent_page_viewed=19&max_viewport_height_px=1164&max_viewport_width_px=2133&orig_http_referrer=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fwhatsapp%2Fembedded-signup%2Fcustom-flows%2Fonboarding-business-app-users%2F&orig_request_uri=https%3A%2F%2Fdevelopers.facebook.com%2Fajax%2Fdocs%2Fnav%2F%3Fpath1%3Dwhatsapp%26path2%3Dembedded-signup%26path3%3Dcustom-flows%26path4%3Donboarding-business-app-users&region=apac&scrolled=true&session_id=1nvcxTauEbMMRyDB9&site=developers) [for breakdowns of common pricing scenarios.](https://developers.facebook.com/resources/API-solutions-for-WhatsApp-Business-App-users.pdf)
+
+## Customer Service window
+Customer service windows will only be opened when a WhatsApp user messages a business customer who is already onboarded onto Cloud API. If a WhatsApp user messages a business just prior to the business being onboarded onto Cloud API, the business can only respond with a template message, since no customer service was opened. If the user messages the business after it has been onboarded onto Cloud API, a customer service window will be opened as normal, and the business can then respond with a non-template message.
+
+##
+Embedded Signup
+
+![Illustration](/img/inline-images/whatsapp-integration-sdk/coexistence-onboarding-whatsapp-business-app-users/1754668909127.png)
+
+![Illustration](/img/inline-images/whatsapp-integration-sdk/coexistence-onboarding-whatsapp-business-app-users/1754669219785.png)
+
+            ![Illustration](/img/inline-images/whatsapp-integration-sdk/coexistence-onboarding-whatsapp-business-app-users/1754669271946.png)                                 ![Illustration](/img/inline-images/whatsapp-integration-sdk/coexistence-onboarding-whatsapp-business-app-users/1754669329617.png)
+
+![Illustration](/img/inline-images/whatsapp-integration-sdk/coexistence-onboarding-whatsapp-business-app-users/1762335639093.png)
+
+## Flow
+![Illustration](/img/inline-images/whatsapp-integration-sdk/coexistence-onboarding-whatsapp-business-app-users/1762338339660.png)
+
+## Service Team ToDo:
+
+1.  For now Co existence has to be enabled org level in IM.
+2.  When channel is in syncing status, agent should not reply to customers. Service teams has to block this in their client using channel replay status (CHANNEL\_SYNCING)
+3.  If required, show message sent via mobile app info for each message using message meta.
+
+## Contact Sync and Message history Sync
+
+Once the channel is created status will be SYNCING, we will automatically initiate sync. If customer has not approved sync initiate, we will directly change the channel status as CONNECTED. If customer has approved sync, we will sync last 180 days messages data in IM and then change the channel status as CONNECTED.
+
+## Message Echoes
+
+Once a message is sent through the WhatsApp Business App, we replicate the same message in IM and attach a message meta key MESSAGE\_SOURCE with the value VIA\_MOBILE\_WHATSAPP\_BUSINESS\_APP to indicate that the message originated from the WhatsApp Business App.
+
+###

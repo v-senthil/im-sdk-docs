@@ -1,0 +1,68 @@
+---
+title: Send a Text Message
+sidebar_position: 2
+description: "Response:"
+---
+```
+//construct message object
+IMTextMessage textMessage = new IMTextMessage("Hey there!");
+IMMessage messageToSend = new IMMessage.Builder(textMessage)
+      .setReplyToMessageId(replyToMessageId) // Optional, if reply to message need to be sent
+      .build();
+
+      //send message through IM
+IMMessage sentMessage = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+      .getMessageAPI(USER_ID)
+      .sendMessage(IM_SESSION_ID, messageToSend);
+```
+
+Response:
+
+```
+{
+    "sessionId": "1241000001631442",
+    "displayMessage": "hey There!",
+    "statusUpdatedTime": "2023-03-30T07:45:30.000Z",
+    "actor": {
+        "id": "67915789",
+        "extId": null,
+        "name": "",
+        "email": null,
+        "photoURL": null,
+        "type": "AGENT",
+        "phone": null,
+        "status": null,
+        "extIdType": null,
+        "service": "ZOHO_IM"
+    },
+    "statusHistory": [
+        {
+            "updatedTime": "2023-03-30T07:45:30.000Z",
+            "status": "QUEUED"
+        }
+    ],
+    "direction": "out",
+    "id": "1241000001750117",
+    "createdTime": "2023-03-30T07:45:30.000Z",
+    "index": "40",
+    "replyToMessage": null,
+    "uuid": "8f4df5e5e3bd501886927c8aae151138",
+    "fullContentURL": null,
+    "meta": [],
+    "attachment": null,
+    "info": null,
+    "text": {
+        "message": "hey There!"
+    },
+    "location": null,
+    "externalInfo": null,
+    "layout": null,
+    "action": null,
+    "contentType": "text/plain",
+    "status": "QUEUED",
+    "template": null,
+    "isRead": true,
+    "type": "TEXT",
+    "kind": "single.session.message"
+}
+```

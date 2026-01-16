@@ -1,0 +1,45 @@
+---
+title: Channel Creation
+sidebar_position: 3
+description: "WeChat channels require specific configuration parameters:"
+---
+WeChat channels require specific configuration parameters:
+
+Configuration Parameters
+
+<table><colgroup><col /> <col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Parameter</p></div></td><td><div><p>Type</p></div></td><td><div><p>Required</p></div></td><td><div><p>Description</p></div></td></tr><tr><td><div><p>WECHAT_OPEN_KFID</p></div></td><td><div><p>String</p></div></td><td><div><p>Yes</p></div></td><td><div><p>WeCom Customer service account ID in the following format - Customer Service Account [OPEN_KFID]</p></div></td></tr><tr><td><div><p>WECOM_CORP_ID</p></div></td><td><div><p>String</p></div></td><td><div><p>Yes</p></div></td><td><div><p>WeCom corporate ID</p></div></td></tr></tbody></table>
+
+```
+import java.util.ArrayList;
+import java.util.List;
+
+import com.zoho.im.client.model.IMChannel;
+import com.zoho.im.message.core.IMIntegrationServices;
+import com.zoho.im.client.model.IMConfigParam;
+import com.zoho.im.client.model.IMConfigProperty;
+public IMChannel createWeComChannel(String channelName, String weComCorpId, String openKfId)
+            throws Exception {
+
+        // Build channel configuration
+        IMChannel.Builder channelBuilder = new IMChannel.Builder(channelName,IMIntegrationServices.WECOM);
+
+        // Add required configuration parameters
+        List&lt;IMConfigProperty&gt; configProperties = new ArrayList&lt;&gt;();
+
+        // WeChat Corp ID - identifies the corporate account
+        configProperties.add(new IMConfigProperty.Builder(
+        IdType.WECOM_CORP_ID.name(),weComCorpId)
+                .build());
+
+        // Customer Service Account ID - identifies the specific service account
+        configProperties.add(new IMConfigParam.Builder(
+                "WECHAT_OPEN_KFID",openKfId)
+                .build());
+
+        channelBuilder.setConfigParams(configProperties);
+        IMChannel channel =  ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+ .getChannelAPI(USER_ID).create(channelBuilder.build());
+
+        return channel;
+ }
+```

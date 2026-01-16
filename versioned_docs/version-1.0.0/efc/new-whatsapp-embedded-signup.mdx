@@ -1,0 +1,85 @@
+---
+title: "Whatsapp Embedded Signup [New]"
+sidebar_position: 9
+description: "About Whatsapp Embedded SignupWhy new ? To perform the WA embedded signup within a custom domain, we introduce an iframe which needs to be embed inside the service window. By this, the service can use any domain, which need not to be whitel…"
+---
+[About Whatsapp Embedded Signup](/portal/zohocorp/team/zohoim/manual/available-integrations/article/embedded-signup)
+
+Why new ?
+
+    To perform the WA embedded signup within a custom domain, we introduce an iframe which needs to be embed inside the service window. By this, the service can use any domain, which need not to be whitelisted each time in Meta. Hence, WA embedded signup will be easily integrated into any service.
+
+Below are the steps to complete WA embedded signup in a new flow.
+
+1. Invoke the below url inside the iframe of the service window.
+
+iframe URL:
+
+https://im.zoho.com/widget/whatsAppEmbeddedSignup?orgId=\[orgId\]&service=\[serviceName\]&serviceOrgId=\[serviceOrgId\]
+
+![Illustration](/img/inline-images/efc/new-whatsapp-embedded-signup/1756125420582.png)
+
+Below params need to be passed from the service side in the iframe url.
+
+1\. orgId
+2\. service
+3\. serviceOrgId
+
+In this iframe window, We have added listeners for the message event.
+
+2. From service, post message to this iframe window with the below format:
+
+const iframeEle=document.getElementById(iFrameId);
+iframeEle.contentWindow.postMessage(
+       JSON.stringify(\{
+         type: EMBEDDED\_SIGNUP\_TRIGGER,
+        /\* your Json data here \*/
+         \}),
+       '\*'
+   );
+
+Now the Facebook signup window will be opened. After completing the signup flow, a response will be received.
+
+In Successful completion, a message will be posted to the Service window with the below format:
+
+type: 'EMBEDDED\_SIGNUP\_SUCCESS', data: \{/\*response json \*/\}
+
+Example:
+
+parent.postMessage(JSON.stringify(\{type: 'EMBEDDED\_SIGNUP\_SUCCESS', data: response \}), "\*");
+
+response will be in the below format:
+
+\{
+
+ "wabaStatus": \{\{value\}\},
+
+ "numberStatus": \{\{value\}\}
+
+\}
+
+Detailed description for these values will be found [here](/portal/zohocorp/team/zohoim/manual/im-developers-corner/article/embedded-signup)
+
+Now, the service can process this response by listening and handling the message event with this type "EMBEDDED\_SIGNUP\_SUCCESS"
+
+In Failure cases, a message will be posted to Service window with below format:
+
+type: 'EMBEDDED\_SIGNUP\_FAILURE', data:  \{/\*error json \*/\}
+
+error Json will be in the below format:
+
+\{
+
+ "wabaStatus": "",
+
+ "numberStatus": "",
+
+ "wabaID":""
+
+\}
+
+Example:
+
+parent.postMessage(JSON.stringify(\{type: 'EMBEDDED\_SIGNUP\_FAILURE', data \}), "\*"); //NO I18N
+
+Now, the service can process this response by listening and handling the message event with this type "EMBEDDED\_SIGNUP\_FAILURE'"

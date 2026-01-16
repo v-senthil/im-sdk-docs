@@ -1,0 +1,11 @@
+---
+title: Real Time notifications
+sidebar_position: 6
+description: Zoho Instant Messaging is nothing without real time notifications of messages and statuses. Zoho IM will create a dedicated Kafka topic and will be shared to the service teams. Teams have to make a consumer up for listening and share its de…
+---
+Zoho Instant Messaging is nothing without real time notifications of messages and statuses. Zoho IM will create a dedicated Kafka topic and will be shared to the service teams. Teams have to make a consumer up for listening and share its details to the IM team to map the topic to the consumer. All events, including messages are written into that topic.
+
+The consumed notifications can be processed:
+
+1.  Through the IM SDK by implementing  com.zoho.im.client.api.schema.IMClientAPIHandler. The implemented class will be called on each event and use IMEventMeta to know about organization details. Teams can implement com.zoho.im.client.api.schema.IMClientAPIHandler - interface and provide the implemented class name in im.properties file.
+2.  By reading directly from the topic that IM have created.

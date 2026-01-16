@@ -1,0 +1,70 @@
+---
+title: "Note: We advise service teams to get the Template Category and Languages supported via the API we provide."
+sidebar_label: Category and Languages
+sidebar_position: 7
+description: Postman documentation link
+---
+### Note: We advise service teams to get the Template Category and Languages supported via the API we provide.
+
+###
+
+### Get Template Message Supported Categories
+
+[Postman documentation link](https://documenter.getpostman.com/view/1858532/Tzscomr8#3e2d15a2-8a4b-40ad-926f-15a7da220f10)
+
+1.  Utility
+2.  Marketing
+3.  Authentication
+
+Note: If the category is Authentication, the creation flow will be changed on May 29th. Thus we have removed Authentication category for a time period. We will work on it and provide you updates as soon as possible.
+
+1.  UTILITY: Utility templates relate to a specific, agreed-upon transaction and accomplish one of the following:
+
+1\. Confirm or suspend a transaction
+
+2\. Provide an update or reminder post-transaction.
+
+Examples: order confirmations, account updates, receipts, appointment reminders, billing
+
+2.  MARKETING: Marketing templates are our most flexible – they do not relate to a specific, agreed-upon transaction and instead may relate to the business and/or its products/services. These templates may include promotions or offers; welcoming / closing messages; updates, invitations or recommendations; or requests to respond or complete a new transaction.
+
+Examples: welcome messages, newsletters, offers, coupons, catalogues, new store hours
+
+Any template that has a mix of utility and marketing content will be classified as a marketing template.
+
+3.  AUTHENTICATION: Authentication templates enable businesses to authenticate users with one-time passcodes (usually 4-8 digit alphanumeric codes), potentially at multiple steps in the login process (e.g., account verification, account recovery, integrity challenges).
+
+Examples: one-time password, account recovery code
+
+For More details on Template Categories - [link](https://developers.facebook.com/docs/whatsapp/updates-to-pricing/new-template-guidelines)
+
+```
+IMBasicObject data = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIntegrationCustomAPI(USER_ID)
+        .invokeAPI(IntegrationCustomAPIEntity.WHATSAPP_TEMPLATETAGS ,Method.GET,null);
+```
+
+### Get Template Message Supported Languages
+
+[Postman documentation link](https://documenter.getpostman.com/view/1858532/Tzscomr8#d0c06b0c-b4e6-4108-a8e7-5272291e7571)
+
+    You can choose a default language from the list given below.
+
+```
+IMBasicObject data = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIntegrationCustomAPI(USER_ID)
+        .getTemplateSupportedLanguages();
+```
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Language</p></div></td><td><div><p>Code</p></div></td></tr><tr><td><div><p>Afrikaans</p></div></td><td><div><p>af</p></div></td></tr><tr><td><div><p>Albanian</p></div></td><td><div><p>sq</p></div></td></tr><tr><td><div><p>Arabic</p></div></td><td><div><p>ar</p></div></td></tr><tr><td><div><p>Azerbaijani</p></div></td><td><div><p>az</p></div></td></tr><tr><td><div><p>Bengali</p></div></td><td><div><p>bn</p></div></td></tr><tr><td><div><p>Bulgarian</p></div></td><td><div><p>bg</p></div></td></tr><tr><td><div><p>Catalan</p></div></td><td><div><p>ca</p></div></td></tr><tr><td><div><p>Chinese (CHN)</p></div></td><td><div><p>zh_CN</p></div></td></tr><tr><td><div><p>Chinese (HKG)</p></div></td><td><div><p>zh_HK</p></div></td></tr><tr><td><div><p>Chinese (TAI)</p></div></td><td><div><p>zh_TW</p></div></td></tr><tr><td><div><p>Croatian</p></div></td><td><div><p>hr</p></div></td></tr><tr><td><div><p>Czech</p></div></td><td><div><p>cs</p></div></td></tr><tr><td><div><p>Danish</p></div></td><td><div><p>da</p></div></td></tr><tr><td><div><p>Dutch</p></div></td><td><div><p>nl</p></div></td></tr><tr><td><div><p>English</p></div></td><td><div><p>en</p></div></td></tr><tr><td><div><p>English (UK)</p></div></td><td><div><p>en_GB</p></div></td></tr><tr><td><div><p>English (US)</p></div></td><td><div><p>en_US</p></div></td></tr><tr><td><div><p>Estonian</p></div></td><td><div><p>et</p></div></td></tr><tr><td><div><p>Filipino</p></div></td><td><div><p>fil</p></div></td></tr><tr><td><div><p>Finnish</p></div></td><td><div><p>fi</p></div></td></tr><tr><td><div><p>French</p></div></td><td><div><p>fr</p></div></td></tr><tr><td><div><p>Georgian</p></div></td><td><div><p>ka</p></div></td></tr><tr><td><div><p>German</p></div></td><td><div><p>de</p></div></td></tr><tr><td><div><p>Greek</p></div></td><td><div><p>el</p></div></td></tr><tr><td><div><p>Gujarati</p></div></td><td><div><p>gu</p></div></td></tr><tr><td><div><p>Hausa</p></div></td><td><div><p>ha</p></div></td></tr><tr><td><div><p>Hebrew</p></div></td><td><div><p>he</p></div></td></tr><tr><td><div><p>Hindi</p></div></td><td><div><p>hi</p></div></td></tr><tr><td><div><p>Hungarian</p></div></td><td><div><p>hu</p></div></td></tr><tr><td><div><p>Indonesian</p></div></td><td><div><p>id</p></div></td></tr><tr><td><div><p>Irish</p></div></td><td><div><p>ga</p></div></td></tr><tr><td><div><p>Italian</p></div></td><td><div><p>it</p></div></td></tr><tr><td><div><p>Japanese</p></div></td><td><div><p>ja</p></div></td></tr><tr><td><div><p>Kannada</p></div></td><td><div><p>kn</p></div></td></tr><tr><td><div><p>Kazakh</p></div></td><td><div><p>kk</p></div></td></tr><tr><td><div><p>Kinyarwanda</p></div></td><td><div><p>rw_RW</p></div></td></tr><tr><td><div><p>Korean</p></div></td><td><div><p>ko</p></div></td></tr><tr><td><div><p>Kyrgyz (Kyrgyzstan)</p></div></td><td><div><p>ky_KG</p></div></td></tr><tr><td><div><p>Lao</p></div></td><td><div><p>lo</p></div></td></tr><tr><td><div><p>Latvian</p></div></td><td><div><p>lv</p></div></td></tr><tr><td><div><p>Lithuanian</p></div></td><td><div><p>lt</p></div></td></tr><tr><td><div><p>Macedonian</p></div></td><td><div><p>mk</p></div></td></tr><tr><td><div><p>Malay</p></div></td><td><div><p>ms</p></div></td></tr><tr><td><div><p>Malayalam</p></div></td><td><div><p>ml</p></div></td></tr><tr><td><div><p>Marathi</p></div></td><td><div><p>mr</p></div></td></tr><tr><td><div><p>Norwegian</p></div></td><td><div><p>nb</p></div></td></tr><tr><td><div><p>Persian</p></div></td><td><div><p>fa</p></div></td></tr><tr><td><div><p>Polish</p></div></td><td><div><p>pl</p></div></td></tr><tr><td><div><p>Portuguese (BR)</p></div></td><td><div><p>pt_BR</p></div></td></tr><tr><td><div><p>Portuguese (POR)</p></div></td><td><div><p>pt_PT</p></div></td></tr><tr><td><div><p>Punjabi</p></div></td><td><div><p>pa</p></div></td></tr><tr><td><div><p>Romanian</p></div></td><td><div><p>ro</p></div></td></tr><tr><td><div><p>Russian</p></div></td><td><div><p>ru</p></div></td></tr><tr><td><div><p>Serbian</p></div></td><td><div><p>sr</p></div></td></tr><tr><td><div><p>Slovak</p></div></td><td><div><p>sk</p></div></td></tr><tr><td><div><p>Slovenian</p></div></td><td><div><p>sl</p></div></td></tr><tr><td><div><p>Spanish</p></div></td><td><div><p>es</p></div></td></tr><tr><td><div><p>Spanish (ARG)</p></div></td><td><div><p>es_AR</p></div></td></tr><tr><td><div><p>Spanish (SPA)</p></div></td><td><div><p>es_ES</p></div></td></tr><tr><td><div><p>Spanish (MEX)</p></div></td><td><div><p>es_MX</p></div></td></tr><tr><td><div><p>Swahili</p></div></td><td><div><p>sw</p></div></td></tr><tr><td><div><p>Swedish</p></div></td><td><div><p>sv</p></div></td></tr><tr><td><div><p>Tamil</p></div></td><td><div><p>ta</p></div></td></tr><tr><td><div><p>Telugu</p></div></td><td><div><p>te</p></div></td></tr><tr><td><div><p>Thai</p></div></td><td><div><p>th</p></div></td></tr><tr><td><div><p>Turkish</p></div></td><td><div><p>tr</p></div></td></tr><tr><td><div><p>Ukrainian</p></div></td><td><div><p>uk</p></div></td></tr><tr><td><div><p>Urdu</p></div></td><td><div><p>ur</p></div></td></tr><tr><td><div><p>Uzbek</p></div></td><td><div><p>uz</p></div></td></tr><tr><td><div><p>Vietnamese</p></div></td><td><div><p>vi</p></div></td></tr><tr><td><div><p>Zulu</p></div></td><td><div><p>zu</p></div></td></tr></tbody></table>
+
+### Get Template Message Created Languages
+
+This will provide only the template languages created in your IM organization.
+
+```
+boolean isCreatedOnlyTemplateLanguages = true;
+IMBasicObject data = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIntegrationCustomAPI(USER_ID)
+        .getTemplateSupportedLanguages(isCreatedOnlyTemplateLanguages);
+```

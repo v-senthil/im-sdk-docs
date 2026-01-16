@@ -1,0 +1,53 @@
+---
+title: Enabling auto-renewal
+sidebar_label: IMCredits Auto Renewal
+sidebar_position: 1
+description: IM Credits add-on auto renewal can be configured only for portals with an active payment source available.
+---
+IM Credits add-on auto renewal can be configured only for portals with an active payment source available.
+
+Check whether the payment source is available, like this:
+
+```
+IMLicense license = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIMLicenseAPI(USER_ID).getLicenseDetails();
+boolean paymentSource = license.getPaymentSource();
+```
+
+### Enabling auto-renewal
+
+1.  Should be allowed only for portals with a payment source available.
+2.  Renewal threshold should be lesser than the available balance.
+
+```
+//construct IM Add-on to enable auto-renewal
+IMAddOn.Builder imAddonBuilder = new IMAddOn.Builder(IMAddOns.IM_CREDITS);
+imAddonBuilder.setAutoRenewal(true);      //enable auto-renewal-set to false to disable
+imAddonBuilder.setRenewalThreshold(5);    //when Credit balance drops below 5
+imAddonBuilder.setRenewalCount(10);    //purchase 10 more IMCredits
+IMAddOn imAddOnToUpdate = imAddonBuilder.build();
+
+//update add-on
+IMAddOn updatedAddOn = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIMAddonAPI(USER_ID).updateAddOnPackage(imAddOnToUpdate);
+JSONObject result = updatedAddOn.getRawJSON();
+```
+
+Sample response
+
+```
+{
+  "subscriptionInfo": {
+    "count": "88", //existing balance at the time when auto-renewal is enabled
+    "available": "175.967 USD",
+    "renewalCount": "10",
+    "renewalThreshold": "5",
+    "status": "PURCHASED"
+  },
+  "cost": "2.0 USD",
+  "name": "IM_CREDITS",
+  "type": "CREDIT",
+  "module": "MESSAGE",
+  "kind": "single.addOn"
+}
+```
+
+[Postman API reference](https://documenter.getpostman.com/view/18635004/2s935vkfHz#319e2666-a618-4737-8096-c4237c650e87)

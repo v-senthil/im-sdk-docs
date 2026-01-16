@@ -1,0 +1,29 @@
+---
+title: Get webhook configuration
+sidebar_position: 1
+description: IM channels created for integration services such as LINE have its own webhook configured in order to receive incoming events .Each channel is associated with a bot channel created in LINE . In order to get the configured webhook URL of the…
+---
+IM channels created for integration services such as LINE have its own webhook configured in order to receive incoming events .Each channel is associated with a bot channel created in LINE . In order to get the configured webhook URL of the channel one needs to pass the channelId and the  associated  IMintegrationService as parameters .
+
+NOTE : The API is applicable only for TELEGRAM and LINE channels .
+
+```
+//IntegrationService
+ IMIntegrationServices integerationService  =  IMIntegrationServices.LINE;
+//IntegrationCustomAPIImpl
+IntegrationCustomAPI  integrationCustomAPIImpl  =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+//webhookInfoResponse
+IMBasicObject  webhookResponse  = integrationCustomAPIImpl.getWebhookInfo(integrationService ,CHANNEL_ID);
+```
+
+```
+Response : {
+    "data":{
+        "isActive"  : "false",
+        "webhookURL":      "https://af6b1b9c.ngrok.io/integrations/line/incomingCallback.do?ECTX=8ce93*****5e"
+          },
+    "kind": "single.json"
+       }
+```
+
+The status isActive indicates whether the webhook is active or not. If true, it means the webhook is active and events will be pushed to the channel.

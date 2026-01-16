@@ -1,0 +1,29 @@
+---
+title: Check credits for Broadcast
+sidebar_position: 9
+description: "Response:"
+---
+```
+JSONArray dataArray = new JSONArray();
+dataArray.put(new JSONObject().put("countryCode", "+91").put("count", 50))
+         .put(new JSONObject().put("countryCode", "+1").put("count", 100));
+
+JSONObject payload = new JSONObject();
+payload.put("category", "MARKETING");    // possible values MARKETING,UTILITY,AUTHENTICATION,SERVICE
+payload.put("data", dataArray);
+
+IMBasicObject result = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORD_ID)
+            .getIntegrationCustomAPI(USER_ID)
+            .invokeAPI(IntegrationCustomAPIEntity.WHATSAPP_BROADCAST_PRICING, Method.POST, payload);
+```
+
+Response:
+
+```
+{
+    "canSendMessage": true,
+    "requiredCredits": 5,
+    "availableCredits": 60,
+    "kind": "single.json"
+}
+```

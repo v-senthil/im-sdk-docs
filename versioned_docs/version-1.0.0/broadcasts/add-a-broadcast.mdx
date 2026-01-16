@@ -1,0 +1,175 @@
+---
+title: ReceiverIds with same message
+sidebar_label: Add a broadcast
+sidebar_position: 2
+description: Broadcast supports both custom message for each end user or same message for all end users. You can use it as per your use case in your product.
+---
+Broadcast supports both custom message for each end user or same message for all end users. You can use it as per your use case in your product.
+
+### ReceiverIds with same message
+
+```
+// Set Body Parameters
+List&lt;String&gt; bodyPlaceHoldersList = new ArrayList&lt;&gt;();
+bodyPlaceHoldersList.add("Rajesh");
+
+// initialize placeholders object and set body params
+IMTemplateMessagePlaceHolderBuilder bodyParams = new IMTemplateMessagePlaceHolderBuilder.Builder().setBodyPlaceHolders(bodyPlaceHoldersList).build();
+
+// Set of phone numbers
+Set&lt;String&gt; phoneNumbersSet = new HashSet&lt;&gt;();
+phoneNumbersSet.add("+918197002163");
+
+// Create a broadcast object
+IMBroadcast broadcast = new IMBroadcast.Builder(BROADCAST_NAME, WHATSAPP_CHANNEL_ID, IMReceiverType.PHONENUMBER)
+        .setCannedMessage(TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE)
+        .setReceiverIds(phoneNumbersSet, bodyParams).build();
+
+//Add the broadcast to IM
+broadcast = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getBroadcastAPI(USER_ID)
+        .create(broadcast);
+```
+
+### Each ReceiverId with custom message
+
+```
+// Set Body Parameters
+List&lt;String&gt; bodyPlaceHoldersList = new ArrayList&lt;&gt;();
+bodyPlaceHoldersList.add("Rajesh");
+
+// Set Message Meta - Optional
+Map<IMMessageMeta, String> messageMeta = new HashMap&lt;&gt;();
+messageMeta.put(IMMessageMeta.BROADCAST_TRACKING_ID, "1000000007336636");
+
+// initialize placeholders object and set body params, header param, url param and message meta
+IMTemplateMessagePlaceHolderBuilder receiverPlaceholdersData = new IMTemplateMessagePlaceHolderBuilder.Builder()
+        .setBodyPlaceHolders(bodyPlaceHoldersList)
+        .setHeaderPlaceholder("post")
+        .setUrlPlaceholder("post-im-2024")
+        .setMeta(messageMeta)
+        .build();
+
+// Set the body params and phone number
+Map<String, IMTemplateMessagePlaceHolderBuilder> receiverIdVsParamsMap = new HashMap&lt;&gt;();
+receiverIdVsParamsMap.put("+918197002173", receiverPlaceholdersData);
+
+// Create a broadcast object
+IMBroadcast broadcast = new IMBroadcast.Builder(BROADCAST_NAME, WHATSAPP_CHANNEL_ID, IMReceiverType.PHONENUMBER)
+            .setCannedMessage(TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE)
+            .setReceiverIdVsTemplateParams(receiverIdVsParamsMap).build();
+
+//Add the broadcast to IM
+broadcast = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getBroadcastAPI(USER_ID)
+            .create(broadcast);
+```
+
+### Each ReceiverId with custom message and Dynamic Attachment
+
+```
+// Set Body Parameters
+List&lt;String&gt; bodyPlaceHoldersList = new ArrayList&lt;&gt;();
+bodyPlaceHoldersList.add("Rajesh");
+
+// initialize placeholders object and set body params, header param, url param and message meta
+IMTemplateMessagePlaceHolderBuilder receiverPlaceholdersData = new IMTemplateMessagePlaceHolderBuilder.Builder()
+     .setBodyPlaceHolders(bodyPlaceHoldersList)
+     .setHeaderAttachmentUrl("https://zkyler.com/attachment?encrytId=3198ue823dhj2983dj892df923dj829e3")
+     .setUrlPlaceholder("post-im-2024")
+     .setMeta(messageMeta)
+     .build();
+
+// Set the body params and phone number
+Map<String, IMTemplateMessagePlaceHolderBuilder> receiverIdVsParamsMap = new HashMap&lt;&gt;();
+receiverIdVsParamsMap.put("+918197002173", receiverPlaceholdersData);
+
+// Create a broadcast object
+IMBroadcast broadcast = new IMBroadcast.Builder(BROADCAST_NAME, WHATSAPP_CHANNEL_ID, IMReceiverType.PHONENUMBER)
+            .setCannedMessage(TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE)
+            .setReceiverIdVsTemplateParams(receiverIdVsParamsMap).build();
+
+//Add the broadcast to IM
+broadcast = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getBroadcastAPI(USER_ID)
+            .create(broadcast);
+```
+
+### Each ReceiverId with custom message and MPM catalog Items
+
+```
+Attribute attribute1 = new Attribute.Builder().setType(IMAttributeType.TITLE).setValue("Pizza").build();
+Attribute attribute2 = new Attribute.Builder().setType(IMAttributeType.PRODUCTID).setValues(Arrays.asList("qn5egq4pwr","rl5t1zjfrv")).build();
+
+Attribute attribute3 = new Attribute.Builder().setType(IMAttributeType.TITLE).setValue("Drinks").build();
+Attribute attribute4 = new Attribute.Builder().setType(IMAttributeType.PRODUCTID).setValues(Arrays.asList("3vmga0rpbx","14yfaioiib")).build();
+
+Attribute attribute5 = new Attribute.Builder().setType(IMAttributeType.TITLE).setValue("Cakes").build();
+Attribute attribute6 = new Attribute.Builder().setType(IMAttributeType.PRODUCTID).setValues(Arrays.asList("xhzzcfwg62")).build();
+
+AttributeGroup attributeGroup1 = new AttributeGroup.Builder().setType(IMAttributeGroupType.SECTION).setAttributes(Arrays.asList(attribute1,attribute2)).build();
+AttributeGroup attributeGroup2 = new AttributeGroup.Builder().setType(IMAttributeGroupType.SECTION).setAttributes(Arrays.asList(attribute3,attribute4)).build();
+AttributeGroup attributeGroup3 = new AttributeGroup.Builder().setType(IMAttributeGroupType.SECTION).setAttributes(Arrays.asList(attribute5,attribute6)).build();
+
+ButtonParam buttonParam = new ButtonParam.Builder().setType(IMButtomParamType.MPM).setAttributeGroup(Arrays.asList(attributeGroup1,attributeGroup2, attributeGroup3)).Build();
+
+IMInitiateSessionButtonParams imInitiateSessionButtonParam = new IMInitiateSessionButtonParams.Builder().setButtonParams(Arrays.asList(buttonParam)).build();
+
+// Set Body Parameters
+List&lt;String&gt; bodyPlaceHoldersList = new ArrayList&lt;&gt;();
+bodyPlaceHoldersList.add("Rajesh");
+
+// initialize placeholders object and set body params, header param, url param and message meta
+IMTemplateMessagePlaceHolderBuilder receiverPlaceholdersData = new IMTemplateMessagePlaceHolderBuilder.Builder()
+     .setBodyPlaceHolders(bodyPlaceHoldersList)
+     .setButtonParams(imInitiateSessionButtonParam)
+     .build();
+
+// Set the body params and phone number
+Map<String, IMTemplateMessagePlaceHolderBuilder> receiverIdVsParamsMap = new HashMap&lt;&gt;();
+receiverIdVsParamsMap.put("+918197002173", receiverPlaceholdersData);
+
+// Create a broadcast object
+IMBroadcast broadcast = new IMBroadcast.Builder(BROADCAST_NAME, WHATSAPP_CHANNEL_ID, IMReceiverType.PHONENUMBER)
+            .setCannedMessage(TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE)
+            .setReceiverIdVsTemplateParams(receiverIdVsParamsMap).build();
+
+//Add the broadcast to IM
+broadcast = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getBroadcastAPI(USER_ID)
+        .create(broadcast);
+```
+
+### Each ReceiverId with custom message in Broadcast v1 Flow
+
+```
+// Set Body Parameters
+List&lt;String&gt; bodyPlaceHoldersList = new ArrayList&lt;&gt;();
+bodyPlaceHoldersList.add("Rajesh");
+
+// Set Message Meta - Optional
+Map<IMMessageMeta, String> messageMeta = new HashMap&lt;&gt;();
+messageMeta.put(IMMessageMeta.BROADCAST_TRACKING_ID, "1000000007336636");
+
+// initialize placeholders object and set body params, header param, url param and message meta
+IMTemplateMessagePlaceHolderBuilder receiverPlaceholdersData = new IMTemplateMessagePlaceHolderBuilder.Builder()
+     .setBodyPlaceHolders(bodyPlaceHoldersList)
+     .setHeaderPlaceholder("post")
+     .setUrlPlaceholder("post-im-2024")
+     .setMeta(messageMeta)
+     .build();
+
+// Set the body params and phone number
+Map<String, IMTemplateMessagePlaceHolderBuilder> receiverIdVsParamsMap = new HashMap&lt;&gt;();
+receiverIdVsParamsMap.put("+918197002173", receiverPlaceholdersData);
+
+// Create a broadcast object
+IMBroadcast broadcast = new IMBroadcast.Builder(BROADCAST_NAME, WHATSAPP_CHANNEL_ID, IMReceiverType.PHONENUMBER)
+            .setCannedMessage(TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE)
+            .setReceiverIdVsTemplateParams(receiverIdVsParamsMap).build();
+
+//Add the broadcast to IM
+broadcast = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getBroadcastAPI(USER_ID)
+            .addBroadcast(broadcast, "v1");
+```

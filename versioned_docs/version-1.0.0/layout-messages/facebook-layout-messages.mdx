@@ -1,0 +1,114 @@
+---
+title: "Constraints :"
+sidebar_label: Facebook Layout Messages
+sidebar_position: 3
+description: "postman collection : link"
+---
+postman collection : [link](https://documenter.getpostman.com/view/18635004/2s935vkfHz#d231d0ad-bf8f-4b7d-a4af-71b6e7a37826)
+
+### Constraints :
+
+1) Description is mandatory
+
+2) Description limit - 640 Characters
+
+3) Title and Subtitle are not supported
+
+4) Providing one button in mandatory
+
+5) URL buttons :
+
+-   Button Limit - 3
+-   Message Character Limit - 20
+-   Action Character Limit - 1000
+
+6) Reply Buttons :
+
+-   Button Limit - 13
+-   Message Character Limit - 20
+
+7) Attachments are not supported
+
+#### Send Normal Layout Messages with URL buttons :
+
+```
+private static final Long SESSION_ID = 435345l;
+    public static final Long IM_ORG_ID = 74203785L;     //Created by IMOrganization Creation
+    public static final Long SERVICE_ORG_ID = 74199498L;     //Zoho ServiceOrg ID or AppAccount ID
+    public static final Long USER_ID = 69718860L;          //Zoho User ID
+    public static void main(String []args) {
+        try {
+            IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+            // set description
+            builder.setDescription("This is description");
+
+            // set buttons
+            IMLayoutButton buttonOne = new IMLayoutButton.Builder(IMLayoutButtonElementType.REDIRECT, "visit", "https://zoho.com/3").build();
+            IMLayoutButton buttonTwo = new IMLayoutButton.Builder(IMLayoutButtonElementType.REDIRECT, "visit", "https://zoho.com/2").build();
+            IMLayoutButton buttonThree = new IMLayoutButton.Builder(IMLayoutButtonElementType.REDIRECT, "visit", "https://zoho.com/1").build();
+
+            List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+            buttons.add(buttonOne);
+            buttons.add(buttonTwo);
+            buttons.add(buttonThree);
+
+            IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.
+                    Builder(IMLayoutButtonStyle.URL_BUTTON,
+                    IMLayoutButtonType.BUTTON, buttons)
+                    .build();
+            builder.setButtons(layoutButton);
+
+            // Send Message
+            IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                    .getMessageAPI(USER_ID)
+                    .layoutMessage(builder.build());
+            System.out.println(message.getId());
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+```
+
+Send Normal Layout Messages with REPLY buttons :
+
+```
+private static final Long SESSION_ID = 435345l;
+    public static final Long IM_ORG_ID = 74203785L;     //Created by IMOrganization Creation
+    public static final Long SERVICE_ORG_ID = 74199498L;     //Zoho ServiceOrg ID or AppAccount ID
+    public static final Long USER_ID = 69718860L;          //Zoho User ID
+    public static void main(String []args) {
+        try {
+            IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+            // set description
+            builder.setDescription("This is description");
+
+            // set buttons
+            IMLayoutButton buttonOne = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "Yes").build();
+            IMLayoutButton buttonTwo = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "No").build();
+
+            List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+            buttons.add(buttonOne);
+            buttons.add(buttonTwo);
+
+            IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.
+                    Builder(IMLayoutButtonStyle.REPLY,
+                    IMLayoutButtonType.BUTTON, buttons)
+                    .build();
+            builder.setButtons(layoutButton);
+
+            // Send Message
+            IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                    .getMessageAPI(USER_ID)
+                    .layoutMessage(builder.build());
+            System.out.println(message.getId());
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+```
+
+### Error Codes
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Error Code</p></div></td><td><div><p>Error Message</p></div></td><td><div><p>Error Reason</p></div></td></tr><tr><td><div><p>ENTITY_MESSAGE_FORMAT_ERROR</p></div></td><td><div><p>Entity Button Message should contain only 20 characters and no empty message</p></div></td><td><div><p>Button text exceeds 20 chars</p></div></td></tr><tr><td><div><p>ENTITY_UNSUPPORT_ERROR</p></div></td><td><div><p>Entity TEXT does not support SUB_TITLE in FACEBOOK</p></div></td><td><div><p>SUB_TITLE is not supported in Facebook</p></div></td></tr><tr><td><div><p>ENTITY_UNSUPPORT_ERROR</p></div></td><td><div><p>Entity TEXT does not support TITLE in FACEBOOK</p></div></td><td><div><p>TITLE is not supported in Facebook</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR</p></div></td><td><div><p>Entity Payload should contain style BUTTON</p></div></td><td><div><p>Button is missing in payload</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR</p></div></td><td><div><p>Entity Payload should contain style DESCRIPTION</p></div></td><td><div><p>Description is missing in payload</p></div></td></tr><tr><td><div><p>ENTITY_FORMAT_ERROR</p></div></td><td><div><p>Entity URL_BUTTON should contain only 3 elements</p></div></td><td><div><p>Url Button Type has more than 3 button elements.</p></div></td></tr><tr><td><div><p>ENTITY_FIELDS_ERROR</p></div></td><td><div><p>Entity URL button should not contain Reply Button</p></div></td><td><div><p>URL button type have given with reply button element</p></div></td></tr><tr><td><div><p>ENTITY_FORMAT_ERROR</p></div></td><td><div><p>Entity BUTTON should contain only 13 elements</p></div></td><td><div><p>Button Type has more than 13 button elements.</p></div></td></tr><tr><td><div><p>ENTITY_MESSAGE_FORMAT_ERROR</p></div></td><td><div><p>Entity URL action should contain only 1000 characters and no empty message</p></div></td><td><div><p>URL button action url limit is 1000 chars</p></div></td></tr><tr><td><div><p>ENTITY_FORMAT_ERROR</p></div></td><td><div><p>Entity DESCRIPTION should contain only 640 elements</p></div></td><td><div><p>Description text exceeds 640 chars</p></div></td></tr><tr><td><div><p>UNHANDLED_TYPE_ERROR</p></div></td><td><div><p>Type 'IMAGE' is unhandled in FACEBOOK</p></div></td><td><div><p>Image is not supported in Facebook</p></div></td></tr><tr><td><div><p>ENTITY_UNSUPPORT_ERROR</p></div></td><td><div><p>Entity Style reply does not support REDIRECT in FACEBOOK</p></div></td><td><div><p>Reply button type should not have REDIRECT</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR</p></div></td><td><div><p>Entity Type Redirect should contain action</p></div></td><td><div><p>Action field is missing REDIRECT type URL button</p></div></td></tr></tbody></table>

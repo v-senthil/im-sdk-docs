@@ -1,0 +1,14 @@
+---
+title: Mark Session as Read
+sidebar_position: 7
+description: Mark Session as Read
+---
+Mark Session as Read
+
+When an user sends a message then a particular session will have a new messages. If all the messages sent by an end user are viewed by the agent, then you can mark that session as read.
+
+```
+Boolean markAsRead = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                    .getSessionAPI(USER_ID)
+                    .markAsRead(SESSION_ID, LAST_SEEN_MESSAGE_ID);
+```

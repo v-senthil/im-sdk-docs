@@ -1,0 +1,27 @@
+---
+title: "Significance of Channel's Config Params"
+sidebar_position: 5
+description: "The channel configuration parameter (channels config param) contains three fields:"
+---
+The channel configuration parameter (channels config param) contains three fields:
+
+1.  WECOM\_CORP\_ID – Based on user input.
+2.  WECHAT\_OPEN\_KFID– Based on user input.
+3.  CURRENT\_STATUS – A system-administered configuration parameter.
+
+The current status field is used to notify different situations regarding the mapping and permissions of a Customer Service (CS) account with an IM channel.
+
+-   When a CS account is successfully mapped with an IM channel, the system notifies as:
+    CS\_ACCOUNT\_PERMISSION\_ADDED
+-   If the CS account’s permissions are revoked from the WeCom admin console, the system notifies as:
+    CS\_ACCOUNT\_PERMISSION\_REMOVED
+-   If the customer removes Zoho IM’s permission entirely (Zoho IM is installed inside the WeCom organization), the system notifies as:
+    ORG\_PERMISSION\_REMOVED
+-   By default, WeCom provides a 90-day free trial from the day the customer authorizes Zoho IM. When the trial expires, the system notifies as:
+    TRIAL\_EXPIRED
+-   After the customer purchases a license, it will have an expiration date. When the license expires, the system notifies as:
+    LICENSE\_EXPIRED
+
+#### Possible values for current status:
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Current Status Value</p></div></td><td><div><p>Meaning / Situation</p></div></td></tr><tr><td><div><p>CS_ACCOUNT_PERMISSION_ADDED</p></div></td><td><div><p>CS account successfully mapped with an IM channel.</p></div></td></tr><tr><td><div><p>CS_ACCOUNT_PERMISSION_REMOVED</p></div></td><td><div><p>CS account permissions revoked from WeCom admin console.</p></div></td></tr><tr><td><div><p>ORG_PERMISSION_REMOVED</p></div></td><td><div><p>Zoho IM permission removed entirely by the customer from the WeCom organization.</p></div></td></tr><tr><td><div><p>TRIAL_EXPIRED</p></div></td><td><div><p>Free 90-day trial has ended.</p></div></td></tr><tr><td><div><p>LICENSE_EXPIRED</p></div></td><td><div><p>Purchased license period has expired.</p></div></td></tr></tbody></table>

@@ -1,0 +1,42 @@
+---
+title: Sample IM Integration Service Response
+sidebar_label: IMIntegration Object
+sidebar_position: 3
+description: Key
+---
+### Sample IM Integration Service Response
+
+```
+{
+    "isParentAccountNeeded": false,
+    "logoURL": "https://static.stratuscdn.com/zohoim/images/telegram.3bd9ec8.png",
+    "pricingParams": [],
+    "channelAlias": "Bot",
+    "domain": "https://telegram.org",
+    "configParams": [
+        {
+            "name": "BOT_AUTH_TOKEN",
+            "index": "0",
+            "label": "Bot Auth Token",
+            "isRequired": true,
+            "type": "PASSWORD",
+            "options": null,
+            "defaultValue": null,
+            "isSecured": true,
+            "isInternal": false,
+            "isDeprecated": false,
+            "maxLen": "255",
+            "parentParams": []
+        }
+    ],
+    "label": "Telegram",
+    "provider": {
+        "name": "TelegramORG",
+        "domain": "https://telegram.org"
+    },
+    "id": "TELEGRAM",
+    "kind": "single.integrationService"
+}
+```
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Key</p></div></td><td><div><p>Type</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>isParentAccountNeeded</p></div></td><td><div><p>Boolean</p></div></td><td><div><p>If there is any other account integration required</p></div></td></tr><tr><td><div><p>channelAlias</p></div></td><td><div><p>String</p></div></td><td><div></div></td></tr><tr><td><div><p>domain</p></div></td><td><div><p>String</p></div></td><td><div><p>Integration service's official website</p></div></td></tr><tr><td><div><p>configParams</p></div></td><td><div><p>List of IMConfigParams Objects</p></div></td><td><div><p>settings to customize the behaviour of the channel</p></div></td></tr><tr><td><div><p>label</p></div></td><td><div><p>String</p></div></td><td><div><p>Integration Service name</p></div></td></tr><tr><td><div><p>provider</p></div></td><td><div><p>IntegrationProvider Object</p></div></td><td><div><p>Integration providers data</p></div></td></tr><tr><td><div><p>id</p></div></td><td><div><p>String</p></div></td><td><div><p>Integration&nbsp;Service name</p></div></td></tr><tr><td><div><p>kind</p></div></td><td><div><p>String</p></div></td><td><div><p>The type of this object (single.integrationService)</p></div></td></tr><tr><td><div><p>logoURL</p></div></td><td><div><p>String (URL)</p></div></td><td><div><p>Logo URL of the integration service</p></div></td></tr><tr><td><div><p>pricingParams</p></div></td><td><div><p>List of IMPricingProperty Object</p></div></td><td><div><p>The pricing details</p></div></td></tr></tbody></table>

@@ -1,0 +1,35 @@
+---
+title: Whatsapp Broadcast
+sidebar_label: Introduction
+sidebar_position: 1
+description: "A broadcast message is a message that is sent to multiple recipients simultaneously. Once you create a broadcast, we will instantly start sending the messages after we provide basic broadcast details as a response."
+---
+A broadcast message is a message that is sent to multiple recipients simultaneously. Once you create a broadcast, we will instantly start sending the messages after we provide basic broadcast details as a response.
+
+Postman collection: [link](https://documenter.getpostman.com/view/18635004/2s935vkfHz#17509c7b-f824-4743-ae53-a67fb0afa680)
+
+OAuth Scopes: ZohoIM.channels.ALL, ZohoIM.messages.ALL
+
+Note:
+
+1.  Once a broadcast is created, the broadcast can not be stopped or deleted.
+2.  Only completed broadcasts can be deleted.
+3.  We still haven't supported scheduled broadcast (will be available in upcoming days).
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Broadcast Version</p></div></td><td><div><p>v0</p></div></td><td><div><p>v1</p></div></td></tr><tr><td><div><p>Conversation and Message Data</p></div></td><td><div><p>Conversation and Message Data will be saved in IM and will be provided via sessions and messages API</p></div></td><td><div><p>No&nbsp;Conversation and Message Data will be saved</p><p>If an end user replies back, we shall check if there's any broadcast sent, if so we will create a conversation, add the broadcast message first and then process the incoming message</p></div></td></tr><tr><td><div><p>Phone numbers per API</p></div></td><td><div><p>200</p></div></td><td><div><p>500</p></div></td></tr><tr><td><div><p>Outgoing Messages through put from IM to Meta</p></div></td><td><div><p>3,000 messages per minute<br />1,80,000 messages per hour</p></div></td><td><div><p>33,000 messages per minute<br />19,80,000 messages per hour<br /><br />This throughput is subjected to the phone number's Meta throughput</p></div></td></tr><tr><td><div><p>API Throttle</p></div></td><td><div><p>1&nbsp;Minute 60 APIs</p></div></td><td><div><p>1&nbsp;Minute 350 APIs</p></div></td></tr></tbody></table>
+
+### Whatsapp Broadcast
+
+1.  For now, Broadcast is supported only on WhatsApp.
+2.  Both custom body messages and simple body messages are supported.
+3.  Message will be sent using a valid channel\* and a valid template Message\*
+
+\*valid channel
+
+1.  Channel should be active
+2.  Channel should not be deleted
+3.  Channel should be a WhatsApp integrated channel
+
+\*valid template Message
+
+1.  Template message should be active and approved by whatsapp

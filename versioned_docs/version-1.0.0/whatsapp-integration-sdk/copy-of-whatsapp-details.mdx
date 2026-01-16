@@ -1,0 +1,113 @@
+---
+title: Whatsapp Details
+sidebar_position: 4
+description: WhatsApp Details API serves the list of available WhatsApp Business Accounts mapped to the IM Organization.
+---
+### Whatsapp Details
+
+WhatsApp Details API serves the list of available [WhatsApp Business Accounts](/portal/zohocorp/team/zohoim/manual/available-integrations/article/pre-requisites) mapped to the IM Organization.
+
+Postman Documentation - [link](https://documenter.getpostman.com/view/18635004/2s935vkfHz#b109dde2-69ba-48b8-aef6-21c1e42b94ff)
+
+The keys numberStatus and wabaStatus under data is to support existing Single WABA per portal.  It will be removed in the upcoming versions once multi-WABA support is provided.
+
+```
+import com.zoho.im.client.api.IMIntegrationCustomAPIImpl.IntegrationCustomAPIEntity;
+import com.zoho.im.client.api.ZohoIM;
+import com.zoho.im.client.http.AbstractHttpClient.Method;
+import com.zoho.im.client.model.IMBasicObject;
+
+public class Example {
+
+    public static final Long IM_ORG_ID = 74203785L;         //Created by IMOrganization Creation
+    public static final Long SERVICE_ORG_ID = 74199498L;      //Zoho ServiceOrg ID or AppAccount ID
+    public static final Long USER_ID = 69718860L;          //Zoho User ID
+    public static void main(String[] a) {
+        try {
+             IMBasicObject waPhoneNumber = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID).invokeAPI(IntegrationCustomAPIEntity.WHATSAPP_DETAILS ,Method.GET,null);
+             System.out.println(waPhoneNumber);
+        } catch (Exception e) {
+             System.out.println(e.getLocalizedMessage());
+        }
+   }
+}
+```
+
+1\. When a WhatsApp Business Account mapping is present in IM and at-least one phone number is present in the WABA.
+
+```
+{
+    "data": {
+        "numberStatus": "PRESENT",
+        "wabaStatus": "PENDING",
+        "wabaDetail": [
+            {
+                "wabaId": "100800122742400",
+                "name": "Zoho Local",
+                "numberStatus": "PRESENT",
+                "wabaStatus": "PENDING",
+                "catalogId": "13423424445",
+                "businessId": "10155449143935987"
+            }
+        ]
+    },
+    "kind": "single.json"
+}
+```
+
+2\. When no WhatsApp Business Account mapping is present in IM.
+
+```
+{
+    "data": {
+        "numberStatus": "ABSENT",
+     "wabaStatus": "NONE"
+        "wabaDetail": [],
+    },
+    "kind": "single.json"
+}
+```
+
+3\. When a WhatsApp Business Account mapping is present in IM but has no phone numbers.
+
+```
+{
+    "data": {
+        "numberStatus": "ABSENT",
+        "wabaStatus": "APPROVED",
+        "wabaDetail": [
+            {
+                "wabaId": "100800122742400",
+                "name": "Zoho Local",
+                "numberStatus": "ABSENT",
+                "wabaStatus": "APPROVED",
+                "catalogId": "13423424445",
+                "businessId": "10155449143935987"
+            }
+        ]
+    },
+    "kind": "single.json"
+}
+```
+
+4\. When Catalog mapping not present with WhatsApp Business Account
+
+```
+{
+    "data": {
+        "numberStatus": "ABSENT",
+        "wabaStatus": "APPROVED",
+        "wabaDetail": [
+            {
+                "wabaId": "100800122742400",
+                "name": "Zoho Local",
+                "numberStatus": "ABSENT",
+                "wabaStatus": "APPROVED",
+                "catalogId": "",
+                "businessId": "10155449143935987"
+            }
+        ]
+    },
+    "kind": "single.json"
+}
+```

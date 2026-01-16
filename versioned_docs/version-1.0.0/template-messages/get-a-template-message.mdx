@@ -1,0 +1,27 @@
+---
+title: Get Template Message List
+sidebar_label: Get a Template Message
+sidebar_position: 3
+---
+### Get Template Message List
+
+```
+IMCannedMessageQueryBuilder builder = new IMCannedMessageQueryBuilder();
+builder.range(from, limit);
+builder.setLanguage("en");     // to fetch for specific language canned message along with the language translation.
+builder.addMetaFilter(IMCannedMessageMeta.TEMPLATEMSG_STATUS, templateMessageStatus);
+builder.addType(IMCannedMessageType.getFromName(messageType.toLowerCase()));
+// provide channelId in case of multi-waba. We will be returing all the template present in the WABA which is associated to the channel provided
+builder.setChannelId(CHANNEL_ID);
+ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+        .getList(builder);
+```
+
+### Get Single Template Message
+
+```
+ IMCannedMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCannedMessageAPI(USER_ID)
+        .get(TEMPLATE_MESSAGE_ID);
+```

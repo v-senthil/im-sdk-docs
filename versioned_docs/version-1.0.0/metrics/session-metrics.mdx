@@ -1,0 +1,236 @@
+---
+title: Session Metrics
+sidebar_position: 3
+description: "Sample Response:"
+---
+```
+IMSessionTimeSeriesMetricsQueryBuilder builder = new IMSessionTimeSeriesMetricsQueryBuilder()
+        .startDate(new TimeStamp(1000876164181L))             // Mandatory
+        .endDate(new Timestamp(100003765471634L))              // Mandatory
+        .granularity(Granularity.DAY.name());                 // Mandatory
+
+builder.channelIds(Arrays.asList(100000076511171L));                  // Optional
+builder.integrationService(IMIntegrationServices.WHATSAPP);            // Optional
+builder.dimensionAndValues(TimeSeriesDimensions.CONVERSATION_STATUS.name(), new ArrayList&lt;&gt;());    // Optional
+builder.basedOn(BasedOnFilters.START_TIME.name());                //Optional
+
+IMTimeSeriesMetrics metrics = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIMTimeSeriesMetricsAPI(USER_ID)
+        .getSessionResponsivenessTimeSeriesMetrics(builder);
+```
+
+Sample Response:
+
+```
+{
+  "aggregatedMetrics": [
+    {
+      "dimension": "AVG_RESPONSE_TIME",
+      "value": "00:01:39"
+    },
+    {
+      "dimension": "AVG_CHAT_TIME",
+      "value": "00:22:40"
+    },
+    {
+      "dimension": "AVG_FIRST_RESPONSE_TIME",
+      "value": "00:02:23"
+    },
+    {
+      "dimension": "AVG_PICKUP_TIME",
+      "value": "00:02:10"
+    }
+  ],
+  "trendDataList": [
+    {
+      "time": "2022-07-17",
+      "data": [
+        {
+          "dimension": "AVG_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_FIRST_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_PICKUP_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_CHAT_TIME",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "time": "2022-07-18",
+      "data": [
+        {
+          "dimension": "AVG_RESPONSE_TIME",
+          "value": "00:01:45"
+        },
+        {
+          "dimension": "AVG_FIRST_RESPONSE_TIME",
+          "value": "00:03:25"
+        },
+        {
+          "dimension": "AVG_PICKUP_TIME",
+          "value": "00:03:21"
+        },
+        {
+          "dimension": "AVG_CHAT_TIME",
+          "value": "00:51:22"
+        }
+      ]
+    },
+    {
+      "time": "2022-07-19",
+      "data": [
+        {
+          "dimension": "AVG_RESPONSE_TIME",
+          "value": "00:03:35"
+        },
+        {
+          "dimension": "AVG_FIRST_RESPONSE_TIME",
+          "value": "00:03:29"
+        },
+        {
+          "dimension": "AVG_PICKUP_TIME",
+          "value": "00:03:20"
+        },
+        {
+          "dimension": "AVG_CHAT_TIME",
+          "value": "00:30:20"
+        }
+      ]
+    },
+    {
+      "time": "2022-07-20",
+      "data": [
+        {
+          "dimension": "AVG_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_FIRST_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_PICKUP_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_CHAT_TIME",
+          "value": "00:22:53"
+        }
+      ]
+    },
+    {
+      "time": "2022-07-21",
+      "data": [
+        {
+          "dimension": "AVG_RESPONSE_TIME",
+          "value": "00:00:18"
+        },
+        {
+          "dimension": "AVG_FIRST_RESPONSE_TIME",
+          "value": "00:00:42"
+        },
+        {
+          "dimension": "AVG_PICKUP_TIME",
+          "value": "00:00:23"
+        },
+        {
+          "dimension": "AVG_CHAT_TIME",
+          "value": "00:03:45"
+        }
+      ]
+    },
+    {
+      "time": "2022-07-22",
+      "data": [
+        {
+          "dimension": "AVG_RESPONSE_TIME",
+          "value": "00:01:01"
+        },
+        {
+          "dimension": "AVG_FIRST_RESPONSE_TIME",
+          "value": "00:01:58"
+        },
+        {
+          "dimension": "AVG_PICKUP_TIME",
+          "value": "00:01:39"
+        },
+        {
+          "dimension": "AVG_CHAT_TIME",
+          "value": "00:05:03"
+        }
+      ]
+    },
+    {
+      "time": "2022-07-23",
+      "data": [
+        {
+          "dimension": "AVG_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_FIRST_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_PICKUP_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_CHAT_TIME",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "time": "2022-07-24",
+      "data": [
+        {
+          "dimension": "AVG_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_FIRST_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_PICKUP_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_CHAT_TIME",
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "time": "2022-07-25",
+      "data": [
+        {
+          "dimension": "AVG_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_FIRST_RESPONSE_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_PICKUP_TIME",
+          "value": "-"
+        },
+        {
+          "dimension": "AVG_CHAT_TIME",
+          "value": "-"
+        }
+      ]
+    }
+  ]
+}
+```

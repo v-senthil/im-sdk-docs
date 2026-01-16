@@ -1,0 +1,450 @@
+---
+title: Message Metrics
+sidebar_position: 2
+description: "Sample Response:"
+---
+```
+IMTimeSeriesMetricsQueryBuilder builder = new IMTimeSeriesMetricsQueryBuilder()
+        .startDate(new TimeStamp(1000876164181L))             // Mandatory
+        .endDate(new Timestamp(100003765471634L))              // Mandatory
+        .granularity(Granularity.DAY.name());                 // Mandatory
+
+builder.channelIds(Arrays.asList(100000076511171L));                  // Optional
+builder.integrationService(IMIntegrationServices.WHATSAPP);            // Optional
+builder.dimensionAndValues(TimeSeriesDimensions.CONVERSATION_STATUS.name(), new ArrayList&lt;&gt;());    // Optional
+
+IMTimeSeriesMetrics metrics = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getIMTimeSeriesMetricsAPI(USER_ID)
+        .getMessagesTimeSeriesMetrics(builder);
+```
+
+Sample Response:
+
+```
+{
+  "aggregatedMetrics": [
+    {
+      "dimension": "TOTAL",
+      "value": "74"
+    },
+    {
+      "dimension": "INCOMING",
+      "value": "32"
+    },
+    {
+      "dimension": "OUTGOING",
+      "value": "42"
+    }
+  ],
+  "trendDataList": [
+    {
+      "time": "01-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "02-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "03-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "04-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "05-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "06-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "07-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "08-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "09-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "15"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "27"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "42"
+        }
+      ]
+    },
+    {
+      "time": "10-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "11-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "12-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "13-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "14-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "15-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "16-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "17-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "18-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "19-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "20-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "0"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "0"
+        }
+      ]
+    },
+    {
+      "time": "21-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "2"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "0"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "time": "22-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "3"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "3"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "6"
+        }
+      ]
+    },
+    {
+      "time": "23-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "4"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "3"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "7"
+        }
+      ]
+    },
+    {
+      "time": "24-12-2021",
+      "data": [
+        {
+          "dimension": "INCOMING",
+          "value": "8"
+        },
+        {
+          "dimension": "OUTGOING",
+          "value": "9"
+        },
+        {
+          "dimension": "TOTAL",
+          "value": "17"
+        }
+      ]
+    }
+  ]
+}
+```

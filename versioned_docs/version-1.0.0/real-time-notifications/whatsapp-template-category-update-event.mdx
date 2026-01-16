@@ -1,0 +1,34 @@
+---
+title: WhatsApp Template Category Update Event
+sidebar_position: 8
+description: Methods available in IMWhatsAppTemplateCategoryUpdateEvent object
+---
+```
+@Override
+public void whatsappTemplateCategoryUpdate(IMEventMeta eventMeta, IMWhatsAppTemplateCategoryUpdateEvent eventData) {}
+```
+
+Methods available in IMWhatsAppTemplateCategoryUpdateEvent object
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Methods Available</p></div></td><td><div><p>Return Type</p></div></td></tr><tr><td><div><p>getWabaId()</p></div></td><td><div><p>String</p></div></td></tr><tr><td><div><p>getCannedMessageId()</p></div></td><td><div><p>String</p></div></td></tr><tr><td><div><p>getLanguage()</p></div></td><td><div><p>String</p></div></td></tr><tr><td><div><p>getOldCategory()</p></div></td><td><div><p>IMTemplateCategory</p></div></td></tr><tr><td><div><p>getNewCategory()</p></div></td><td><div><p>IMTemplateCategory</p></div></td></tr></tbody></table>
+
+Sample Kafka Data:
+
+```
+{
+  "data": {
+    "wabaId": "105492799180994",
+    "newCategory": "UTILITY",
+    "oldCategory": "MARKETING",
+    "cannedMessageId": 7122000009933057,
+    "language": "en"
+  },
+  "meta": {
+    "service": "ZOHO_DESK",
+    "serviceOrgId": 87890537,
+    "orgId": 87891137
+  },
+  "id": 1749625612878,
+  "type": "com.zoho.im.client.model.event.IMWhatsAppTemplateCategoryUpdateEvent"
+}
+```

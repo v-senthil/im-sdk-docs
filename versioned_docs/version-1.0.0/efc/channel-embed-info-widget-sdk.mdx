@@ -1,0 +1,66 @@
+---
+title: Channel Embed Info Widget SDK
+sidebar_position: 7
+description: Overview
+---
+Overview
+
+-   The Channel Embed Info Widget SDK enables developers to seamlessly embed channel information into their UI by providing necessary details.
+-   Using this SDK, you can easily display the necessary information to embed key communication elements for a channel, such as link, QR and Button for various channels, such as WhatsApp, Telegram, WeChat, and others, making it adaptable for different types of integrations.
+
+![Illustration](/img/inline-images/efc/channel-embed-info-widget-sdk/1729855902829.png)
+
+![Illustration](/img/inline-images/efc/channel-embed-info-widget-sdk/1729855944740.png)
+
+![Illustration](/img/inline-images/efc/channel-embed-info-widget-sdk/1729855903017.png)
+
+Key Benefits
+
+-   Ease of Integration : Developers can quickly set up and render the Channel Embed Info widget by simply configuring the required properties in window.ZOHOIM.
+-   Multi-Channel Support : The widget supports various messaging channels (e.g., WhatsApp, Telegram, WeChat, etc.), allowing flexible integration across multiple platforms.
+-   Customization : The widgetProps object allows for customization based on specific channel details.
+
+Initialization
+
+Before using the SDK, an object named ZOHOIM must be initialised on the window object as follows :
+
+```
+window.ZOHOIM = window.ZOHOIM || {};
+```
+
+Setting Required Properties
+
+To render the widget, certain properties must be set within the window.ZOHOIM object. These include:
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Prop Name</p></div></td><td><div><p>Type</p></div></td><td><div><p>Description</p></div></td></tr><tr><td><div><p>widgetContainerId</p></div></td><td><div><p>string</p></div></td><td><div><p>Element Id in which Channel Embed Info will be rendered</p></div></td></tr><tr><td><div><p>widgetProps</p></div></td><td><div><p>object</p></div></td><td><div><p>Describes the options required for rendering the channel embed info</p></div></td></tr><tr><td><div><p>widgetProps.channel</p></div></td><td><div><p>string</p></div></td><td><div><p>Type of the channel</p><p>Possible Values are : 'WHATSAPP' , 'TELEGRAM' , 'WECHAT', 'LINE', 'IM_TALK', 'FACEBOOKMESSENGER', 'INSTAGRAM'</p></div></td></tr><tr><td><div><p>widgetProps.channelName</p></div></td><td><div><p>string</p></div></td><td><div><p>Name of the channel</p></div></td></tr><tr><td><div><p>widgetProps.universalLink</p></div></td><td><div><p>string</p></div></td><td><div><p>Channel Link</p></div></td></tr></tbody></table>
+
+Getting the SDK Script and Rendering It:
+
+```
+window.ZOHOIM = window.ZOHOIM || {};
+
+window.ZOHOIM.widgetProps = {
+     channel: "WHATSAPP",
+     channelName: "Test Channel",
+     universalLink: "https://wa.me/14694059939"
+ };
+```
+
+```
+jQuery.ajax({
+      url : `https://im.localzoho.com/api/v1/sdk/efc?orgId=60349982&widgetType=channelEmbedInfo`,
+      type : "GET",
+      contentType : "application/json",
+      headers : { 'X-ZCSRF-TOKEN' : 'crmcsrfparam=XXXcsrfparamXXX'},
+      success : function(response) {
+                    var { data } = response;
+                    var newScript =  document.createElement("script");
+                    var scriptStr = data.replace(/<script type=['"]text\/javascript['"]>/g, "").replace(/<\/script>/g, "");
+                     newScript.appendChild(document.createTextNode(scriptStr));
+ document.head.append(newScript);
+       },
+      error : function() {
+          //error callback
+      }
+ });
+```

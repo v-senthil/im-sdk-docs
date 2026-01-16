@@ -10,10 +10,10 @@
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
-    "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc",
-    "convert": "node scripts/convert.js"
+    "convert": "node scripts/convert.js",
+    "version": "docusaurus docs:version"
   },
   "dependencies": {
     "@docusaurus/core": "3.9.2",

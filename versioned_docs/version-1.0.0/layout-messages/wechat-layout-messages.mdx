@@ -1,0 +1,114 @@
+---
+title: "Constraints :"
+sidebar_label: WeChat Layout Messages
+sidebar_position: 5
+description: "postman link :- link"
+---
+postman link :- [link](https://documenter.getpostman.com/view/18635004/2s935vkfHz#ceca5e9e-ca40-4a07-a7e5-b54b744748bd)
+
+### Constraints :
+
+1) URL buttons :
+
+-   Button Limit - 1
+-   Message Character Limit - 20
+-   Action Character Limit - 1000
+
+2) Reply Buttons :
+
+-   Button Limit - 8
+-   Message Character Limit - 20
+
+3) Providing one button (either url or reply) is mandatory
+
+4) Description is supported with a char limit of 512 (mandatory)
+
+5) Title is supported with a char limit of 512 (mandatory)
+
+6) Subtitle is not supported
+
+7) Attachments are not supported
+
+#### Send Normal Layout Messages with URL buttons :
+
+```
+private static final Long SESSION_ID = 435345l;
+    public static final Long IM_ORG_ID = 74203785L;     //Created by IMOrganization Creation
+    public static final Long SERVICE_ORG_ID = 74199498L;     //Zoho ServiceOrg ID or AppAccount ID
+    public static final Long USER_ID = 69718860L;          //Zoho User ID
+    public static void main(String []args) {
+        try {
+            IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+            // set description
+            builder.setDescription("This is description");
+            // set title
+          builder.setTitle("This is title", null);
+
+            // set buttons
+            IMLayoutButton buttonOne = new IMLayoutButton.Builder(IMLayoutButtonElementType.REDIRECT, "visit", "https://zoho.com/3").build();
+
+            List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+            buttons.add(buttonOne);
+
+            IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.
+                    Builder(IMLayoutButtonStyle.URL_BUTTON,
+                    IMLayoutButtonType.BUTTON, buttons)
+                    .build();
+            builder.setButtons(layoutButton);
+
+            // Send Message
+            IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                    .getMessageAPI(USER_ID)
+                    .layoutMessage(builder.build());
+            System.out.println(message.getId());
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+ }
+```
+
+Send Normal Layout Messages with REPLY buttons :
+
+```
+private static final Long SESSION_ID = 435345l;
+    public static final Long IM_ORG_ID = 74203785L;     //Created by IMOrganization Creation
+    public static final Long SERVICE_ORG_ID = 74199498L;     //Zoho ServiceOrg ID or AppAccount ID
+    public static final Long USER_ID = 69718860L;          //Zoho User ID
+    public static void main(String []args) {
+        try {
+            IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+            // set description
+            builder.setDescription("This is description");
+             // set title
+             builder.setTitle("This is title", null);
+
+            // set buttons
+            IMLayoutButton buttonOne = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "Yes").build();
+            IMLayoutButton buttonTwo = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "No").build();
+
+            List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+            buttons.add(buttonOne);
+            buttons.add(buttonTwo);
+
+            IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.
+                    Builder(IMLayoutButtonStyle.REPLY,
+                    IMLayoutButtonType.BUTTON, buttons)
+                    .build();
+            builder.setButtons(layoutButton);
+
+            // Send Message
+            IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                    .getMessageAPI(USER_ID)
+                    .layoutMessage(builder.build());
+            System.out.println(message.getId());
+        }catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+ }
+```
+
+### Error Codes
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Error Code</p></div></td><td><div><p>Error Message</p></div></td><td><div><p>Error Reason</p></div></td></tr><tr><td><div><p>ENTITY_MESSAGE_FORMAT_ERROR</p></div></td><td><div><p>Entity Button Message should contain only 20 characters and no empty message</p></div></td><td><div><p>Button text exceeds 20 chars</p></div></td></tr><tr><td><div><p>ENTITY_UNSUPPORT_ERROR</p></div></td><td><div><p>Entity TEXT does not support SUB_TITLE in FACEBOOK</p></div></td><td><div><p>SUB_TITLE is not supported in Facebook</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR</p></div></td><td><div><p>Entity Payload should contain style BUTTON</p></div></td><td><div><p>Button is missing in payload</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR</p></div></td><td><div><p>Entity Payload should contain style DESCRIPTION</p></div></td><td><div><p>Description is missing in payload</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR</p></div></td><td><div><p>Entity Payload should contain style TITLE</p></div></td><td><div><p>TITLE is missing in payload</p></div></td></tr><tr><td><div><p>ENTITY_FORMAT_ERROR</p></div></td><td><div><p>Entity URL_BUTTON should contain only 1 elements</p></div></td><td><div><p>Url Button Type has more than 1 button elements.</p></div></td></tr><tr><td><div><p>ENTITY_FIELDS_ERROR</p></div></td><td><div><p>Entity URL button should not contain Reply Button</p></div></td><td><div><p>URL button type have given with reply button element</p></div></td></tr><tr><td><div><p>ENTITY_FORMAT_ERROR</p></div></td><td><div><p>Entity BUTTON should contain only 8 elements</p></div></td><td><div><p>Button Type has more than 8 button elements.</p></div></td></tr><tr><td><div><p>ENTITY_MESSAGE_FORMAT_ERROR</p></div></td><td><div><p>Entity URL action should contain only 1000 characters and no empty message</p></div></td><td><div><p>URL button action url limit is 1000 chars</p></div></td></tr><tr><td><div><p>ENTITY_FORMAT_ERROR</p></div></td><td><div><p>Entity DESCRIPTION should contain only 512 elements</p></div></td><td><div><p>Description text exceeds 512 chars</p></div></td></tr><tr><td><div><p>UNHANDLED_TYPE_ERROR</p></div></td><td><div><p>Type 'IMAGE' is unhandled in WECHAT</p></div></td><td><div><p>Image is not supported in WeChat</p></div></td></tr><tr><td><div><p>ENTITY_UNSUPPORT_ERROR</p></div></td><td><div><p>Entity Style reply does not support REDIRECT in WECHAT</p></div></td><td><div><p>Reply button type should not have REDIRECT</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR</p></div></td><td><div><p>Entity Type Redirect should contain action</p></div></td><td><div><p>Action field is missing REDIRECT type URL button</p></div></td></tr></tbody></table>

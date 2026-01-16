@@ -1,0 +1,127 @@
+---
+title: "Flow chart for the SDK Implementation:"
+sidebar_label: Embedded Signup
+sidebar_position: 3
+description: About WhatsApp Embedded Signup.
+---
+[About](/portal/zohocorp/team/zohoim/manual/available-integrations/article/embedded-signup) [WhatsApp Embedded Signup](/portal/zohocorp/team/zohoim/manual/available-integrations/article/embedded-signup)[.](/portal/zohocorp/team/zohoim/manual/available-integrations/article/embedded-signup)
+
+###
+Flow chart for the SDK Implementation:
+
+### ![Illustration](/img/inline-images/whatsapp-integration-sdk/copy-of-embedded-signup/1682618084297.png)
+
+#### Initialize Widget
+
+```
+function initWhatsAppEmbeddedSdk() {
+    jQuery.ajax({
+      url : `{Service_Endpoint}?orgId={SERVICE_ORG_ID}&widgetType=whatsAppEmbeddedSignup`,
+      type : "GET",
+      contentType : "application/json",
+      headers : {
+       'X-ZCSRF-TOKEN' : getCSRFCookieName() + '='+ getCSRFCookie()
+      },
+      success : function(response){
+        var { data } = response;
+        var newScript =        document.createElement("script");
+
+        var scriptStr = data.replace("<script type='text/javascript'>", "").replace("</script>", "");
+           newScript.appendChild(document.createTextNode(scriptStr));
+           document.head.append(newScript);
+      },
+      error : function() {
+          //error callback
+      }
+    });
+}
+```
+
+After initializing the Widget by the above API, you can add your own button.
+For that pass onClick as ZOHOIM.launchWhatsAppEmbeddedSignup(props, callback);
+
+```
+// orgHeader - scope based on the service
+const props = { orgId: '', orgHeader: '', userZuId: '', csrfToken: '', csrfParamName: '' };
+const successCallback = function(response) {
+    const { wabaStatus, numberStatus } = response;
+    // Can handle based on the response
+}
+const failureCallback = function(response) {
+     const { wabaStatus, numberStatus } = response;
+     // Can handle based on the response
+}
+window.ZOHOIM.context = '/support'; // based on service handling for crmplus.
+window.ZOHOIM.launchWhatsAppEmbeddedSignup(props, successCallback, failureCallback);
+```
+
+#### Callback Status:
+
+```
+{
+    "data": {
+        "numberStatus": "PRESENT",
+        "wabaStatus": "APPROVED",
+        "wabaDetail": [
+            {
+                "wabaId": "10782638201XXXX",
+                "name": "Zoho Developer",
+                "wabaStatus": "APPROVED"
+            }
+        ]
+    },
+    "kind": "single.json"
+}
+```
+
+Possible wabaStatus values:
+
+NONE - No WABA present
+
+PENDING - WABA added and approval pending
+
+APPROVED - WABA added and approved
+
+REJECTED - WABA added and rejected approval
+
+Possible numberStatus values:
+
+PRESENT - at least one phone number is added to WABA
+
+ABSENT - no phone numbers are added to WABA
+
+### Possible errors
+
+1.  WABAID\_DIFFERS
+
+1.  The mapped WABA in an organization is different from the WABA customer choose during embedded sign up. This error will occur for services which does not have multi WABA support.
+
+### Whatsapp Embedded sign up process screens
+
+Choose the correct Facebook account where the FB Business is enabled and contain a Whatsapp Business Account
+
+![Illustration](/img/inline-images/whatsapp-integration-sdk/copy-of-embedded-signup/1682618170893.png)
+
+![Illustration](/img/inline-images/whatsapp-integration-sdk/copy-of-embedded-signup/1682618170904.png)                               ![Illustration](/img/inline-images/whatsapp-integration-sdk/copy-of-embedded-signup/1682618171011.png)
+
+Choose the Facebook Business Account in which the desired Whatsapp Business Account is present.
+
+![Illustration](/img/inline-images/whatsapp-integration-sdk/copy-of-embedded-signup/1682618170908.png)
+
+Facebook will automatically populate the data of the selected Facebook business account.
+
+![Illustration](/img/inline-images/whatsapp-integration-sdk/copy-of-embedded-signup/1682618171035.png)
+
+Choose the Whatsapp Business Account (WABA)
+
+![Illustration](/img/inline-images/whatsapp-integration-sdk/copy-of-embedded-signup/1682618170905.png)
+
+Choose the Whatsapp Business Account Profile. The phone number which you wish to connect via Zoho IM.
+
+![Illustration](/img/inline-images/whatsapp-integration-sdk/copy-of-embedded-signup/1682618171116.png)
+
+If the phone number is not verified during this process, whatsapp will directly verify the number in the next step.
+
+If the number is already present in a whatsapp business mobile application and you try to connect the same number, whatsapp will show a info message in this process and the mobile account will automatically be removed and the number will be used here.
+
+No whatsapp chats already present in the mobile app can be migrated into Zoho IM

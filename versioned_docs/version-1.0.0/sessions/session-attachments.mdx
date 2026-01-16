@@ -1,0 +1,23 @@
+---
+title: Get an Attachment in a Session
+sidebar_label: Session Attachments
+sidebar_position: 5
+---
+### Get an Attachment in a Session
+
+```
+IMAttachment attachment = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getAttachmentAPI(USER_ID)
+        .getSessionAttachment(SESSION_ID, ATTACHMENT_ID);
+```
+
+### Get Attachments in a Session
+
+```
+IMBasicQueryBuilder query = new IMBasicQueryBuilder();
+query.range(0, 0);
+IMEntityList&lt;IMMessageAttachment&gt; attachment = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getSessionAPI(USER_ID)
+        .getSessionAttachments(SESSION_ID, query);
+List&lt;IMMessageAttachment&gt; attachmentList = attachment.getEntities();
+```

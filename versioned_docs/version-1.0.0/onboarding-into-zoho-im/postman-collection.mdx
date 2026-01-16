@@ -1,0 +1,45 @@
+---
+title: Generate Access Token
+sidebar_label: Postman Collection
+sidebar_position: 8
+description: "https://documenter.getpostman.com/view/18635004/2s935vkfHz#intro"
+---
+[https://documenter.getpostman.com/view/18635004/2s935vkfHz#intro](https://documenter.getpostman.com/view/18635004/2s935vkfHz#intro)
+
+While using direct APIs
+
+1.  Type of authorizations supported:
+
+1.  ISC Signature
+2.  Current Ticket
+3.  Org Based OAuth token
+4.  User Based OAuth token
+
+2.  For create organization API provide service and service OrgId along with Authorization in Request Headers.
+3.  For other APIs provide service, service OrgId and org Id along with Authorization in Request Headers.
+4.  Authorization should be in the format "Zoho-oauthtoken " + accessToken
+
+Use the Zoho IM Environment which we provided in postman for better usage
+
+### Generate Access Token
+
+![Illustration](/img/inline-images/onboarding-into-zoho-im/postman-collection/1682092441506)
+
+1.  Sign into accounts.localzoho.com depending on the DC you are in.
+2.  Go to Zoho Developer Console -> Add Client
+3.  Choose Self Client
+4.  Note down Client ID and Client Secret under Client Secret Tab
+5.  Under Generate Code - Provide [scopes](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/im-authentication#_Tocouhmj0xff024), time duration and description
+6.  Choose create which will provide a code.
+
+### Generate Access Token
+
+7.  Copy the code
+8.  In Zoho IM Environment paste the code, client ID, client secret.
+9.  Change the accounts\_url based on the DC you are in
+10.  Use [Get Access Token API](https://documenter.getpostman.com/view/18635004/2s935vkfHz#4ad5810a-eeb6-48d5-b1b1-98ae308d6d99) to generate access token and refresh token.
+
+### Generate Access Token from Refresh Token
+
+11.  Cope the refresh token and paste it in the Zoho IM Environment.
+12.  Use [Get Access Token from Refresh Token API](https://documenter.getpostman.com/view/18635004/2s935vkfHz#ed977705-887d-4261-85b2-0cb26c3f2c41) to generate Access Token using Refresh token

@@ -1,0 +1,45 @@
+---
+title: "Payments:"
+sidebar_label: Licensing
+sidebar_position: 4
+description: The Above Diagram shows the types of Payment sources available and their support in ZohoIM
+---
+1.  Zoho Instant Messaging doesn't have separate licensing yet as we are a service now and not a product.
+2.  Implementing Zoho Services can decide on that front.
+3.  However, for sending messages to external services that require money (WhatsApp), Zoho Instant Messaging has Add-Ons that customers can opt-for.
+
+![Illustration](/img/inline-images/onboarding-into-zoho-im/licensing/1682068842519.png)
+
+The Above Diagram shows the types of Payment sources available and their support in ZohoIM
+
+### Payments:
+
+1.  Platforms like WhatsApp charge the Outgoing Messages being sent. In future, Some other platforms too might charge for Messages/any other actions.
+2.  To address such cases, Zoho Instant Messaging maintains a wallet which can be charged through Add-On's which are tagged along with Respective Integrating ZohoService.
+3.  If ZohoCRM is integrates with Zoho Instant Messaging, a new Add-On will be created and mapped to ZohoCRM. The CRM team has to implement the Add-On Purchase inside the Product.
+4.  The Wallet will have Credits, and for each Message, a certain amount will be deducted from the Credits.
+
+Example: Customer can buy 4 Credits. And, for each Outgoing
+
+message a flat 0.0125 will be deducted. The new balance would be
+
+3.9875. Customer can buy Credits as and when required.
+
+5.  However, Zoho Instant Messaging will not have any restrictions on the number of Channels Created. Respective Service Teams can handle that.
+
+### Bundle Services:
+
+1.  If the Service is associated to any Bundle Services(CrmPlus/ZohoOne etc) the Add-On will be defined at Bundle level.
+2.  Implementing teams should convey whether their Product is associated with any Bundle while Approaching for Integration.
+3.  Customer can use multiple products in Bundle Services, which will be mapped to only one Zoho IM Organization. So, credits will also be unified to that one organization.
+
+### Implementation gist
+
+1.  AddonId request will be initiated by IM team and it will be shared once configured at store's end.
+2.  To enable purchase of IMCredit add-on from Store, custom add-on enabling for IMCredits is expected in response to getServiceSubscriptionInfo() on Store's request .  [Ref.](/portal/zohocorp/manual/im-developers-corner/article/callback-and-propagation#_Toczprdf5fie9if)
+3.  [Check here](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/payment-widget) for implementing the in-product widget to purchase credits.
+4.  In both the above cases, callbacks from the Store will be received by Service teams, and propagation to IM needs to be handled by Service teams.  [Check here](/portal/zohocorp/team/zohoim/manual/im-developers-corner/article/callback-and-propagation) for more details.
+5.  For credit auto-renewal,  IM provides the API and has its limitations. Service teams are expected to build their own form to get in line with the product's UI and requirement. [Check here](/portal/zohocorp/team/zohoim/manual/sdk-reference/article/auto-renewal) for more details.
+6.  Credit balances and deductions will be handled by IM.
+
+Check [here](/portal/zohocorp/team/zohoim/manual/im-developers-corner/article/im-credits) for more details and help documents.

@@ -1,0 +1,103 @@
+---
+title: IM Channel Object
+sidebar_label: IMChannel Object
+sidebar_position: 6
+description: Key
+---
+```
+{
+    "id": "1241000000032001",
+    "integrationService": {
+        "isParentAccountNeeded": false,
+        "logoURL": "https://static.stratuscdn.com/zohoim/images/telegram.3bd9ec85cdc.png",
+        "pricingParams": [],
+        "channelAlias": "Bot",
+        "domain": "https://telegram.org",
+        "configParams": [
+            {
+                "name": "BOT_AUTH_TOKEN",
+                "index": "0",
+                "label": "Bot Auth Token",
+                "isRequired": true,
+                "type": "PASSWORD",
+                "options": null,
+                "defaultValue": null,
+                "isSecured": true,
+                "isInternal": false,
+                "isDeprecated": false,
+                "maxLen": "255",
+                "parentParams": []
+            }
+        ],
+        "onBoardingList": [],
+        "label": "Telegram",
+        "provider": {
+            "name": "TelegramORG",
+            "domain": "https://telegram.org"
+        },
+        "id": "TELEGRAM",
+        "kind": "single.integrationService"
+    },
+    "name": "Testing",
+    "defaultBotId": null,
+    "isActive": false,
+    "isDeleted": false,
+    "createdTime": "2022-01-12T17:50:05.000Z",
+    "universalLink": "https://t.me/restore731987398123_bot",
+    "authenticationURL": null,
+    "storageEnabled": false,
+    "authorizationPending": false,
+    "accountName": "restore731987398123_bot",
+    "uuid": "17b9b96d825b5b1eb34eba041cba7b1a",
+    "isSubscribed": true,
+    "meta": [],
+    "isOwner": false,
+    "conversationCount": "3",
+    "isSandBox": false,
+    "logoURL": "https://static.stratuscdn.com/zohoim/images/telegram.3bd9ec85cdc.png",
+    "createdBy": "67915789",
+    "configParams": [
+        {
+            "id": "1241000000032003",
+            "name": "BOT_AUTH_TOKEN",
+            "modifiedTime": "2023-03-29T07:37:32.000Z",
+            "secured": true,
+            "isRequired": true,
+            "isInternal": false,
+            "isDeprecated": false,
+            "label": "Bot Auth Token",
+            "type": "PASSWORD",
+            "defaultValue": null,
+            "maxLen": "255",
+            "options": [],
+            "uuid": "74fef386f60b589c98248c247e983259",
+            "parentParams": [],
+            "value": "*******",
+            "kind": "single.channel.configParam"
+        },
+        {
+            "id": "1241000000032005",
+            "name": "BOT_USER_NAME",
+            "modifiedTime": "2022-01-12T17:50:05.000Z",
+            "secured": false,
+            "isRequired": false,
+            "isInternal": true,
+            "isDeprecated": false,
+            "label": "Bot User Name",
+            "type": "SYSTEM_DEFINED",
+            "defaultValue": null,
+            "maxLen": "255",
+            "options": [],
+            "uuid": "74fef386f60b589c98248c247e983259",
+            "parentParams": [],
+            "value": "restore731987398123_bot",
+            "kind": "single.channel.configParam"
+        }
+    ],
+    "kind": "single.channel"
+}
+```
+
+### IM Channel Object
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Key</p></div></td><td><div><p>Type</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>id</p></div></td><td><div><p>Long</p></div></td><td><div><p>The channel's identification number.</p></div></td></tr><tr><td><div><p>integrationService</p></div></td><td><div><p>IMIntegrationService Object</p></div></td><td><div><p>This entity includes information about an integration, such as configuration parameters, provider, logo, and so on.</p></div></td></tr><tr><td><div><p>name</p></div></td><td><div><p>String</p></div></td><td><div><p>Channel Name</p></div></td></tr><tr><td><div><p>defaultBotId</p></div></td><td><div><p>Long</p></div></td><td><div><p>The ID of the bot that is set as the default or main bot for the channel</p></div></td></tr><tr><td><div><p>isActive</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Indicates whether the channel is active or deactivated.</p></div></td></tr><tr><td><div><p>isDeleted</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Indicates whether the channel is deleted or not.</p></div></td></tr><tr><td><div><p>createdTime</p></div></td><td><div><p>TimeStamp</p></div></td><td><div><p>The timestamp indicating when the channel was created.</p></div></td></tr><tr><td><div><p>universalLink</p></div></td><td><div><p>String (URL)</p></div></td><td><div><p>Link that works across multiple platforms and opens the appropriate account associated with this channel</p></div></td></tr><tr><td><div><p>accountName</p></div></td><td><div><p>String</p></div></td><td><div><p>The account's name associated with the channel.</p><p>In the case of telegram, this key contains the bot name and in the case of whatsapp it contains the phone number.</p></div></td></tr><tr><td><div><p>UUID</p></div></td><td><div><p>String</p></div></td><td><div><p>The unique identifier of this message</p></div></td></tr><tr><td><div><p>isSubscribed</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Specifies whether the service being accessed has subscribed to this channel to receive notifications.</p></div></td></tr><tr><td><div><p>isOwner</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Specifies whether the user has ownership over the channel</p></div></td></tr><tr><td><div><p>conversationCount</p></div></td><td><div><p>Integer</p></div></td><td><div><p>Refers to the number of conversations present on the channel</p></div></td></tr><tr><td><div><p>isSandBox</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Indicates whether a the channel is a sandbox environment or not.</p></div></td></tr><tr><td><div><p>logoURL</p></div></td><td><div><p>String (URL)</p></div></td><td><div><p>Specifies the location of the logo image file of the channels's Integration Service</p></div></td></tr><tr><td><div><p>configParams</p></div></td><td><div><p>List of IMConfigParam Object</p></div></td><td><div><p>The list of configuration parameters required to create a channel</p></div></td></tr><tr><td><div><p>kind</p></div></td><td><div><p>String</p></div></td><td><div><p>The type of this object (single.session.message)</p></div></td></tr></tbody></table>

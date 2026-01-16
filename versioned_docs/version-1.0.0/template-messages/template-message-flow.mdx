@@ -1,0 +1,64 @@
+---
+title: Create a Template Message
+sidebar_label: Template Message Flow
+sidebar_position: 2
+description: "If FAILED, the failed reason will be updated in Canned Message meta with type FAILED_REASON."
+---
+### Create a Template Message
+
+1.  When a template message is created, IM will submit the template message to,
+
+1.  whatsapp under the WABA ID your organization is connected to for approval.
+2.  In case of multi-waba provide the WABA ID in meta and the template will be created under the WABA ID provided.
+
+2.  Approval usually takes between 5 mins to 24 hours depending on the content and language the user chooses.
+3.  Interactive Template Message contains two ways to handle media:
+
+1.  Dynamic Attachments: You can just provide us the type of header attachment type you want to use (Image or Video or Document) while creating the template message and we will expect a specified attachment while send the template message (Initiate Session).
+2.  Static Attachments: Attachments should be given while creating the template message itself. While initiating the template message we shall get the attachment from our end and directly send it.
+
+4.  Possible status of template message after creating a new one:
+
+1.  PENDING: This status will be given when a message is added in IM and submitted to whatsapp for approval.
+2.  FAILED: If there is any down time or error in IM, we provide the status as FAILED.
+
+If FAILED, the failed reason will be updated in Canned Message meta with type FAILED\_REASON.
+
+Please Note, While providing template message content in SDK or API please follow placeholder formatting.
+Format allowed in IM is \{\{1\}\}
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Example Message in your service</p></div></td><td><div><p>Message to be sent to IM</p></div></td></tr><tr><td><div><p>Hello $\{Customer.First Name\}, Here is your latest invoice of $\{Invoice.Cost\} purchased on $\{Invoice.Date\}. Kindly pay the amount via $\{Payment.link\}</p></div></td><td><div><p>Hello \{\{1\}\}, Here is your latest invoice of \{\{2\}\} purchased on \{\{3\}\}. Kindly pay the amount via \{\{4\}\}</p></div></td></tr></tbody></table>
+
+5.  Once a template message is approved from WhatsApp, we shall update the template in our end and also push the same along with waba ID, Template Message ID, new template status, old template status and template message language to your service via real time notifications [link](/portal/zohocorp/knowledge/manual/sdk-reference/article/whatsapp-template-status-update-event)
+
+### Edit a Template Message
+
+Do not pass WABA ID, while editing an template message
+
+1.  Message templates can only be edited when in an Approved or Rejected state, but the updated template message will go for approval process to Meta Again.
+2.  Edits should be minor to correct small errors like spelling and grammar, or small tweaks to content.
+3.  Edits should not change the category of the template
+4.  For major edits which may change the template category, a new template should be created instead.
+5.  Message templates in an Approved state can be edited up to 10 times in a 30 day window, or 1 time in a 24 hour window.
+6.  Messages in Rejected state can be edited an unlimited number of times.
+7.  Template category change is not allowed.
+
+### Delete a Template Message
+
+1.  Once a delete call is made, by default the status will be changed to DELETION\_IN\_PROGRESS.
+2.  The template then cannot be updated or deleted.
+3.  Once the template is deleted in Meta's end, we will automatically delete the template in IM.
+4.  If there is any issues in deleting the template is Meta's end, the status will be changed to DELETION\_FAILED. User can try to delete the template again.
+
+5.  Even while deleting, DELETION\_IN\_PROGRESS, DELETION\_FAILED and DELETED status will be pushed to services.
+6.  If the new status is DELETED services can directly delete the same in their end.
+
+### Possible Status:
+
+1.  PENDING
+2.  APPROVED
+3.  REJECTED
+4.  FAILED
+5.  DELETION\_IN\_PROGRESS
+6.  DELETION\_FAILED
+7.  DELETED

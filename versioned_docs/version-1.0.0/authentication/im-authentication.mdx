@@ -1,0 +1,106 @@
+---
+title: IM SDK supports the following authorization types
+sidebar_label: IM Authentication
+sidebar_position: 1
+description: Get Client ID from IAM for all DataCenters store it.
+---
+### IM SDK supports the following authorization types
+
+1.  Org oauth token - To be issued after creating organization
+2.  IAM Current Ticket - To be issued while creating organization
+3.  ISC Signature - For consumer initialization
+
+#### Getting Current Ticket:
+
+```
+com.adventnet.iam.IAMUtil.getCurrentTicket()
+```
+
+#### Getting Org OAuth Token:
+
+Get Client ID from IAM for all DataCenters store it.
+
+Scopes:
+
+1.  ZohoIM.organizations.ALL
+2.  ZohoIM.channels.ALL,
+3.  ZohoIM.conversations.ALL,
+4.  ZohoIM.messages.ALL,
+5.  ZohoIM.search.READ,
+6.  ZohoIM.bots.ALL
+7.  ZohoIM.users.ALL
+
+#### Generating Refresh token
+
+```
+com.adventnet.iam.OAuthAPI.generateOrgOAuthRefreshToken(java.lang.String clientId,                                              long zid,                                              OAuthToken.ZIDType zidType,                                              int oidType,                                              java.lang.String[] scopes,                                              java.lang.String serviceName,                                              java.lang.String ipAddress,                                              java.lang.String userAgent)                                       throws IAMException
+```
+
+Parameters:
+
+-   clientId - need to get from IAM. For each integration, separate client ID will be used
+-   zid - soid or Zaaid
+-   zidType - com.adventnet.iam.OAuthToken.ZIDType
+-   oidType - - if generated for soid then corresponding soid type./ If appaccount corresponding appaccounttype
+-   scopes - - Array of scopes for which token is generated
+-   serviceName - - current service name
+-   ipAddress - - user IP address
+-   userAgent - - user User agent
+
+Returns - Refresh token
+
+Throws - [IAMException](http://build/zoho/zohoaccounts/milestones/master/ZOHOACCOUNTS_M4015_2/Javadoc/com/adventnet/iam/IAMException.html)
+
+Store the refresh token for further access token creation
+
+#### Generating Access token
+
+```
+com.adventnet.iam.OAuthAPI.generateInternalOAuthAccessToken(java.lang.String clientId,                                                  long zid,                                                  java.lang.String refreshToken,                                                  java.lang.String serviceName,                                                  java.lang.String ipAddress,                                                  java.lang.String userAgent)                                           throws IAMException
+```
+
+Parameters:
+
+-   clientId - used to generate refresh token
+-   zid - zuid or zsoid or zaaid for which refresh token is generated
+-   refreshToken - refresh token generated above.
+-   serviceName - servicename
+-   ipAddress - remote IP or current appservers IP
+-   userAgent - JAVA
+
+Returns - Access token
+
+Throws - [IAMException](http://build/zoho/zohoaccounts/milestones/master/ZOHOACCOUNTS_M4015_2/Javadoc/com/adventnet/iam/IAMException.html)
+
+### Implement IM SDK with authentication
+
+Implement com.zoho.im.client.api.schema.IMClientAPIHandler - interface and provide the implemented class name in im.properties file
+
+Implement the method getIMOAuthtoken(serviceOrgId, IMOrgId, allowedAuthTypes) and return the token (Org-OAuthtoken or CurrentTicket based on allowedAuthTypes param) with IM admin userId and IM's scopes.
+
+For org-oauth token, the return String should be in the format of
+Zoho-oauthtoken 1000.dfe95e72e98e16575c80954109e0c8f1.b3fa58bf434c43eb2f88b7ae1650b981
+
+#### Sample IMClientAPIHandler implementation
+
+```
+public class IMClientAPIHandlerImpl implements IMClientAPIHandler {
+    @Override
+    public String getIMAuthtoken(Long serviceOrgId, Long imOrgId, Set&lt;Type&gt; allowedAuthTypes) {
+        String authorizationString="";
+
+        //All APIs post Org creation expects org-oauth2 token for authorization
+        if(allowedAuthTypes.contains(IMAuth.Type.OAUTH_V2_ORGOAUTH)) {
+            String accessToken = "";
+            //create access token
+            authorizationString = "Zoho-oauthtoken " + accessToken; // The prefix "Zoho-oauthtoken " is must for Oauthtoken.
+        }
+        //IM Organization creation expects IAM Current Ticket for authorization
+        if(allowedAuthTypes.contains(IMAuth.Type.IAM_CURRENT_TICKET)) {
+            authorizationString =  IAMUtil.getCurrentTicket();
+        }
+        return authorizationString;
+    }
+/* Implement other methods */
+}
+```

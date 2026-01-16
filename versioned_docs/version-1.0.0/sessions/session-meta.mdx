@@ -1,0 +1,29 @@
+---
+title: Add Session Meta
+sidebar_label: Session Meta
+sidebar_position: 9
+---
+## Add Session Meta
+
+```
+Map<IMSessionMeta, String> sessionMeta = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+      .getSessionMetaAPI(USER_ID)
+     .saveMeta(IM_SESSION_ID, IMSessionMeta, VALUE);
+```
+
+## Add Bulk Session Meta
+
+```
+Map<IMSessionMeta, String> sessionMetaToAdd =
+Map<IMSessionMeta, String> sessionMeta = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+      .getSessionMetaAPI(USER_ID)
+     .saveBulkMeta(IM_SESSION_ID, sessionMetaToAdd);
+```
+
+## Get All Session Meta
+
+```
+Map<IMSessionMeta, String> sessionMeta = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+      .getSessionMetaAPI(USER_ID)
+     .getAllMeta(IM_SESSION_ID);
+```

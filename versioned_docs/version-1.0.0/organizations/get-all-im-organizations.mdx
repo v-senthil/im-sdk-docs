@@ -1,0 +1,12 @@
+---
+title: Get all IM Organizations
+sidebar_position: 3
+description: Get all the IM Organizations connected to the org oauth token being used for this API
+---
+Get all the IM Organizations connected to the org oauth token being used for this API
+
+```
+List&lt;IMOrganization&gt; organizationEntity = ZohoIM.getInstance(null, SERVICE_ORG_ID)
+        .getOrganizationAPI(USER_ID)
+        .getList(null).getEntities();
+```

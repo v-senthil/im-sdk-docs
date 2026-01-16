@@ -1,0 +1,732 @@
+---
+title: "ZohoIM iOS SDK : Comprehensive Guide"
+sidebar_label: IM iOS SDK integration
+sidebar_position: 1
+description: "ZohoIM simplifies the integration of various instant messaging channels into your application. With a unified API, ZohoIM eliminates the complexity of handling individual channel integrations."
+---
+#### Overview
+
+ZohoIM simplifies the integration of various instant messaging channels into your application. With a unified API, ZohoIM eliminates the complexity of handling individual channel integrations.![Illustration](/img/inline-images/im-mobile-sdk/im-mobile-sdk-integration/1733826554256.png)
+
+Current Channel Support:
+
+-   WhatsApp
+-   Telegram
+-   Line
+-   WeChat
+-   Facebook Messenger
+-   Instagram Messenger
+-   Business Messenger
+
+iOS SDK Features:
+
+The ZohoIM iOS SDK enables:
+
+-   Granular access to ViewControllers.
+-   Extensible and customizable themes.
+-   Handy configurations for seamless integration.
+-   iPad support.
+-   Swifty APIs for developer convenience.
+
+ZohoIMSample App
+
+We have a ZohoIMSample App designed to showcase the IM SDK features. This app helps in testing and understanding the SDK’s integration, UI, and configuration options.
+
+📄 For detailed documentation and installation guide, refer to: [Use Case Document](https://writer.zoho.com/writer/open/fwo1kc54ae036eeb44af58b4cd520e4e1de7f)
+
+Releases: [link](https://git.csez.zohocorpin.com/vtouchzoho/Apple/ios/ZohoIM-IOS/-/releases)
+
+For more detailed information about the ZohoIM SDK, refer to the [ZohoIM SDK Connect Post](https://connect.zoho.com/portal/intranet/stream/105000705376143).
+
+##
+Installation
+
+ZohoIM SDK supports two installation methods:
+
+1.  Swift Package Manager (SPM) (Preferred):
+
+-   Recommended for streamlined dependency management and easy updates.
+
+Some dependencies are exclusive to SPM.
+
+Steps:
+
+Add ZohoIM SDK to your project using Swift Package Manager (SPM).
+
+1.  In Xcode, select File > Swift Packages > Add Package Dependency.
+2.  Enter the repository URL: https://git.csez.zohocorpin.com/vtouchzoho/Apple/ios/ZohoIM-IOS.git
+3.  Specify the version rule as required (from: "1.1.14").
+4.  Click Next and Finish.
+
+Note:
+
+-   Please add SQLCipher latest version through CocoaPods if you are not using it in your project.
+-   We currently recommend using SPM for dependency management due to certain internal dependencies. If required, CocoaPods can still be used, but SPM is preferred.
+
+2.  CocoaPods:
+
+Suitable for projects requiring legacy dependency management.
+Steps:
+
+1.  Make sure you have following sources in your podfile.
+
+```
+source 'https://git.csez.zohocorpin.com/zoho/zohopodspecs.git'
+source 'https://git.csez.zohocorpin.com/vtouchzoho/vtouchpodspecs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+```
+
+2.  Add the pod as follows:
+
+```
+pod 'ZohoIM', :git => 'https://git.csez.zohocorpin.com/vtouchzoho/Apple/ios/ZohoIM-IOS.git', :tag => '1.1.14'
+```
+
+3.  Finally install the pod by running pod install
+
+          Sample Podfile:
+
+```
+source 'https://git.csez.zohocorpin.com/zoho/zohopodspecs.git'
+source 'https://git.csez.zohocorpin.com/vtouchzoho/vtouchpodspecs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+target 'IntegrationSample' do
+pod 'ZohoIM', :git => 'https://git.csez.zohocorpin.com/vtouchzoho/Apple/ios/ZohoIM-IOS.git', :tag => '1.1.14'
+end
+```
+
+Follow the [Installation Guide](https://git.csez.zohocorpin.com/vtouchzoho/Apple/ios/ZohoIM-IOS/-/blob/master/ZohoIM/ZohoIM/ZohoIM.docc/ZohoIM.md) placeholder for step-by-step instructions based on your preferred package manager.
+
+##
+Set Up
+
+Proper setup is essential to fully integrate ZohoIM into your app. Below are the key steps for configuration, now including code examples for clarity and ease of implementation.
+
+### 1\. Data Manager Configuration
+
+Configure ZIMDataManagerRequirements with the following:
+
+-   Service Type: Specify the service (e.g., ZOHODESK, ZOHOCRM, ZOHOBIGIN).
+-   Authentication Source: Define user session authentication.
+-   User Data: Provide agent details for context-aware messaging.
+-   PubSub Integration: Set up for real-time updates.
+
+#### Code Implementation
+
+```
+import ZohoIM
+class AuthSource: ZIMAuthSource {
+    public static let shared = AuthSource()
+    private init() {}
+
+       func getOauthtokenString(completionHandler: @escaping (String?, Error?) -> Void) {
+        ZSSOKit.getOAuth2Token { (token, error) in
+                    if let error = error {
+                    print("AUTH ERROR: \(error)")
+            }
+            DispatchQueue.main.async {
+                    completionHandler(token, error)
+            }
+        }
+     }
+        ...
+}
+
+ let user = ZIMPubsubUser(zuid: "USER_ZUID", dname: "AgentName", insID: "InstanceID")
+
+let requirements = ZIMDataManagerRequirements(
+    serviceType: .ZOHODESK,
+    authSource: AuthSource.shared,
+    baseUrl: "https://mproxy.zoho.com",
+    userAgent: "YOUR_USER_AGENT_STRING",
+    pubsubUser: user,
+    xAppBuildId: "0913",
+    dbEncryptionKey: "encryptionKey1",
+    fileEncryptionKey: "encryptionKey2",
+    PEEnabledOrgIds: nil
+)
+
+// Optional: MDM Configuration
+let mdmConfiguration = ZIMMDMConfiguration(
+    restrictTextCopy: false,
+    restrictTextPaste: false,
+    restrictAttachUpload: false,
+    restrictScreenRecording: false,
+    restrictAttachDownload: false
+)
+```
+
+### Parameter Explanations
+
+1.  serviceType
+
+-   Type: ZIMServiceType
+-   Description: Specifies which Zoho service (Desk, CRM, Bigin ...) the SDK is connecting to.
+-   Values:
+
+-   .ZOHODESK: For Zoho Desk services.
+-   .ZOHOCRM: For Zoho CRM services.
+-   .ZOHOBIGIN: For Zoho Bigin services.
+
+2.  authSource
+
+-   Type: Conforms to ZIMAuthSource protocol.
+-   Description: Provides authentication details (tokens, credentials) needed by the SDK.
+
+3.  baseURL
+
+-   Type: String
+-   Description: The server URL where the SDK will connect.
+-   Values:
+
+-   "https://mproxy.zoho.com": Production server.
+-   "https://mtest-desk": Test server for Desk.
+-   "https://mproxy2": Secondary production server.
+
+4.  domain
+
+-   Type: String
+-   Description: Specifies the domain environment for Zoho services.
+-   Values:
+
+-   zoho: Standard Zoho domain.
+-   localzoho: Local Zoho domain for testing.
+
+5.  DC (Data Center)
+
+-   Type: String
+-   Description: Indicates the data center region for hosting services.
+-   Values: US, IN, JP, AU, SA, CA, EU.
+
+6.  userAgent
+
+-   Type: String
+-   Description: Tracking events such as API calls and usage of app features.
+-   Usage: This parameter allows you to track and log the usage of your application, making it easier to monitor performance and troubleshoot issues.
+
+7.  pubsubUser
+
+-   Type: ZIMPubsubUser
+-   Description: Represents the real-time communication user credentials.
+-   Example: ZIMPubsubUser(zuid: "USER\_ZUID", dname: "AgentName", insID: "InstanceID").
+
+8.  xAppBuildId
+
+-   Type: String
+-   Description: Identifier for the application build. Optional.
+
+9.  dbEncryptionKey
+
+-   Type: String
+-   Description: Key for securing database content. Use a strong, unique key.
+
+10.  fileEncryptionKey
+
+-   Type: String
+-   Description: Key for securing file content. Use a different key than dbEncryptionKey.
+
+11.  PEEnabledOrgIds
+
+-   Type: \[String\]?
+-   Description: List of organization IDs with Payload Encryption enabled. Pass nil if not available.
+
+For a detailed explanation, see the [DataManagerRequirements documentation](https://git.csez.zohocorpin.com/vtouchzoho/Apple/ios/ZohoIM-IOS/-/blob/master/ZohoIM/ZohoIM/ZohoIM.docc/ClientImplementations/DataManagerRequirements.md).
+
+### 2\. Implementing ZIMClientDataSource
+
+The ZIMClientDataSource protocol ensures seamless functionality by:
+
+-   Supplying agent and contact details.
+-   Handling real-time synchronisation of canned messages.
+-   Providing auxiliary data like channel metadata.
+
+#### Code Implementation
+
+```
+class ClientAppDataSource: NSObject, ZIMClientDataSource {
+    public static let shared = ClientAppDataSource()
+    private override init() {}
+
+    // Implement data source methods here
+    ...
+}
+```
+
+For more information, see the [ClientDataSource documentation](https://git.csez.zohocorpin.com/vtouchzoho/Apple/ios/ZohoIM-IOS/-/blob/master/ZohoIM/ZohoIM/ZohoIM.docc/ClientImplementations/ClientDataSource.md).
+
+### 3\. PubSub Integration
+
+Integrate PubSub into your app to enable real-time messaging and ensure seamless message synchronisation:
+
+1.  Enable PubSub in DataManager
+
+Pass the pubsubUser instance in the ZIMDataManagerRequirements configuration to enable PubSub and restrict duplicate messages.
+
+2.  Handle App Lifecycle Events
+
+Use ZIMClientDelegate to manage app lifecycle changes (e.g., app going to the background or foreground) and will sync messages accordingly.
+
+3.  Monitor Network Changes
+
+call this updateNetworkStatus(isConnected:) method whenever network status changes, to ensure smooth operation during connectivity changes.
+
+4.  Fallback for Network Disruptions
+
+Provide mechanisms to reattempt syncing or queue messages when the network is unavailable, ensuring message delivery when the connection is restored.
+
+When the automatic PubSub synchronization fails, the ZohoIM SDK invokes the onPubsubSyncFailure() callback. Implement this to perform a manual synchronization for the affected view controller.
+
+```
+//Step 1
+let user = ZIMPubsubUser(zuid: "USER_ZUID", dname: "AgentName", insID: "InstanceID")
+let requirements = ZIMDataManagerRequirements(
+    pubsubUser: user,
+    ...
+)
+
+//Step 2
+ZohoIM.handleAppDidEnterBackground()
+ZohoIM.handleAppDidEnterForeground()
+
+//Step 3
+ZohoIM.updateNetworkStatus(isConnected: Bool)
+
+//Step 4
+func onPubsubSyncFailure() {
+    // Perform manual sync for the current view controller instance
+    ZohoIM.performManualSync(for: self)
+
+    // Optionally handle synchronization for specific view controllers
+    if let sessionsVC = self as? SessionsListVC {
+        ZohoIM.performManualSync(for: sessionsVC)
+    }
+    if let conversationVC = self as? ConversationVC {
+        ZohoIM.performManualSync(for: conversationVC)
+    }
+}
+```
+
+These steps ensure reliable, real-time messaging using PubSub while maintaining consistency across devices and sessions.
+
+For additional details, refer to the [PubSub Integration documentation](https://git.csez.zohocorpin.com/vtouchzoho/Apple/ios/ZohoIM-IOS/-/blob/master/ZohoIM/ZohoIM/ZohoIM.docc/ClientImplementations/PubSubIntegration.md).
+
+### 4\. Optional Customizations
+
+Enhance SDK behaviour by implementing methods in ZIMClientDelegate:
+
+-   Customize UI screens and interactions: Modify the behaviour of SessionsPageVC and ConversationVC.
+-   Enable detailed error logging: Improve debugging by handling SDK errors gracefully.
+-   Modify attachment handling: Customize upload and download options based on app needs.
+-   Optimize network-based behaviour: Adjust synchronisation based on network conditions.
+
+#### Code Implementation
+
+```
+class ClientAppDelegate: NSObject, ZIMClientDelegate {
+    public static let shared = ClientAppDelegate()
+
+    // Implement delegate methods here
+    ...
+}
+```
+
+For a detailed explanation, see the [ClientDelegate documentation](https://git.csez.zohocorpin.com/vtouchzoho/Apple/ios/ZohoIM-IOS/-/blob/master/ZohoIM/ZohoIM/ZohoIM.docc/ClientImplementations/ClientDelegate.md).
+
+### 5\. Import and Initialize the SDK
+
+#### Import ZohoIM Framework
+
+In the file where you intend to use SessionsPageVC or ConversationVC, import the ZohoIM framework.
+
+```
+import ZohoIM
+```
+
+#### Initialize the SDK
+
+Use ZohoIM.setUp() to initialise the SDK, passing the configured ZIMDataManagerRequirements, data source, delegate, and optional MDM configuration.
+
+```
+ZohoIM.setUp(
+    dataManagerRequirements: requirements,
+    dataSource: ClientAppDataSource.shared,
+    hostAppDelegate: ClientAppDelegate.shared,
+    mdmConfiguration: mdmConfiguration
+)
+```
+
+Important: Ensure this setup is complete before instantiating SessionsPageVC or ConversationVC.
+
+### 6\. Create and Handle ZohoIM ViewControllers
+
+Once the SDK is set up, you can safely use SessionsPageVC and ConversationVC.
+
+#### Code Implementation
+
+```
+import ZohoIM
+
+// Example: Initialize and present SessionsPageVC
+let sessionsVC = SessionsPageVC()
+self.navigationController?.pushViewController(sessionsVC, animated: true)
+```
+
+By following these steps and code examples, you can integrate ZohoIM seamlessly into your app for a robust messaging experience. Let me know if further assistance is needed!
+
+## Primary View Controllers
+
+ZohoIM SDK offers two main view controllers:
+
+1.  ZIMSessionsListVC
+
+-   Displays all messaging sessions.
+-   Supports channel selection, custom views, and filters.
+
+```
+import ZohoIM
+
+let sessionsVC = try? ZohoIM.createSessionsListVC(zuid: ZSSOKit.getCurrentUser().userZUID, defaultConversationView: ConversationView.default, serviceOrgId: AppSettings.selectServiceOrgId, channelsMetaDataList: [], delegate: UIApplication.shared.delegate as? ZIMSessionsListVCDelegate)
+     if let sessionsVC = sessionsVC {
+            navigationController.pushViewController(sessionsVC, animated: animated)
+     }
+}
+```
+
+2.  ZIMConversationVC
+
+-   Displays messages for a specific session.
+-   Supports rich messaging, inline translations, and real-time sync.
+
+```
+let conversationVC =
+        ZohoIM.createConversationVC(sessionId: sessionId, zuid: ZSSOKit.getCurrentUser().userZUID, serviceOrgId: AppSettings.selectServiceOrgId,
+            messageIdToBeShown: messageId, doPickUpSession: ZIMPushNotificationsUtil.isPickUpAction(actionId: response.actionIdentifier),
+            syncSessionsPageVC: sessionsListVC, showCloseButton: false, showMsgInputWithKeyboard: false, errorListener: nil,
+            channelPermissionType: ZIMChannelPermissionType = .fullAccess) { result in
+                switch result {
+                case .success(let conversationVC):
+                    navigationController.pushViewController(conversationVC, animated: false)
+                case .failure(let error):
+                    print("Error: \(error.localizedDescription)")
+                }
+            }
+        }
+```
+
+These controllers simplify messaging integration while allowing customization.
+
+##
+Configurations
+
+ZohoIM allows extensive customization to align the SDK with your app’s branding and functionality.
+
+#### Themes
+
+Configure light and dark themes using IMUITheme:
+
+-   Light Theme: Assign IMUILightTheme to ZohoIM.lightTheme.
+-   Dark Theme: Assign IMUIDarkTheme to ZohoIM.darkTheme.
+
+Default themes:
+
+-   ZohoIM.imuiBlueLightTheme: Default light theme.
+-   ZohoIM.imuiBlueDarkTheme: Pre-configured dark theme.
+
+Customization options:
+
+-   Custom Font Data: Use ZohoIM.customFontData for font styling.
+-   Accent Colors: Adjust UI colors with IMUIAccentColors.
+-   Message Bubble Styling: Use ZIMMessageBubbleTheme for chat bubble customization.
+-   Localisation support: supports the following languages:
+        ar, bg, bn, cs, da, de, en, en-GB, es, fr, he, hi, hr, hu, id, is, it, ja, kk, ko, mr, nl, pl, pt-BR, pt-PT, ru, sv-SE, ta, te, th, tr, vi, zh-Hans, zh-Hant-TW, kn, gu
+
+```
+let accentColors = IMUIAccentColors(
+    accentColor: actionColor,
+    accentTextColor: UIColor.white,
+    translucentAccentColor: bgColor
+)
+
+let outMessageBubbleTheme = ZIMMessageBubbleTheme(
+    bgColor: bgColor,
+    fillColor: actionColor.withAlphaComponent(0.3),
+    textColor: textColor,
+    showBorder: false
+)
+
+// Dark Theme Configuration
+let darkInMessageBGColor = UIColor(
+    red: 34 / 255,
+    green: 34 / 255,
+    blue: 37 / 255,
+    alpha: 1
+)
+let darkInMessageFillColor = UIColor(
+    red: 44 / 255,
+    green: 44 / 255,
+    blue: 47 / 255,
+    alpha: 1
+)
+let darkInMessageTextColor = UIColor(
+    red: 205 / 255,
+    green: 215 / 255,
+    blue: 221 / 255,
+    alpha: 1
+)
+
+let inMessageBubbleThemeDark = ZIMMessageBubbleTheme(
+    bgColor: darkInMessageBGColor,
+    fillColor: darkInMessageFillColor,
+    textColor: darkInMessageTextColor,
+    showBorder: false
+)
+
+ZohoIM.darkTheme = IMUIDarkTheme(
+    accentColors: accentColors,
+    inMessageBubbleTheme: inMessageBubbleThemeDark,
+    outMessageBubbleTheme: outMessageBubbleTheme
+)
+
+// Light Theme Configuration
+let lightInMessageBGColor = UIColor(
+    red: 235 / 255,
+    green: 235 / 255,
+    blue: 240 / 255,
+    alpha: 1
+)
+let lightInMessageFillColor = UIColor(
+    red: 225 / 255,
+    green: 225 / 255,
+    blue: 230 / 255,
+    alpha: 1
+)
+let lightInMessageTextColor = UIColor(
+    red: 45 / 255,
+    green: 49 / 255,
+    blue: 49 / 255,
+    alpha: 1
+)
+
+let inMessageBubbleThemeLight = ZIMMessageBubbleTheme(
+    bgColor: lightInMessageBGColor,
+    fillColor: lightInMessageFillColor,
+    textColor: lightInMessageTextColor,
+    showBorder: false
+)
+
+ZohoIM.lightTheme = IMUILightTheme(
+    accentColors: accentColors,
+    inMessageBubbleTheme: inMessageBubbleThemeLight,
+    outMessageBubbleTheme: outMessageBubbleTheme
+)
+
+ // Setting custom font
+let robotoSlabFontData = IMUIFontData(
+    regularFontName: "RobotoMono-Regular",
+    boldFontName: "RobotoMono-Bold",
+    semiBoldFontName: "RobotoMono-SemiBold",
+    lightFontName: "RobotoMono-Light",
+    mediumFontName: "RobotoMono-Medium"
+)
+
+ZohoIM.customFontData = robotoSlabFontData
+```
+
+#### Miscellaneous Configurations
+
+-   Location Links: Use ZohoIM.locationLinkHandler for custom link behaviour.
+-   Info Message Links: Handle clickable links with ZohoIM.infoMessageLinkHandler.
+-   Character Limit: Set max allowable text length via ZohoIM.sendableTextMaxLength.
+-   Default Images: Configure placeholder images using ZohoIM.defaultContactImageType.
+-   Date/Time Formats: Adjust formats with ZohoIM.defaultDateTimeFormatType.
+
+##
+Features
+
+### Security Handlings
+
+ZohoIM ensures high security with:
+
+-   Database Encryption: Protects stored data.
+-   File Encryption: Secures attachments.
+-   Payload Encryption: Safeguards transmitted data.
+-   MDM (Mobile Device Management): Integrates with enterprise-level security protocols.
+
+### iOS Standalone Features
+
+-   Draft Support: Save drafts for continued work later.
+-   Sensitive Content Analysis (iOS 17+): Analyze and manage sensitive data.
+-   Inline Message Translation Support (iOS 18+): Real-time message translation.
+-   Auto Download: Automatically retrieve files and media.
+-   Active Channels: Show only active channels for a cleaner UI.
+-   Configurable Search Types: Customize search in PickerVCs.
+
+##
+Push Notification Utility
+
+ZohoIM simplifies handling push notifications using ZIMPushNotificationsUtil:
+
+-   Parse notification payloads for relevant data.
+-   Handle user interactions with notifications seamlessly.
+
+```
+import UserNotifications
+import ZohoIM
+
+class NotificationService: UNNotificationServiceExtension {
+
+    var contentHandler: ((UNNotificationContent) -> Void)?
+    var bestAttemptContent: UNMutableNotificationContent?
+
+    override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
+        self.contentHandler = contentHandler
+        bestAttemptContent = (request.content.mutableCopy() as? UNMutableNotificationContent)
+
+        if let bestAttemptContent = bestAttemptContent {
+            let modifiedContent = ZIMPushNotificationsUtil.handlePushNotification(bestAttemptContent: bestAttemptContent)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+                contentHandler(modifiedContent)
+            })
+        }
+    }
+
+    override func serviceExtensionTimeWillExpire() {
+        // Called just before the extension will be terminated by the system.
+        // Use this as an opportunity to deliver your "best attempt" at modified content, otherwise the original push payload will be used.
+        if let contentHandler = contentHandler, let bestAttemptContent =  bestAttemptContent {
+            contentHandler(bestAttemptContent)
+        }
+    }
+}
+```
+
+##
+Customizing Info Messages
+
+Info messages provide context for chat events like acceptance, transfers, or closures. You can:
+
+-   Modify content to suit app-specific terminology.
+-   Adjust visual styling for better alignment with the UI.
+
+```
+// Function to create a dictionary of attributed strings for given messages
+func createInfoMsgDisplayStr(serviceOrgId: String, messages: [Message], for vc: ViewController) -> [String : NSAttributedString] {
+    var attrDispMessagesMap = [String: NSAttributedString]()
+    messages.forEach { message in
+        attrDispMessagesMap[message.id] = getAttrDisplayStr(serviceOrgId: serviceOrgId, message: message, vc: vc)
+    }
+    return attrDispMessagesMap
+}
+
+// Function to create an attributed string for a single message
+private func getAttrDisplayStr(serviceOrgId: String, message: Message, vc: ViewController) -> NSAttributedString {
+    var displayText: NSMutableAttributedString?
+    var displayMessage: String?
+
+    let paragraphStyle = NSMutableParagraphStyle()
+    paragraphStyle.lineSpacing = 1.17
+
+    // Default font settings
+    let regularFont = UIFont.systemFont(ofSize: 15, weight: .regular)
+    let boldFont = UIFont.systemFont(ofSize: 15, weight: .medium)
+    let fontColor = UIColor.black
+
+    let attributes: [NSAttributedString.Key : Any] = [
+        .paragraphStyle: paragraphStyle,
+        .font: regularFont,
+        .foregroundColor: fontColor
+    ]
+
+    let boldAttributes: [NSAttributedString.Key : Any] = [
+        .font: boldFont,
+        .foregroundColor: fontColor
+    ]
+
+    // Customize message display based on action type
+    switch message.action {
+    case .chatAccept:
+        let agentName = message.actor.name ?? "Agent"
+        displayMessage = "You accepted the chat." // Customize as needed
+        displayText = NSMutableAttributedString(string: displayMessage!, attributes: attributes)
+        if let subStringRange = (displayMessage! as NSString).range(of: agentName) {
+            displayText?.addAttributes(boldAttributes, range: subStringRange)
+        }
+    case .chatTransfer:
+        let agentName = message.actor.name ?? "Agent"
+        let targetName = message.target.name ?? "Target"
+        displayMessage = "You assigned the chat to \(targetName)." // Customize as needed
+        displayText = NSMutableAttributedString(string: displayMessage!, attributes: attributes)
+        if let subStringRange = (displayMessage! as NSString).range(of: agentName) {
+            displayText?.addAttributes(boldAttributes, range: subStringRange)
+        }
+        if let subString2Range = (displayMessage! as NSString).range(of: targetName) {
+            displayText?.addAttributes(boldAttributes, range: subString2Range)
+        }
+    case .chatReopen:
+        let agentName = message.actor.name ?? "Agent"
+        displayMessage = "You reopened the chat." // Customize as needed
+        displayText = NSMutableAttributedString(string: displayMessage!, attributes: attributes)
+        if let subStringRange = (displayMessage! as NSString).range(of: agentName) {
+            displayText?.addAttributes(boldAttributes, range: subStringRange)
+        }
+    case .endSession:
+        displayMessage = "Chat has been ended." // Customize as needed
+        displayText = NSMutableAttributedString(string: displayMessage!, attributes: attributes)
+    default:
+        displayMessage = message.displayMessage
+        displayText = NSMutableAttributedString(string: displayMessage!, attributes: attributes)
+    }
+
+    return displayText ?? NSMutableAttributedString(string: message.displayMessage, attributes: attributes)
+}
+```
+
+##
+Error Handling
+
+The ZohoIM SDK provides comprehensive tools for managing errors effectively, ensuring a smooth user experience:
+
+1.  Error Codes
+
+The SDK includes a detailed set of error codes using ZIMMiscError. These codes provide clear insights into specific issues, enabling quick diagnosis and resolution.
+
+2.  Error Listener
+
+Use the ZIMErrorListener protocol to track and handle errors in real time. This listener can be used to display messages, log errors, or take corrective actions as needed.
+
+3.  Pass Error Listener to View Controllers
+
+While creating ZohoIM view controllers (e.g., SessionsPageVC or ConversationVC), pass an instance of the error listener as a parameter to monitor and handle errors directly.
+
+Example:
+
+```
+let conversationVC = ZohoIM.createConversationVC(
+    sessionID: "session_id",
+    errorListener: self // Conforms to ZIMErrorListener
+    ...
+)
+```
+
+These features ensure your app can gracefully handle unexpected issues and provide users with meaningful feedback.
+
+##
+Utilities
+
+The SDK includes additional utilities for managing cached data and files:
+
+-   Parse Canned Messages:
+
+Use ZohoIM.parseZIMCannedMessage(jsonString:) to decode predefined responses.
+
+-   Clear Cache: Free up resources with:
+
+-   ZohoIM.clearCachedData() - Clears all cached data that are stored in sqlite db
+-   ZohoIM.clearCachedFiles() - Clears all cached attachments files that are downloaded from messages.
+-   ZohoIM.clearCache() - Clears all cached data and downloaded attachment files
+-   ZohoIM.resetSDK() - Clears the database file and SDK cache.
+-   ZohoIM.clearDecryptedFiles() - Clears all decrypted files if available.
+
+Note: After calling resetSDK(), ensure to call ZohoIM.setUp() to reinitialize the application.
+
+This guide provides a structured foundation to learn and integrate ZohoIM SDK into your app seamlessly.

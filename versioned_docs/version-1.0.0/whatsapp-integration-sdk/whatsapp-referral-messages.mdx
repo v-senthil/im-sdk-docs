@@ -1,0 +1,113 @@
+---
+title: Get a WhatsApp Referral Data from Message
+sidebar_label: WhatsApp Referral Messages
+sidebar_position: 8
+description: "IM Message Object:"
+---
+### Get a WhatsApp Referral Data from Message
+
+```
+IMMessage sentMessage = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getMessageAPI(USER_ID)
+            .getMessage(IM_SESSION_ID, IM_MESSAGE_ID);
+
+IMMessageLayout layoutMessage = (IMMessageLayout) sentMessage.getMessageEntity();
+IMLayoutMetaItem meta = layoutMessage.getLayoutMeta().get(0);
+String metaType = meta.getType(); // whatsapp_referral
+WhatsAppReferralLayoutMessageMeta data = (WhatsAppReferralLayoutMessageMeta) meta.getData().get(0);
+String ctwaClid = data.getCtwaClid();
+```
+
+IM Message Object:
+
+```
+{
+    "sessionId": "7122000008885009",
+    "displayMessage": "https://www.instagram.com/p/DJPsHb1gEPy/ \n\nHello! Can I get more info on this?",
+    "statusUpdatedTime": "2025-05-06T09:31:19.000Z",
+    "actor": {
+        "id": "7122000000274003",
+        "extId": "+918197002143",
+        "name": "Senthil",
+        "email": null,
+        "photoURL": null,
+        "type": "END_USER",
+        "phone": "+918197002143",
+        "status": "UNKNOWN",
+        "extIdType": "PHONE_NUMBER",
+        "service": "WHATSAPP"
+    },
+    "direction": "in",
+    "id": "7122000009861163",
+    "createdTime": "2025-05-06T09:31:02.000Z",
+    "index": "629",
+    "replyToMessage": null,
+    "uuid": "435fbc366bf050c6afa73eb8027b7a99",
+    "isRead": false,
+    "template": null,
+    "fullContentURL": null,
+    "contentType": "text/plain",
+    "status": "SAVED",
+    "info": null,
+    "text": null,
+    "location": null,
+    "externalInfo": null,
+    "layout": {
+        "meta": [
+            {
+                "data": [
+                    {
+                        "sourceUrl": "https://www.instagram.com/p/DJPsHb1gEPy/",
+                        "sourceId": "120226639191880116",
+                        "ctwaClid": "AffN5S7UTD4oXoZAtO5nfGjUapwOV9U64fJzY1LDFat8w7TbKp6bMAhtpxwMVHQUu2qiq-RKm9nlNgFWHSZnMcWBnT5oIEui_MM3EBvNUIewx9FkSF8pKZ2KwGXS2TZfUU8RtGHIgA",
+                        "videoUrl": "https://www.facebook.com/haadalhadidocumentsclearing/videos/742816128407629/",
+                        "sourceType": "ad",
+                        "body": "Call or WhatsApp +971521086084\n#dubaifamilyvisa #spousevisa #viralreels #visadubai #dubai🇦🇪 #foryou",
+                        "headLine": "Haad Alhadi Documents Clearing Services",
+                        "thumbnailUrl": "https://scontent.xx.fbcdn.net/v/t15.5256-10/495129005_742816165074292_8069398946293769799_n.jpg?stp=dst-jpg_p180x540_tt6&_nc_cat=100&ccb=1-7&_nc_sid=131942&_nc_ohc=abWfqMG_dT0Q7kNvwG7hdzh&_nc_oc=AdkbRd-sOwWNR5SADDu1dWG40yw_MJvJ4JU0DBb18GwgG0kUFMo3DaDv4uaUdsrPhhtj5WCVXbwvpTLmjCqLMx8a&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent.xx&_nc_gid=drhSfJxHOb-hvj8bbnW7rQ&oh=00_AfK-jQouN4NPsH-k7yNq2kUfA2vlzJUWnVy2o4PNR40hYQ&oe=681F72B8"
+                    }
+                ],
+                "type": "whatsapp_referral"
+            }
+        ],
+        "rows": [
+            {
+                "arrangement": "list",
+                "columns": [
+                    {
+                        "html": {
+                            "source": "<div> WhatsApp Referral Message Received </div>"
+                        },
+                        "type": "HTML"
+                    },
+                    {
+                        "text": {
+                            "style": "TITLE",
+                            "text": "Haad Alhadi Documents Clearing Services"
+                        },
+                        "type": "TEXT"
+                    }
+                ]
+            }
+        ]
+    },
+    "action": null,
+    "meta": [
+        {
+            "name": "DESK_TICKET_ID",
+            "value": "222921000004100203"
+        },
+        {
+            "name": "DESK_TICKET_NUMBER",
+            "value": "1357"
+        },
+        {
+            "name": "CTWA_CLID",
+            "value": "AffN5S7UTD4oXoZAtO5nfGjUapwOV9U64fJzY1LDFat8w7TbKp6bMAhtpxwMVHQUu2qiq-RKm9nlNgFWHSZnMcWBnT5oIEui_MM3EBvNUIewx9FkSF8pKZ2KwGXS2TZfUU8RtGHIgA"
+        }
+    ],
+    "type": "LAYOUT",
+    "attachment": null,
+    "kind": "single.session.message"
+}
+```

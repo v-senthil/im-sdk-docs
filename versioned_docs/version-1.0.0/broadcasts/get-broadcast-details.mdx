@@ -1,0 +1,69 @@
+---
+title: Get broadcast Details (Deprecated)
+sidebar_position: 5
+description: Deprecated
+---
+Deprecated
+
+```
+IMBroadcastSummary metrics = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getBroadcastMetricsAPI(USER_ID)
+        .getBroadcastSummary(BROADCAST_ID);
+```
+
+Response:
+
+```
+{
+    "details": [
+        {
+            "status": "SENT",
+            "statusComment": null,
+            "receiverIds": [
+                "+9177080****",
+                "+91961125****",
+                "+91948111****",
+                "+91880709****",
+                "+91819700****",
+                "+91994415****",
+                "+91988499****",
+                "+91995227****",
+                "+91784510****",
+                "+91882598****",
+                "+91995261****",
+                "+91984071****",
+                "+91968669****",
+                "+91967722****",
+                "+91994476****"
+            ]
+        },
+        {
+            "status": "FAILED",
+            "statusComment": null,
+            "receiverIds": [
+                "+9194811****",
+                "+9181970****"
+            ]
+        }
+    ],
+    "summary": {
+        "totalCost": null,
+        "progress": "17/17",
+        "sent": "15",
+        "addd": "0",
+        "fail": "2",
+        "queued": "0",
+        "processing": "0",
+        "delivered": "0",
+        "replied": "0",
+        "read": "0",
+        "total": "17"
+    },
+    "uuid": "dcdefb78b4105caba3d38a962a923436",
+    "status": "COMPLETED",
+    "createdTime": "2023-03-14T18:13:38.000Z",
+    "name": "Broadcast Main Test One",
+    "id": "1000000018048",
+    "kind": "single.broadcast.metrics"
+}
+```

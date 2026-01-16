@@ -1,0 +1,53 @@
+---
+title: License API
+sidebar_position: 4
+description: "By default, WeCom provides a 90-day trial period for customers who install a third-party application in WeCom. During the trial period, WeCom allows service providers to invoke their APIs without a license. However, after the trial period, …"
+---
+#### WeCom Licensing
+
+By default, WeCom provides a 90-day trial period for customers who install a third-party application in WeCom. During the trial period, WeCom allows service providers to invoke their APIs without a license. However, after the trial period, third-party providers can invoke the APIs only after purchasing a license.
+
+The free trial period for third-party apps begins when the enterprise first authorizes the installation of the app.
+
+How to Purchase a WeCom License in IM
+
+As of now, by default in the CN DC, when a customer purchases IM credits, we initiate the license purchase process (Interoperable Account License Purchase) from our end under the following conditions:
+
+-   If the WeCom enterprise trial has expired
+-   If the existing license has expired
+
+If the customer is in the WeCom enterprise trial period (provided by WeCom) or already has an active license, IM will schedule an action to initiate the license purchase process after the license expires.
+
+The license purchase will be successful only if the customer has a valid balance of IM credits.
+
+1 Inter-operable Wecom License will be charged as 50 Yuan/Year. Equivalent value will be deducted from IM Credits. The default purchase option mentioned above will help the customer to purchase for one year.
+
+#### Alternate Method for purchasing Wecom License
+
+Additionally, we provide another option for service teams. We have exposed an API to purchase a WeCom license. If a customer wants to purchase a WeCom license, they can do so using the following API:
+
+/api/v1/integrations/WECOM/license
+
+#### Requirements:
+ParentAccountId- Parent Account Id of the Wecom Org
+
+#### No of Months - License duration to be purchased (Max 60 months)
+
+Sample SDK:
+
+```
+    import com.zoho.im.client.model.IMWeComLicense;
+
+public String purchaseWeComLicnes(Long parentAccountId, Integer noOfMonths)
+            throws Exception {
+
+        // Build channel configuration
+        IMWeComLicense.IMWeComLicensePurchasePayload payload=new IMWeComLicense.IMWeComLicensePurchasePayload().noOfMonths(noOfMonths).parentAccountId(parentAccountId);
+        IMWeComLicense.IMWeComLicensePurchaseResponse purchaseResponse=ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID).purchaseWeComLicenseFromIMCredits(payload);
+        return purchaseResponse.getOrderId();
+    }
+```
+
+It will just place an License order. Post this IM will do several steps to complete the order. It may take some time to complete it. By checking license status param in the parent accounts api, service teams can figure out about the license status of the wecom account.
+
+[License Status](https://learn.zoho.in/portal/zohocorp/team/zohoim/manual/im-developers-corner/article/wecom-licensing-parameters-in-parent-account)

@@ -1,0 +1,170 @@
+---
+title: IM Android SDK Integration
+sidebar_position: 2
+description: Integrating the SDK with Your App
+---
+Integrating the SDK with Your App
+
+1- Add the below maven url in app's root build.gradle file
+
+allprojects \{
+   repositories \{
+       maven \{
+           url "http://build/zoho\_android/zohoim\_android\_sdk/milestones/master/ZOHOIM\_ANDROID\_SDK\_V\_1\_1\_1/"
+           allowInsecureProtocol = true
+       \}
+       maven ( url = "http://build/framework/ZohoIMCore/milestones/db-encryption/ZOHOIMCORE\_0\_16\_0\_DBE/")
+   \}
+\}
+
+Add implementation method in app's build.gradle
+
+implementation 'com.zoho.im.sdk:zohoim-android-sdk:1.1.1'
+implementation ("com.zoho.im.core:ZohoIMCore:0.16.0-dbe")
+
+Initializing the SDK in Your App
+
+1- The following are required to initialize the IM SDK
+
+-   serviceOrgId
+-   serviceName \[ZOHO\_DESK, ZOHO\_CRM etc.\]
+-   zuid
+-   IMUIConfiguration
+-   IMSDKConfiguration
+-   ClientInterfaces
+-   customHeaders \[App specific headers if need to be appended in API calls\]
+-   context \[App Context\]
+
+IMUIConfiguration is a builder class used to customize the UI changes like fonts, theme, notificationIcon etc, according to the client app
+
+ex:
+
+var builder : IMUIConfiguration.Builder = IMUIConfiguration.Builder()
+       .fontTypeface(IMTypeFace(bold = Typeface.createFromAsset(context.assets, "fonts/Roboto-Bold.ttf"),
+           regular = Typeface.createFromAsset(context.assets, "fonts/Roboto-Regular.ttf"),
+           medium = Typeface.createFromAsset(context.assets, "fonts/Roboto-Mediumttf")))
+       .appTheme(R.style.IMBaseTheme)
+       .profilePicDefault(PROFILEPIC\_TEXT)\`\`\`
+
+IMSDKConfiguration is a builder class used to customize the IMSdk like provider, userAgent, downloadDirectory etc,.
+
+ex:
+
+var sdkBuilder : IMSDKConfiguration.Builder = IMSDKConfiguration.Builder()
+       .provider(context.packageName + ".provider")
+       .downloadDirectory("Zoho Desk")
+       .cipherKey("test")\`\`\`
+
+ClientInterfaces is the collection interfaces where SDK gets data from client For ex., IMSdkAuthInterface gets oAuthtoken, transformed url \[multi DCs\], and WMS token \[for pubsub integration\] from client app
+
+class AppApplication : Application()\{
+companion object \{
+  lateinit var imInstance : ZohoIMSDK
+   \}
+
+  @Override
+  public void onCreate() \{
+     super.onCreate();
+       ZohoIMApplication.imInstance = ZohoIMSDK.instance
+
+      var builder : IMUIConfiguration.Builder = IMUIConfiguration.Builder()
+       .fontTypeface(IMTypeFace(bold = Typeface.createFromAsset(context.assets, "fonts/Roboto-Bold.ttf"),
+       regular = Typeface.createFromAsset(context.assets, "fonts/Roboto-Regular.ttf"), medium = Typeface.createFromAsset(context.assets, "fonts/Roboto-Medium.ttf")))
+       .appTheme(R.style.IMBaseTheme)
+       .profilePicDefault(PROFILEPIC\_TEXT)
+
+       var sdkBuilder : IMSDKConfiguration.Builder = IMSDKConfiguration.Builder()
+           .provider(context.packageName + ".provider")
+           .downloadDirectory("Zoho Desk")
+           .cipherKey("test")
+
+       var intefaceBuilder : ClientInterfaces.Builder = ClientInterfaces.Builder()
+               .addAgentsInterface(AgentClient(context))
+               .addCannedMessagesInterface(CannedMessageClient(context))
+               .addAuthInterface(IMSSOClient())
+               .addChannelsInterface(ChannelsClient(context))
+               .addClientUtilityInterface(ClientUtilityImpl())
+               .addTitleInterface((TitleInterfaceClient()))
+
+       ZohoIMSDK.instance.initialize(context, builder.build(), sdkBuilder.build(), intefaceBuilder.build(), null, zuid, serviceOrgId, serviceName)
+  \}
+\}
+
+Is serviceOrgId is not available during IMSdk initiaize method, use the below method to initalize the > serviceOrgId
+
+ZohoIMApplication.imInstance.initializeServiceOrgId(serviceOrgId)
+
+3- To open Sessions List
+
+AppApplication.imInstance.openIM(activity)
+
+This method opens the IM module as a seperate Activity.
+
+To open IM as a fragment use
+
+ZohoIMSDK.instance.openIMFragment(supportFragmentManager, homeFragment.id, serviceOrgId, departmentId)
+
+4- To open Messages from App
+
+Application.imInstance.openIMConversation(activity, sessionId)
+
+5- Configuring push notification
+
+i) Push notification
+
+Push Notifications on server side should be implemented by respective client servers. For handling the received payload follow the method below
+
+Handling received push notification:
+
+Add the following code in your app's FirebaseMessagingService 'onMessageReceived()' method
+
+ZohoIMSDK.instance.handleIMNotification(this, remoteMessage?.data)
+
+SDK handles the notification is the remoteMessage payload related to IM is received or returns false if unhandled
+
+6- Remove/clear IM data on logout
+
+ZohoIMSDK.instance.clearIMData()
+
+7- To implement custom UI in conversation view
+
+implement the listener MessageAdapterInterface. Insert the view logic in onCreateViewHolder and bind logic in onBindViewHolder
+
+Set the listener to the IM SDK initialise
+
+8 - To set custom theme
+
+Set the custom theme after initializing the ZohoIMSDK
+
+\`ZohoIMSDK.instance.configuration.appTheme = R.style.CustomTheme\`
+
+note: If you are using your app theme, then include im attributes in the style file.
+
+\`<style name="IMSDKTheme" parent="AppTheme">
+   <item name="colorPrimaryDark">#202020</item>
+   <item name="colorPrimary">#202020</item>
+   <item name="colorAccent">#9C3C5A</item>
+   <item name="android:homeAsUpIndicator">@drawable/ic\_backarrow</item>
+   <item name="imTextColorPrimary">#DEFFFFFF</item>
+   <item name="imTextColorSecondary">#8AFFFFFF</item>
+   <item name="imTextColorPrimaryInverse">#FFFFFF</item>
+   <item name="imBackground">#121212</item>
+   <item name="imBackgroundSecondary">#FFFFFF</item>
+   <item name="imPrimaryColor">#202020</item>
+   <item name="imAccentColor">#9C3C5A</item>
+   <item name="imMessageSentBg">#242424</item>
+   <item name="imTitleSize">20sp</item>
+   <item name="imIsDark">true</item>
+   <item name="imNeutralBg1">#242424</item>
+   <item name="imNeutralBg2">#2E2E2E</item>
+   <item name="imNeutralBg3">#1E1E1E</item>
+   <item name="imDateBg">#2E2E2E</item>
+   <item name="imThumbnailBg">#eeeeee</item>
+   <item name="imAccentLight">#19298AE3</item>
+</style>\`
+
+9 - To implement service specific data loading
+
+Find the list of interfaces ClientInterfaces and class. You can implement the required interface for data handling
+
+note: IMSdkAuthInterface is mandatory for getting oauth-token in sdk

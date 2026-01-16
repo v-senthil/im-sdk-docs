@@ -1,0 +1,18 @@
+---
+title: Template Credits Exhaust API
+sidebar_position: 1
+description: "Usage: This API can be used as a pre validate API before sending a broadcast message or initiate session API."
+---
+Usage: This API can be used as a pre validate API before sending a broadcast message or initiate session API.
+
+Note: Max 500 phone numbers can be passed.
+
+```
+//IntegrationCustomAPIImpl
+IntegrationCustomAPI  integrationCustomAPIImpl  =ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID).getIntegrationCustomAPI(USER_ID);
+
+Set&lt;String&gt; phoneNumbers = new HashSet&lt;&gt;(Arrays.asList("9181726637839", "9171826627829"));
+
+//webhookInfoResponse
+IMBasicObject  webhookResponse  = integrationCustomAPIImpl.getTemplateCreditExhaustStatus(phoneNumbers);
+```

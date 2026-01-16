@@ -1,0 +1,70 @@
+---
+title: Send a Location message
+sidebar_position: 4
+description: "Response:"
+---
+```
+IMLocationMessage location = new IMLocationMessage("Here is our office location","12.721821", "31.37231");  //message, latitude, longitude
+
+// Construct IMMessage object with location data
+IMMessage messageToSend = new IMMessage.Builder(location)
+      .setDirection(Direction.OUT)
+      .build();
+
+//send attchment message through IM
+IMMessage sentMessage = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+      .getMessageAPI(USER_ID)
+      .sendMessage(IM_SESSION_ID, messageToSend);
+```
+
+Response:
+
+```
+{
+    "sessionId": "1241000000089082",
+    "displayMessage": "Here is your location",
+    "statusUpdatedTime": "2023-03-30T08:16:52.000Z",
+    "actor": {
+        "id": "67915789",
+        "extId": null,
+        "name": "",
+        "email": null,
+        "photoURL": null,
+        "type": "AGENT",
+        "phone": null,
+        "status": null,
+        "service": "ZOHO_IM",
+        "extIdType": null
+    },
+    "statusHistory": [
+        {
+            "updatedTime": "2023-03-30T08:16:52.000Z",
+            "status": "QUEUED"
+        }
+    ],
+    "direction": "out",
+    "id": "1241000001752001",
+    "createdTime": "2023-03-30T08:16:52.000Z",
+    "index": "4282",
+    "replyToMessage": null,
+    "uuid": "6718ce882fad5fb08c3d6325e9bd1a8f",
+    "attachment": null,
+    "meta": [],
+    "contentType": "text/plain",
+    "fullContentURL": null,
+    "status": "QUEUED",
+    "info": null,
+    "template": null,
+    "text": null,
+    "location": {
+        "latitude": "12.08312",
+        "longitude": "83.6362"
+    },
+    "externalInfo": null,
+    "layout": null,
+    "action": null,
+    "type": "LOCATION",
+    "isRead": true,
+    "kind": "single.session.message"
+}
+```

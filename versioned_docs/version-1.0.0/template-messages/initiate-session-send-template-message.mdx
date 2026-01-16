@@ -1,0 +1,68 @@
+---
+title: Initiate Session (Only For Whatsapp)
+sidebar_label: Initiate Session (Send Template Message)
+sidebar_position: 8
+description: "For Business initiate session message mode can be set as WorkFlow. If mode is WorkFlow, unReadCount will not be updated (as zero)."
+---
+### Initiate Session (Only For Whatsapp)
+
+```
+List&lt;String&gt; bodyPlaceholdersList = new ArrayList&lt;&gt;();
+bodyPlaceholdersList.add("12/02/2023");
+bodyPlaceholdersList.add("10:24am");
+bodyPlaceholdersList.add("Zoho Corporation");
+InitiateSessionMessageBuilder templateMessage = new InitiateSessionMessageBuilder.Builder(IM_TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE, IM_CHANNEL_ID, RECEVIER_PHONE_NUMBER);
+        .setBodyPlaceHolders(bodyPlaceholdersList)
+        .setHeaderPlaceHolder("Value")
+        .setUrlPlaceHolder("form-12818102")
+        .build();
+
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .initiateSession(intiateMessage);
+```
+
+### Initiate Session with Attachment (Only for Whatsapp)
+
+```
+List&lt;String&gt; bodyPlaceholdersList = new ArrayList&lt;&gt;();
+bodyPlaceholdersList.add("12/02/2023");
+bodyPlaceholdersList.add("10:24am");
+bodyPlaceholdersList.add("Zoho Corporation");
+InitiateSessionMessageBuilder templateMessage = new InitiateSessionMessageBuilder.Builder(IM_TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE, IM_CHANNEL_ID, RECEVIER_PHONE_NUMBER);
+        .setBodyPlaceHolders(bodyPlaceholdersList)
+        .setUrlPlaceHolder("form-12818102")
+        .build();
+IMAttachment attachment = new IMAttachment.Builder(ATTACHMENT_NAME, ATTACHMENT_INPUT_STREAM)
+        .setContentType(ATTACHMENT_CONTENT_TYPE)
+        .setContentLength(ATTACHMENT_SIZE)
+        .build();
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .initiateSessionWithAttachment(templateMessage, attachment);
+```
+
+### Initiate Session For WorkFlow (Only for Whatsapp)
+
+For Business initiate session message mode can be set as WorkFlow. If mode is WorkFlow, unReadCount will not be updated (as zero).
+
+```
+List&lt;String&gt; bodyPlaceholdersList = new ArrayList&lt;&gt;();
+bodyPlaceholdersList.add("12/02/2023");
+bodyPlaceholdersList.add("10:24am");
+bodyPlaceholdersList.add("Zoho Corporation");
+//Set Mode as WorkFlow
+InitiateSessionMessageBuilder templateMessage = new InitiateSessionMessageBuilder.Builder(IM_TEMPLATE_MESSAGE_ID, TEMPLATE_MESSAGE_LANGUAGE, IM_CHANNEL_ID, RECEVIER_PHONE_NUMBER)
+    .setBodyPlaceHolders(bodyPlaceholdersList)
+    .setMode(Mode.WORKFLOW);
+
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .initiateSession(intiateMessage);
+```
+
+Initiate Session for Catalog Template (Only for Whatsapp)
+
+Please follow this link for more details :-
+
+https://one.zoho.com/zohoone/zohocorp/home/cxapp/learn/portal/zohocorp/team/zohoim/manual/sdk-reference/article/catalog-template

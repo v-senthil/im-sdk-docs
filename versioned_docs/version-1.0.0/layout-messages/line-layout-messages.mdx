@@ -1,0 +1,141 @@
+---
+title: Send normal Layout message with Reply Buttons
+sidebar_label: Line Layout Messages
+sidebar_position: 4
+description: "postman collection : LinkConstraints:"
+---
+postman collection : [Link](https://documenter.getpostman.com/view/18635004/2s935vkfHz#8d21b1e6-c355-4e83-9554-c870bfd7486c)
+Constraints:
+
+1.  Sub Title is mandatory
+2.  Title limit is 40
+3.  Sub Title limit is 60
+
+1.  if description is given, both sub title and description together limit is 59.
+
+4.  Minimum single button is mandatory
+5.  Reply buttons :
+
+1.  Button Limit - 13 (Without attachment)
+2.  Button Limit - 4 (With attachment)
+3.  Message Character Limit - 20 Characters
+
+6.  URL buttons :
+
+1.  Button Limit - 13 (Without attachment)
+2.  Button Limit - 4 (With attachment)
+3.  Message Character Limit - 20 Characters
+4.  Action Limit - 1000 Characters
+
+7.  Attachment :
+
+1.  Only image attachment is supported.
+
+### Send normal Layout message with Reply Buttons
+
+```
+IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+// Set Message Title
+builder.setTitle("Title Message", IMLayoutTitleType.TEXT);
+
+// Set Message Sub Stitle
+builder.setSubTitle("SubTitle Message");
+
+// Set buttons
+IMLayoutButton buttonOne = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "Yes").build();
+IMLayoutButton buttonTwo = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "No").build();
+IMLayoutButton buttonThree = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "No idea").build();
+List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+buttons.add(buttonOne);
+buttons.add(buttonTwo);
+buttons.add(buttonThree);
+
+IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.Builder
+    (IMLayoutButtonStyle.REPLY,
+    IMLayoutButtonType.BUTTON,
+    buttons)
+    .build();
+
+builder.setButtons(layoutButton);
+
+// Send message
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .layoutMessage(builder.build());
+```
+
+### Send normal Layout message with URL Buttons
+
+```
+IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+// Set Message Title
+builder.setTitle("Title Message", IMLayoutTitleType.TEXT);
+
+// Set Message Sub Stitle
+builder.setSubTitle("SubTitle Message");
+
+// Set buttons
+IMLayoutButton buttonOne = new IMLayoutButton.Builder(IMLayoutButtonElementType.REDIRECT, "visit", "https://zoho.com/3").build();
+IMLayoutButton buttonTwo = new IMLayoutButton.Builder(IMLayoutButtonElementType.REDIRECT, "visit", "https://zoho.com/2").build();
+IMLayoutButton buttonThree = new IMLayoutButton.Builder(IMLayoutButtonElementType.REDIRECT, "visit", "https://zoho.com/1").build();
+
+List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+buttons.add(buttonOne);
+buttons.add(buttonTwo);
+buttons.add(buttonThree);
+IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.
+        Builder(IMLayoutButtonStyle.URL_BUTTON,
+        IMLayoutButtonType.BUTTON, buttons)
+        .build();
+
+builder.setButtons(layoutButton);
+
+// Send Message
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .layoutMessage(builder.build());
+```
+
+### Send Attachment Layout message with Reply Buttons
+
+```
+IMLayoutMessageBuilder.Builder builder = new IMLayoutMessageBuilder.Builder(SESSION_ID);
+
+// Set Message Title
+builder.setTitle(IMLayoutTitleType.IMAGE);
+// Set Message Sub Stitle
+builder.setSubTitle("SubTitle Message");
+
+// Set buttons
+IMLayoutButton buttonOne = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "Yes").build();
+IMLayoutButton buttonTwo = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "No").build();
+IMLayoutButton buttonThree = new IMLayoutButton.Builder(IMLayoutButtonElementType.REPLY, "No idea").build();
+List&lt;IMLayoutButton&gt; buttons = new ArrayList&lt;&gt;();
+buttons.add(buttonOne);
+buttons.add(buttonTwo);
+buttons.add(buttonThree);
+
+IMLayoutMessageButton layoutButton = new IMLayoutMessageButton.Builder
+        (IMLayoutButtonStyle.REPLY,
+        IMLayoutButtonType.BUTTON,
+        buttons)
+        .build();
+
+builder.setButtons(layoutButton);
+
+IMAttachment attachment = new IMAttachment.Builder(ATTACHMENT_NAME, ATTACHMENT_INPUT_STREAM)
+        .setContentType(ATTACHMENT_CONTENT_TYPE)
+        .setContentLength(ATTACHMENT_SIZE)
+        .build();
+
+// Send Message
+IMMessage message = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getMessageAPI(USER_ID)
+        .layoutMessageWithAttachment(builder.build(), attachment);
+```
+
+### Error Codes
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Error Code</p></div></td><td><div><p>Error Message</p></div></td><td><div><p>Cause</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR</p></div></td><td><div><p>Payload should contain style SUB_TITLE</p></div></td><td><div><p>Style Sub-Title is missing in payload.</p></div></td></tr><tr><td><div><p>ENTITY_MESSAGE_FORMAT_ERROR</p></div></td><td><div><p>Entity message should contain only 60 characters and no empty message.</p></div></td><td><div><p>message (sub title) exceeded 60 characters.</p></div></td></tr><tr><td><div><p>ENTITY_MESSAGE_FORMAT_ERROR</p></div></td><td><div><p>Entity TITLE should contain only 40 characters and no empty message.</p></div></td><td><div><p>Title exceeded 40 characters.</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR&nbsp;</p></div></td><td><div><p>Type Redirect should contain action</p></div></td><td><div><p>REDIRECT Type Url Button does not contain action field.</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR&nbsp;</p></div></td><td><div><p>Entity payload should contain style button</p></div></td><td><div><p>Button is missing in payload</p></div></td></tr><tr><td><div><p>ENTITY_FORMAT_ERROR</p></div></td><td><div><p>Entity Button should contain only 13 elements</p></div></td><td><div><p>Button Type has more than 13 button elements.</p></div></td></tr><tr><td><div><p>ENTITY_MISSING_ERROR</p></div></td><td><div><p>Entity IMAGE should contain attachment</p></div></td><td><div><p>No attachment for Type&nbsp;IMAGE&nbsp;</p></div></td></tr><tr><td><div><p>ENTITY_FORMAT_ERROR</p></div></td><td><div><p>Entity Button should contain only 4 elements</p></div></td><td><div><p>Button Type has more than 4 button elements when sending an attachment.</p></div></td></tr><tr><td><div><p>MEDIA_MISSMATCH_ERROR</p></div></td><td><div><p>Title Type IMAGE does not support $\{attachment type\}</p></div></td><td><div><p>Type of the attachment does not match with the type of Title mentioned.</p></div></td></tr><tr><td><div><p>ATTACHMENT_ERROR</p></div></td><td><div><p>Unable to get Attachment</p></div></td><td><div><p>When cannot get attachment details from Database.</p></div></td></tr><tr><td><div><p>INVALID_MEDIA_TYPE</p></div></td><td><div><p>Invalid Media Type</p></div></td><td><div><p>When attachment type is not supported by Line.</p></div></td></tr><tr><td><div><p>UNHANDLED_TYPE_ERROR</p></div></td><td><div><p>Type Audio/Document is unhandled in Line</p></div></td><td><div><p>Audio/Document is not supported in Line.</p></div></td></tr></tbody></table>

@@ -1,0 +1,41 @@
+---
+title: Get Broadcasts Summaries (Deprecated)
+sidebar_position: 7
+description: "Response:"
+---
+```
+Set&lt;Long&gt; broadcastIds = new HashSet&lt;&gt;();
+broadcastIds.add(100000037846381L);
+broadcastIds.add(1000000262541871L);
+IMBroadcastSummaryQueryBuilder builder = IMBroadcastSummaryQueryBuilder().setBrodcastIds(broadcastIds).build();
+
+List&lt;IMBroadcastSummaryData&gt; receiversList = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getBroadcastSummariesAPI(USER_ID)
+        .getBroadcastSummary(builder).getEntities();
+```
+
+Response:
+
+```
+{
+    "data": [
+        {
+            "totalCost": null,
+            "progress": "16/16",
+            "added": "0",
+            "queued": "0",
+            "processing": "0",
+            "sent": "1",
+            "delivered": "7",
+            "read": "5",
+            "replied": "0",
+            "skipped": "0",
+            "fail": "3",
+            "total": "16",
+            "id": "1955000001559009"
+        }
+    ],
+    "kind": "list.broadcast.summary",
+    "hasMore": false
+}
+```

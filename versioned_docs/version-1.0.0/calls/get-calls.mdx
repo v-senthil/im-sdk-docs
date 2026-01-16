@@ -1,0 +1,153 @@
+---
+title: Get single Call
+sidebar_label: Get Calls
+sidebar_position: 5
+description: "Sample Response:"
+---
+### Get single Call
+
+```
+IMCalls call = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCallsAPI(USER_ID)
+          .create(IM_CALLS_ID);
+
+Set&lt;CALLS_INCLUDE&gt; includeSet = Set.of(CALLS_INCLUDE.participants);
+IMCalls call = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCallsAPI(USER_ID)
+          .create(IM_CALLS_ID, includeSet);
+```
+
+Sample Response:
+
+```
+{
+    "id": "7122000010429001",
+    "channelId": "7122000010044001",
+    "sessionId": "7122000010036731",
+    "status": "INITIATED",
+    "duration": "0",
+    "createdTime": "2025-10-23T12:11:25.310Z",
+    "actor": {
+        "id": "7122000000274003",
+        "extId": "+918197002143",
+        "name": "Senthil V",
+        "email": null,
+        "photoURL": null,
+        "type": "END_USER",
+        "phone": "+918197002143",
+        "status": "UNKNOWN",
+        "extIdType": "PHONE_NUMBER",
+        "service": "WHATSAPP"
+    },
+    "direction": "IN",
+    "integrationServiceId": "WHATSAPP",
+    "meta": [                // should add CALLS_INCLUDE.meta in include
+        {
+            "type": "IM_SESSION_ID",
+            "value": "7122000010036731"
+        },
+        {
+            "type": "SDP_OFFER",
+            "value": "k273edg283hd9ol238rjo943r4"
+        }
+    ],
+    "statuses": [            // should add CALLS_INCLUDE.status in include
+        {
+            "status": "INITIATED",
+            "updatedTime": "2025-10-23T12:11:25.310Z"
+        }
+    ],
+    "participants": [],        // should add CALLS_INCLUDE.participants in include
+    "session": {                // should add CALLS_INCLUDE.session in include
+        "actor": {
+            "id": "87890948",
+            "extId": null,
+            "name": "",
+            "email": null,
+            "photoURL": null,
+            "type": "AGENT",
+            "phone": null,
+            "status": null,
+            "extIdType": null,
+            "service": "ZOHO_DESK"
+        }
+    }
+}
+```
+
+### Get Calls List
+
+```
+IMCallsQueryBuilder queryBuilder = new IMCallsQueryBuilder();
+
+queryBuilder.range(0, 10);
+
+Set&lt;IMCallsStatus&gt; statusSet = new HashSet&lt;&gt;();
+statusSet.add(IMCallsStatus.IN_PROGRESS);
+queryBuilder.setCallsStatus(statusSet);
+
+IMEntityList&lt;IMCalls&gt; calls = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getCallsAPI(USER_ID)
+          .getList(queryBuilder);
+```
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Method</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>range(int from, int limit)</p></div></td><td><div><p>Set from and limit range</p></div></td></tr><tr><td><div><p>setCallsStatus(Set&lt;IMCallsStatus&gt; status)</p></div></td><td><div><p>Filter calls based on call status</p></div></td></tr><tr><td><div><p>setUserId(Long userId)</p></div></td><td><div><p>Filter calls based on call initiated userId</p></div></td></tr><tr><td><div><p>setCallsIds(Set&lt;Long&gt; callsIds)</p></div></td><td><div><p>Filter calls based on call Ids</p></div></td></tr><tr><td><div><p>setSessionIds(Set&lt;Long&gt; sessionIds)</p></div></td><td><div><p>Filter calls based on IM Session ID</p></div></td></tr><tr><td><div><p>setCallsPlatform(Set&lt;IMCallsPlatform&gt; platform)</p></div></td><td><div><p>Filter calls based on call platform</p></div></td></tr><tr><td><div><p>setChannelIds(Set&lt;Long&gt; channelIds)</p></div></td><td><div><p>Filter calls based on IM channel ID</p></div></td></tr><tr><td><div><p>setInclude(Set&lt;CALLS_INCLUDE&gt; include)</p></div></td><td><div><p>Filter calls based on Call fields</p></div></td></tr></tbody></table>
+
+Sample Response:
+
+```
+{
+    "data": [
+        {
+            "id": "7122000010438391",
+            "channelId": null,
+            "sessionId": null,
+            "status": "MISSED",
+            "duration": "0",
+            "createdTime": "2025-10-27T13:46:01.501Z",
+            "actor": {
+                "id": "7122000010402074",
+                "extId": "+919092602839",
+                "name": ";-)",
+                "email": null,
+                "photoURL": null,
+                "type": "END_USER",
+                "phone": "+919092602839",
+                "status": "UNKNOWN",
+                "extIdType": "PHONE_NUMBER",
+                "service": "WHATSAPP"
+            },
+            "direction": "IN",
+            "integrationServiceId": "WHATSAPP",
+            "participants": null,
+            "session": null
+        },
+        {
+            "id": "7122000010438363",
+            "channelId": null,
+            "sessionId": null,
+            "status": "MISSED",
+            "duration": "0",
+            "createdTime": "2025-10-27T13:43:47.534Z",
+            "actor": {
+                "id": "7122000010402074",
+                "extId": "+919092602839",
+                "name": ";-)",
+                "email": null,
+                "photoURL": null,
+                "type": "END_USER",
+                "phone": "+919092602839",
+                "status": "UNKNOWN",
+                "extIdType": "PHONE_NUMBER",
+                "service": "WHATSAPP"
+            },
+            "direction": "IN",
+            "integrationServiceId": "WHATSAPP",
+            "participants": null,
+            "session": null
+        }
+    ],
+    "kind": "list.calls",
+    "hasMore": true
+}
+```

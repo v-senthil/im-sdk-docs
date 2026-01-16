@@ -1,0 +1,97 @@
+---
+title: Reply Status
+sidebar_label: IM Message Object
+sidebar_position: 8
+description: Key
+---
+```
+{
+    "sessionId": "1241000001631442",
+    "displayMessage": "hey There!",
+    "statusUpdatedTime": "2023-03-30T07:45:30.000Z",
+    "actor": {
+        "id": "67915789",
+        "extId": null,
+        "name": "",
+        "email": null,
+        "photoURL": null,
+        "type": "AGENT",
+        "phone": null,
+        "status": null,
+        "extIdType": null,
+        "service": "ZOHO_IM"
+    },
+    "statusHistory": [
+        {
+            "updatedTime": "2023-03-30T07:45:30.000Z",
+            "status": "QUEUED"
+        }
+    ],
+    "direction": "out",
+    "id": "1241000001750117",
+    "createdTime": "2023-03-30T07:45:30.000Z",
+    "index": "40",
+    "replyToMessage": null,
+    "uuid": "8f4df5e5e3bd501886927c8aae151138",
+    "fullContentURL": null,
+    "meta": [],
+    "attachment": null,
+    "info": null,
+    "text": {
+        "message": "hey There!"
+    },
+    "location": null,
+    "externalInfo": null,
+    "layout": null,
+    "action": null,
+    "contentType": "text/plain",
+    "status": "QUEUED",
+    "template": null,
+    "isRead": true,
+    "type": "TEXT",
+    "kind": "single.session.message"
+}
+```
+
+### Reply Status
+
+1.  ACCEPTED
+2.  CHANNEL\_INACTIVE
+3.  CHANNEL\_REVOKED
+4.  SESSION\_ENDED
+5.  SESSION\_BLOCKED
+6.  SESSION\_EXPIRED
+7.  UNASSIGNED
+8.  NOT\_AN\_ASSIGNEE
+9.  CREDIT\_EXHAUSTED
+10.  ACCESSTOKEN\_EXPIRED
+11.  PERMISSION\_REVOKED
+12.  UNEXPECTED\_ERROR
+13.  PAGE\_REMOVED
+14.  SANDBOX\_LIMIT\_REACHED
+15.  CHANNEL\_DELETED
+
+### Message Types
+
+1.  TEXT
+2.  ATTACHMENT
+3.  LAYOUT
+4.  INFO
+5.  LOCATION
+6.  TEMPLATE
+7.  EXTERNAL\_INFO
+8.  ACTION
+
+### Message Status
+
+1.  SAVED
+2.  FAILED
+3.  QUEUED
+4.  SENT
+5.  DELIVERED
+6.  READ
+7.  DELETED
+
+### IMMessage Object
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Key</p></div></td><td><div><p>Type</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>sessionId</p></div></td><td><div><p>Long</p></div></td><td><div><p>The identification number of the session to which the message is being sent.</p></div></td></tr><tr><td><div><p>displayMessage</p></div></td><td><div><p>String</p></div></td><td><div><p>The actual content of the message (255 characters)</p></div></td></tr><tr><td><div><p>statusUpdatedTime</p></div></td><td><div><p>String</p></div></td><td><div><p>The time at which the status was last updated.</p></div></td></tr><tr><td><div><p>actor</p></div></td><td><div><p>IMActor Object</p></div></td><td><div><p>By whom was the message sent</p></div></td></tr><tr><td><div><p>statusHistory</p></div></td><td><div><p>JSONArray</p></div></td><td><div><p>The record of status and their corresponding update times.</p></div></td></tr><tr><td><div><p>direction</p></div></td><td><div><p>String</p></div></td><td><div><p>If the message is incoming or outgoing</p></div></td></tr><tr><td><div><p>id</p></div></td><td><div><p>Long</p></div></td><td><div><p>The ID of the message</p></div></td></tr><tr><td><div><p>createdTime</p></div></td><td><div><p>String</p></div></td><td><div><p>The moment at which the message was dispatched.</p></div></td></tr><tr><td><div><p>index</p></div></td><td><div><p>Integer</p></div></td><td><div><p>The position of the message within a session.</p></div></td></tr><tr><td><div><p>replyToMessage</p></div></td><td><div><p>IMMessage Object</p></div></td><td><div><p>The message to which this was a reply.</p></div></td></tr><tr><td><div><p>UUID</p></div></td><td><div><p>String</p></div></td><td><div><p>The unique identifier of this message</p></div></td></tr><tr><td><div><p>attachment</p></div></td><td><div><p>IMAttachment Object</p></div></td><td><div><p>The attached file or document of the message.</p></div></td></tr><tr><td><div><p>meta</p></div></td><td><div><p>JSONArray</p></div></td><td><div><p>The supplementary information provided in the message.</p></div></td></tr><tr><td><div><p>contentType</p></div></td><td><div><p>String</p></div></td><td><div><p>The type of content included in the message.</p></div></td></tr><tr><td><div><p>fullContentURL</p></div></td><td><div><p>String (link)</p></div></td><td><div><p>The complete message content can be accessed through this link.</p></div></td></tr><tr><td><div><p>status</p></div></td><td><div><p>String</p></div></td><td><div><p>The current status of this message.</p></div></td></tr><tr><td><div><p>info</p></div></td><td><div><p>IMInfoMessage Object</p></div></td><td><div><p>If the message is INFO, this entity will comprise the particulars of an action.</p></div></td></tr><tr><td><div><p>template</p></div></td><td><div><p>IMTemplateMessage Object</p></div></td><td><div><p>If the message is TEMPLATE, this entity will comprise the particulars of the template message and layout</p></div></td></tr><tr><td><div><p>text</p></div></td><td><div><p>IMTextMessage Object</p></div></td><td><div><p>If the message is TEXT, this entity will comprise the particulars of the</p><p>message (with full content of the message)</p></div></td></tr><tr><td><div><p>location</p></div></td><td><div><p>IMLocationMessage Object</p></div></td><td><div><p>If the message is LOCATION, this entity will comprise the particulars of the location (latitude and longitude).</p></div></td></tr><tr><td><div><p>externalInfo</p></div></td><td><div><p>IMExternalInfoMessage Object</p></div></td><td><div><p>If the message is EXTERNAL_INFO, this entity will comprise the particulars the action from an external service.</p></div></td></tr><tr><td><div><p>layout</p></div></td><td><div><p>IMLayoutMessage Object</p></div></td><td><div><p>If the message is LAYOUT, this entity will comprise the particulars the layout</p></div></td></tr><tr><td><div><p>action</p></div></td><td><div><p>IMActionMessage Object</p></div></td><td><div><p>f the message is ACTION, this entity will comprise the actions done in the message.</p></div></td></tr><tr><td><div><p>type</p></div></td><td><div><p>String</p></div></td><td><div><p>The classification of the message.</p></div></td></tr><tr><td><div><p>isRead</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Whether the message has been read by the current user.</p></div></td></tr><tr><td><div><p>kind</p></div></td><td><div><p>String</p></div></td><td><div><p>The type of this object (single.session.message)</p></div></td></tr></tbody></table>

@@ -1,0 +1,89 @@
+---
+title: Decoding im.properties
+sidebar_label: Bundling IM SDK
+sidebar_position: 3
+description: "All the API's Available are added to Java SDK. Implementing Service teams can use SDK instead of making direct API Calls."
+---
+All the API's Available are added to Java SDK. Implementing Service teams can use SDK instead of making direct API Calls.
+
+Latest IM SDK [link](http://build/zoho/zohoim/milestones/live/ZOHOIM_BM_102/zohoim_client.zip)
+
+Extracted zohoim\_client.zip will look as below:
+
+![Illustration](/img/inline-images/getting-started/bundling-im-sdk/1682070625118.png)
+
+1.  Copy the security-im.xml file to the WEB-INF folder.
+
+2.  Copy the im.properties and service.xml files into your product's conf/IM folder. It should look as below
+
+![Illustration](/img/inline-images/getting-started/bundling-im-sdk/1682070625344.png)
+
+3.  Copy the zohoim\_client.jar and zohoim\_messages.jar, set in your class-path through an ant task
+
+4.  To facilitate IM Widgets for payments and WhatsApp Embedded Signup, add the below servlet mapping in web.xml
+
+```
+&lt;servlet&gt;
+    <servlet-name>imwidgetservlet</servlet-name>
+    <servlet-class>com.zoho.im.client.servlet.IMWidgetHandler</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>imwidgetservlet</servlet-name>
+    <url-pattern>/_im/widgethandler</url-pattern>
+</servlet-mapping>
+```
+
+5.  Add entry for ZohoIM in module.xml. (like moduleName = "IM" in the below module.xml image sample)
+
+```
+<?xml version="1.0"?>
+&lt;modules&gt;
+ <Module moduleorder="10" modulename="Persistence" />
+ <Module moduleorder="30" modulename="SQNS" />
+ <Module moduleorder="35" modulename="I18n" />
+ <Module moduleorder="70" modulename="CustomView" />
+ <Module moduleorder="80" modulename="Scheduler" />
+ <Module moduleorder="95" modulename="SAS_TEMP" />
+    <Module moduleorder="100" modulename="SAS" />
+ <Module moduleorder="110" modulename="Grid" />
+ <Module moduleorder="143" modulename="IM" />
+ <Module moduleorder="200" modulename="Stratus" />
+</modules>
+```
+
+6.  Edit im.properties from terminal with desired properties
+
+### Decoding im.properties
+
+```
+#$Id$
+zohoim.server=https://im.localzoho.com
+
+zohoim.api.path=/api/v1
+
+#must implement `com.zoho.im.client.api.schema.IMClientAPIHandler`
+zohoim.client.handler=com.zoho.integrations.im.IMClientAPIHandlerImpl
+
+#ZOHO_DESK,ZOHO_CRM,..etc Supported services available in `com.zoho.im.client.core.ZohoService`
+zohoim.client.zohoservice=ZOHO_DESK
+
+zohoim.http.socket.timeout.ms=9000
+zohoim.http.connection.timeout.ms=9000
+
+DEFAULT_LOCALE_US=en_US
+
+zohoim.handler.event.listener=false
+zohoim.handler.event.listener.count=3
+```
+
+-   zohoim.server Points to the appropriate IM Server to make API requests.
+
+-   CSEZ     -    [https://im.csez.zohocorpin.com](https://im.csez.zohocorpin.com)
+-   CT1        -     [https://im.localzoho.com](https://im.localzoho.com/)
+-   US DC    -    [https://im.zoho.com](https://im.zoho.com/)
+
+-   zohoim.client.handler  - Create a new class in your project implementing the interface 'com.zoho.im.client.api.schema.IMClientAPIHandler' and give the full class name.
+
+-   zohoim.client.zohoservice  - Service name as provided in 'com.zoho.im.client.core.ZohoService' by the IM team.
+
+-   zohoim.handler.event.listener - To enable real-time notification push through SDK itself.

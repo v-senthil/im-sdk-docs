@@ -1,0 +1,43 @@
+---
+title: IM Csez Setup
+sidebar_label: Setup
+sidebar_position: 2
+description: "Why WhatsApp cannot be tested in csez setup?"
+---
+### IM Csez Setup
+
+1.  Mention [https://im.csez.zohocorpin.com](https://im.csez.zohocorpin.com/) in im.properties file
+2.  You can check the following in CSEZ Setup:
+
+1.  IM Org creation
+2.  Get integration list
+3.  CRUD on Canned Message / Template Message creation
+4.  Telegram channel creation and incoming/outgoing messages
+
+3.  You cannot test the following in CSEZ Setup:
+
+1.  Other channels creation and incoming/outgoing messages
+
+### IM LocalZoho Setup
+
+1.  Mention [https://im.localzoho.com](https://im.localzoho.com/) in im.properties file
+2.  You can check the following in LZ:
+
+1.  IM Org creation
+2.  Channel creation
+3.  Incoming and outgoing messages
+4.  CRUD on Canned Message / Template Message creation
+
+Why WhatsApp cannot be tested in csez setup?
+
+Testing WhatsApp in a csez setup is not feasible due to several dependencies. As a workaround, You can test telegram in csez. The APIs and the flow of incoming and outgoing messages are similar between Telegram and WhatsApp. The main differences lie in some parameters during channel configuration.
+
+WhatApp dependencies in csez:
+
+1.  Embedded signup completion
+2.  WABA configuration
+3.  WhatsApp webhook configuration
+4.  Template approval
+5.  Whatsapp API calls
+
+We are currently exploring a workaround to conduct basic WhatsApp testing within the csez setup, but this process may require some time. We apologize for any inconvenience caused.

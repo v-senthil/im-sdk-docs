@@ -1,0 +1,39 @@
+---
+title: Get a Session
+sidebar_label: Get Session
+sidebar_position: 2
+description: Available methods in IMSessionQueryBuilder
+---
+### Get a Session
+
+```
+IMSession session = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+        .getSessionAPI(USER_ID)
+        .get(IM_SESSION_ID);
+```
+
+### Get all Sessions
+
+Available methods in IMSessionQueryBuilder
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Method</p></div></td><td><div><p>Significance</p></div></td></tr><tr><td><div><p>channelIds(List&lt;Long&gt; channelIds)</p></div></td><td><div><p>Used to extract the session belonging to the provided channels.</p></div></td></tr><tr><td><div><p>channelId(Long channelId)</p></div></td><td><div><p>Used to extract the session belonging to the provided channel.</p></div></td></tr><tr><td><div><p>agentId(Long agentId)</p></div></td><td><div><p>Used to get sessions assigned to an agentId</p></div></td></tr><tr><td><div><p>assigneeFilter(AssigneeFilter filter)</p></div></td><td><div><p>Used to get the sessions based on Assignee Filter</p></div></td></tr><tr><td><div><p>status(Set&lt;IMSessionStatus&gt; statuses)</p></div></td><td><div><p>Used to get the sessions based on Session Status</p></div></td></tr><tr><td><div><p>contactId(Long contactId)</p></div></td><td><div><p>Get only the session for the particular contact ID</p></div></td></tr><tr><td><div><p>profileId(Long profileId)</p></div></td><td><div><p>Get only the session for the particular profile ID</p></div></td></tr><tr><td><div><p>createdAfter(Timestamp createdAfter)</p></div></td><td><div><p>Get the session created after the given time</p></div></td></tr><tr><td><div><p>createdBefore(Timestamp createdBefore)</p></div></td><td><div><p>Get the session created before the given time</p></div></td></tr><tr><td><div><p>setContactExtId(Long channelId, Set&lt;String&gt; contactExtIds)</p></div></td><td><div><p>Get sessions based on channelId and phone numbers</p></div></td></tr><tr><td><div><p>setSessionIds(Set&lt;Long&gt; sessionIds)</p></div></td><td><div><p>Get sessions based on session Ids</p></div></td></tr></tbody></table>
+
+Possible Assignee Filter
+
+1.  MINE
+2.  UNASSIGNED
+3.  NONE
+
+```
+IMSessionQueryBuilder queryBuilder = new IMSession.IMSessionQueryBuilder();
+
+//When Assignee Filter is not given, AssigneeFilter.MINE will be considered as default.
+queryBuilder.assigneeFilter(IMSessionQueryBuilder.AssigneeFilter.NONE);
+queryBuilder.channelId(2490000000002145L); //Optional
+
+//Get sessions from IM
+IMEntityList&lt;IMSession&gt; sessionEntity = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+            .getSessionAPI(USER_ID)
+            .getSessions(queryBuilder);
+List&lt;IMSession&gt; sessionsList = sessionEntity.getEntities();
+```

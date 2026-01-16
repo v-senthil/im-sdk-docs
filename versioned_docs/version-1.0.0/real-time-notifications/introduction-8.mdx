@@ -1,0 +1,22 @@
+---
+title: "List of real time events:"
+sidebar_label: Introduction
+sidebar_position: 1
+description: Zoho Instant Messaging is nothing without real time notifications of messages and statuses. Zoho IM will create a dedicated Kafka topic and will be shared to the service teams. Teams have to make a consumer up for listening and share its de…
+---
+Zoho Instant Messaging is nothing without real time notifications of messages and statuses. Zoho IM will create a dedicated Kafka topic and will be shared to the service teams. Teams have to make a consumer up for listening and share its details to the IM team to map the topic to the consumer. All events, including messages are written into that topic.
+
+1.  Teams can implement com.zoho.im.client.api.schema.IMClientAPIHandler - interface and provide the implemented class name in im.properties file.
+2.  The implemented class will be called on each event and use IMEventMeta to know about organization details.
+
+## List of real time events:
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Event type</p></div></td><td><div><p>Usage</p></div></td></tr><tr><td><div><p>getIMAuthtoken</p></div></td><td><div><p>To get Auth token for all the APIs from our SDK</p></div></td></tr><tr><td><div><p>messageAdded</p></div></td><td><div><p>A new message is added in IM</p></div></td></tr><tr><td><div><p>messageMetaUpdated</p></div></td><td><div><p>Message's meta is update</p></div></td></tr><tr><td><div><p>messageStatusUpdated</p></div></td><td><div><p>Triggered when a message's status is updated</p></div></td></tr><tr><td><div><p>sessionReadByUser</p></div></td><td><div></div></td></tr><tr><td><div><p>sessionStatusUpdated</p></div></td><td><div><p>Triggered when a session's status is updated</p></div></td></tr><tr><td><div><p>userPresenceUpdated</p></div></td><td><div></div></td></tr><tr><td><div><p>channelAdded</p></div></td><td><div><p>Triggered when a new channel is added in IM</p></div></td></tr><tr><td><div><p>unIdentifiedEvent</p></div></td><td><div><p>A new unidentified event is pushed</p></div></td></tr><tr><td><div><p>twilioPhoneNumberRenewalFailed</p></div></td><td><div></div></td></tr><tr><td><div><p>addOnRenewalFailed</p></div></td><td><div></div></td></tr><tr><td><div><p>authorizeIMAPI</p></div></td><td><div><p>To check if a user has permission to perform operations in an organization</p></div></td></tr><tr><td><div><p>whatsappTrialExpired</p></div></td><td><div></div></td></tr><tr><td><div><p>whatsappTemplateStatusUpdate</p></div></td><td><div><p>Triggered when a whatsapp's template message status is updated</p></div></td></tr><tr><td><div><p>broadcastEvent</p></div></td><td><div><p>Triggered when a broadcast is completed</p></div></td></tr><tr><td><div><p>imCreditsUsageEvent</p></div></td><td><div><p>Exclusive for ZohoVoice to handle Voice Credits</p></div></td></tr></tbody></table>
+
+## IMEventMeta
+
+All the event will contain IMEventMeta as an argument, which contains:
+
+1.  getChannelId()
+2.  getOrgId()
+3.  getServiceOrgId()

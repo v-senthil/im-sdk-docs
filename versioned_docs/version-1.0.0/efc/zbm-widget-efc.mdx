@@ -1,0 +1,237 @@
+---
+title: BM Widget Control Changes
+sidebar_label: BM Widget EFC
+sidebar_position: 6
+description: BM Widget SDK
+---
+BM Widget SDK
+
+Overview :
+
+-   To render the BM widget, you first need to create a channel in IM.
+-   Once the channel is created, you will have an embeddable script that can be injected into your application.
+
+Sample Embeddable BM Code Snippet
+
+```
+<script type='text/javascript'>window.ZOHOIM=window.ZOHOIM||function(a,b){ZOHOIM[a]=b;};window.ZOHOIM.prefilledMessage="";(function(){var d=document;var s=d.createElement('script');s.type='text/javascript';s.nonce='{place_your_nonce_value_here}';s.defer=true;s.src="https://im.zoho.com/api/v1/public/channel/435798000006367001/widget";d.getElementsByTagName('head')[0].appendChild(s); })()</script>
+```
+
+-   By default, injecting the script alone is sufficient to render the widget.
+-   However, if you need customized rendering or want to pass specific information to the widget, you must configure the necessary properties in the window.ZOHOIM variable before injecting the script.
+-   For that, before injecting the script, initialize an object named ZOHOIM in the window object as follows :
+
+```
+window.ZOHOIM = window.ZOHOIM || {};
+```
+
+Props need to be set in the window.ZOHOIM object :
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Prop Name</p></div></td><td><div><p>Type</p></div></td><td><div><p>Description</p></div></td></tr><tr><td><div><p>widgetContainerId</p></div></td><td><div><p>string</p></div></td><td><div><p>Element Id in which BM will be rendered</p></div></td></tr><tr><td><div><p>widgetLayout</p></div></td><td><div><p>object</p></div></td><td><div><p>Describes the options required for customising the BM Widget layout</p></div></td></tr><tr><td><div><p>widgetLayout.showWidget</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Whether to show the BM widget</p></div></td></tr><tr><td><div><p>widgetLayout.needWidgetBubble</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Whether to render the BM widget with the Bubble Icon or not</p></div></td></tr><tr><td><div><p>widgetLayout.needCloseIcon</p></div></td><td><div><p>boolean</p></div></td><td><div><p>In the BM Widget header, whether the close Icon is required or not</p></div></td></tr><tr><td><div><p>widgetProps.sessionVariableValues</p></div></td><td><div><p>array</p></div></td><td><div><p><a href="https://writer.zoho.com/writer/open/qhpn65309558b219c4bd3a3db7466a2c375be/bookmarks/toc_c88mn1lzxqcg" rel="noreferrer" target="_blank">To set a session variable for GC bot</a><br /><a href="https://writer.zoho.in/writer/open/qhpn65309558b219c4bd3a3db7466a2c375be/bookmarks/toc_c88mn1lzxqcg" rel="noreferrer" target="_blank">Refer here</a></p></div></td></tr><tr><td><div><p>widgetProps.needTransferToAgent</p></div></td><td><div><p>bool</p></div></td><td><div><p>Whether the transfer to agent support is required or not</p></div></td></tr><tr><td><div><p>widgetProps.botMode</p></div></td><td><div><p>string</p></div></td><td><div><p>We can now directly reply to the bot’s message using the BM reply editor.&nbsp;<br />expected value : "zia"</p></div></td></tr><tr><td><div><p>**customStyles</p></div></td><td><div><p>string</p></div></td><td><div><p>Describes the options required for customising the styles of BM Widget</p></div></td></tr><tr><td><div><p>customStyles.mode</p></div></td><td><div><p>string</p></div></td><td><div><p>In which mode BM needs to be rendered. expected values : "light", "dark"</p></div></td></tr><tr><td><div><p>customStyles.theme</p></div></td><td><div><p>string</p></div></td><td><div><p>Describes the theme of BM widget. &nbsp; expected value : Hex Colour Code&nbsp;</p></div></td></tr><tr><td><div><p>customStyles.actionTheme</p></div></td><td><div><p>string</p></div></td><td><div><p>Describes the action theme of BM widget. expected value : Hex Colour Code&nbsp;</p></div></td></tr><tr><td><div><p>customStyles.wallpaper</p></div></td><td><div><p>object</p></div></td><td><div><p>Describes the options required for BM widget wallpaper.</p></div></td></tr><tr><td><div><p>customStyles.wallpaper.src</p></div></td><td><div><p>object</p></div></td><td><div><p>Describes the options required for BM widget wallpaper in different modes.</p></div></td></tr><tr><td><div><p>customStyles.wallpaper.src.light</p></div></td><td><div><p>string</p></div></td><td><div><p>Wallpaper needs to be rendered in light mode. expected value : Image URL</p></div></td></tr><tr><td><div><p>customStyles.wallpaper.src.dark</p></div></td><td><div><p>string</p></div></td><td><div><p>Wallpaper needs to be rendered in dark mode. expected value : Image URL</p></div></td></tr><tr><td><div><p>poweredByTag</p></div></td><td><div><p>object</p></div></td><td><div><p>Describes the options required for rendering the powered by tag in BM Widget footer.</p></div></td></tr><tr><td><div><p>poweredByTag.isChecked</p></div></td><td><div><p>boolean</p></div></td><td><div><p>Whether to display the powered by tag or not in the BM footer</p></div></td></tr><tr><td><div><p>customHandlers</p></div></td><td><div><p>object</p></div></td><td><div><p>Describes the options required for the functionality of the BM Widget</p></div></td></tr><tr><td><div><p>customHandlers.closeButtonHandler</p></div></td><td><div><p>function</p></div></td><td><div><p>Executes when the close icon is clicked</p></div></td></tr><tr><td><div><p>customHandlers.backButtonHandler</p></div></td><td><div><p>function</p></div></td><td><div><p>Executes when the back icon is clicked</p></div></td></tr><tr><td><div><p>customHandlers.openArticle</p></div></td><td><div><p>function</p></div></td><td><div><p>Executes when the article message is clicked<br /><a href="https://writer.zoho.in/writer/open/qhpn65309558b219c4bd3a3db7466a2c375be/bookmarks/toc_q11j9dd3pmd9" rel="noreferrer" target="_blank">Refer here</a></p></div></td></tr></tbody></table>
+
+\*\* Note :- customStyles object need to be passed as a string.
+
+Below methods are exposed through the window.ZOHOIM (i.e. methods are available in the global variable ZOHOIM in the window) object in order to establish communication between the BM widget and the app using BM widget :
+
+<table><colgroup><col /> <col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Method Name</p></div></td><td><div><p>Description</p></div></td><td><div><p>Arguments</p></div></td><td><div><p>Return value</p></div></td></tr><tr><td><div><p>triggerEvent</p></div></td><td><div><p>triggers a particular event that executes all the methods which are subscribed to the triggered event</p></div></td><td><div><p>ZOHOIM.triggerEvent('eventName',...args)</p></div></td><td><div><p>&nbsp; &nbsp; &nbsp; NIL</p></div></td></tr><tr><td><div><p>subscribeToEvent</p></div></td><td><div><p>A method can subscribe to a particular event</p></div></td><td><div><p>ZOHOIM.subscribeToEvent( 'eventName', method)</p></div></td><td><div><p>&nbsp; &nbsp; &nbsp;NIL</p></div></td></tr></tbody></table>
+
+How to Render the BM Widget :
+
+```
+&lt;script&gt;
+window.ZOHOIM = window.ZOHOIM || {};
+window.ZOHOIM.widgetContainerId = "test";
+window.ZOHOIM.widgetLayout = { needWidgetWithBubble : false, needCloseIcon : true};
+window.ZOHOIM.customStyles = '{ "mode": "light", "theme": "#71198c","actionTheme":"#1a7063", "wallpaper": {"src": {"light":"https://fastly.picsum.photos/id/703/536/354.jpg?hmac=1NZ7SzrTrnA-1O2S18kJC-IFIOZyYeHt8x98Iqdd5kM"}},"poweredByTag": { "isChecked": false } }';
+window.ZOHOIM.locale=languageCode
+window.ZOHOIM.customHandlers = {
+ closeButtonHandler : customCloseButtonHandler,
+ backButtonHandler : customBackButtonHandler
+}
+</script>
+
+<script type="text/javascript" nonce="{place_your_nonce_value_here}" src="https://implus.localzoho.com/api/v1/public/channel/c572beb392335194a3f8e528fb092408/widget" defer> var _d=document;_d.prefilledMessage= </script>
+```
+
+Sample HTML Code
+
+```
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;Page Title</title>
+&lt;script&gt;
+window.ZOHOIM = window.ZOHOIM || {};
+window.ZOHOIM.widgetContainerId = "test";
+window.ZOHOIM.widgetLayout = { needWidgetWithBubble : false, needCloseIcon : true};
+window.ZOHOIM.customStyles = '{ "mode": "light", "theme": "#71198c","actionTheme":"#1a7063", "wallpaper": {"src": {"light":"https://fastly.picsum.photos/id/703/536/354.jpg?hmac=1NZ7SzrTrnA-1O2S18kJC-IFIOZyYeHt8x98Iqdd5kM"}},"poweredByTag": { "isChecked": false } }';
+customCloseButtonHandler = ()=>{alert('clicked the close button');}
+customBackButtonHandler = ()=>{
+  if(a===1){
+    a=0;
+    window.ZOHOIM.triggerEvent('showCloseIcon',true);
+  }else{
+    a=1;
+    window.ZOHOIM.triggerEvent('showCloseIcon',false);
+  }
+}
+window.ZOHOIM.locale=languageCode
+window.ZOHOIM.customHandlers = {
+ closeButtonHandler : customCloseButtonHandler,
+ backButtonHandler : customBackButtonHandler
+}
+</script>
+
+<script type="text/javascript" nonce="{place_your_nonce_value_here}" src="https://implus.localzoho.com/api/v1/public/channel/c572beb392335194a3f8e528fb092408/widget" defer> var _d=document;_d.prefilledMessage= </script>
+</head>
+
+&lt;body&gt;
+<div id="test" style="height: 500px; width: 400px; border: 1px solid black;"></div>
+</body>
+</html>
+```
+
+Custom Properties Cases:
+
+    variable: widgetProps
+
+ContactInfo:
+
+        We are providing custom contact support to Business Messaging. You can provide the contact information in the     widgetProps variable.
+
+<table><colgroup><col /> <col /> <col /></colgroup><tbody><tr><td><div><p>Prop Name</p></div></td><td><div><p>Type</p></div></td><td><div><p>Description</p></div></td></tr><tr><td><div><p>ContactInfo</p></div></td><td><div><p>object</p></div></td><td><div><p>Describes the details of the contact</p></div></td></tr></tbody></table>
+
+Sample:
+
+```
+window.ZOHOIM.widgetProps = { 'contactInfo': {'name':'Manoj','phone': '+91203354', 'email': 'abc@gmail.com'}};
+```
+
+Authenticated Cases:
+
+We are providing methods to do authenticated flow with Business Messaging.
+
+Method to setCsrfcookie:
+
+```
+ window.ZOHOIM.setCsrfParamName(csrfParamName);
+ window.ZOHOIM.setCsrfToken(csrfToken);
+```
+
+Method to setOAuth: (JWT case)
+
+```
+ window.ZOHOIM.setAuthtoken(token);
+```
+
+Method to set Domain:
+
+```
+window.ZOHOIM.setCustomDomainUrl(DomainURL);
+```
+
+   We can add ZohoAccountId to BM by using below method
+
+```
+window.ZOHOIM.setZaid(zaid);
+```
+
+\*\* Note:- We have to bind the above Authenticated case values before rendering the Business Messaging widget.
+We are having a method to do the before render actions.
+
+Method to use before rendering:
+
+```
+window.ZOHOIM.beforeRenderCallback= () => {
+        //todo
+}
+```
+
+### BM Widget Control Changes
+
+### We’ve now introduced a set of public methods that allow end-users to control the BM widget directly. The following events are now available:
+
+-   ### openWidget
+
+-   ### closeWidget
+
+-   ### toggleWidget
+
+-   ### showBubble
+
+-   ### hideBubble
+
+Please add the following code snippet below the BM script:
+
+Sample implementation:
+
+```
+&lt;script&gt;
+```
+
+```
+window.ZOHOIM = window.ZOHOIM || {};
+```
+
+```
+function closeWidget() {
+```
+
+```
+    const { triggerEvent } = window.ZOHOIM;
+```
+
+```
+    triggerEvent('closeWidget');
+```
+
+```
+}
+```
+
+```
+function openWidget() {
+```
+
+```
+    const { triggerEvent } = window.ZOHOIM;
+```
+
+```
+    triggerEvent('openWidget');
+```
+
+```
+}
+```
+
+```
+function toggleWidget() {
+```
+
+```
+    const { triggerEvent } = window.ZOHOIM;
+```
+
+```
+    triggerEvent('toggleWidget');
+```
+
+```
+}
+```
+
+```
+</script>
+```
+
+```
+<button type="button" onclick="openWidget()">Open</button>
+```
+
+```
+<button type="button" onclick="closeWidget()">Close</button>
+```
+
+```
+<button type="button" onclick="toggleWidget()">Toggle</button>
+```

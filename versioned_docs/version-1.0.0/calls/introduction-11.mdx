@@ -1,0 +1,67 @@
+---
+title: Org Level Calls Management UI for Testing
+sidebar_label: Introduction
+sidebar_position: 1
+description: "https://im.localzoho.com/callsConsole.do"
+---
+## Org Level Calls Management UI for Testing
+
+[https://im.localzoho.com/callsConsole.do](https://im.localzoho.com/callsConsole.do)
+
+-   Calls has to be enabled before hand for the organization
+-   In the Organization drop-down, you can select the organization you have access to.
+-   Enabled Calls for the phone number connected to the channel via API
+-   Go to the configured WhatsApp Phone number in your WhatsApp Mobile App. You will see an option to call. Once the call is initiated, you can click on the refresh button, which will list the call.
+-   From here, you can accept or reject the call. You can also view the call details
+
+##
+![Illustration](/img/inline-images/calls/introduction-11/1756881691036.png)
+
+##
+
+## Calls Incoming / Outgoing flow
+
+-   All the calls should be initiated with a IM Session ID.
+-   For all call's status change, a info message will be added to the session along with IM Call ID in Message Meta.
+
+##
+
+## WhatsApp Calls
+
+-   The business phone number should be in the Messaging Tier of at-least 1,000 (1K) messages.
+-   Enable calling for the phone number
+-   User-initiated Calling are available for all locations
+-   Business-initiated Calling is not available for the below regions
+
+-   USA
+-   Canada
+-   Turkey
+-   Egypt
+-   Vietnam
+-   Nigeria
+
+#### Calling Restrictions
+
+If your calls receive a high negative user feedback, such as blocks and reports, calling functionality on your phone can be restricted.
+
+Early Warning:
+
+You will be notified when the business phone number is close to being paused as an early warning.
+
+Pause in Calling functionality:
+
+Once the negative user feedback reaches a threshold, Cloud API will automatically restrict calling functionality on your phone number for a period of 7 days. While paused the calling phone number will be unable to
+
+-   Make business initiated calls to users
+-   Receive calls from users
+-   Have call icon visible
+-   Send call permissions requests
+-   Alter calling settings for this account number
+
+#### Calling deep links
+
+Calling deep links are hyperlinks that route WhatsApp users to call your business. The process to create a calling deep link is the same as a chat deep link. Note that deep links are not supported on WhatsApp desktop clients.
+
+![Illustration](/img/inline-images/calls/introduction-11/1756809962496.png)
+
+The wa.me/call/&lt;BUSINESS\_PHONE\_NUMBER&gt; format is easy to copy, paste, and send, and does not require you to make a template in Business Manager.

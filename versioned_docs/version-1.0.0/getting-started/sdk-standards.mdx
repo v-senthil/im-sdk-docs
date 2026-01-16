@@ -1,0 +1,18 @@
+---
+title: Invoking an IM API
+sidebar_label: SDK Standards
+sidebar_position: 4
+---
+### Invoking an IM API
+
+![Illustration](/img/inline-images/getting-started/sdk-standards/1682070821869.png)
+
+### IM API Response Recommended Practice
+
+1.  Use IMError object to learn about error.
+2.  Use getRawJSON() on IM Entities to get the raw response from IM.
+3.  Use IM Entity's respective builder to issue create calls. (e.g IMMessage.Builder, IMChannel.Builder)
+4.  Use IM Entity's respective query builder to issue get list & filter calls (e.g IMMessage.IMMessageQueryBuilder)
+5.  Catch IMError to obtain the detailed exception thrown
+6.  Refer IM Entity's Error Enum to get the possible exceptions from IM ( e.g IMMessage.Errors.RESEND\_UNSUPPORTED )
+7.  IMSDKDeserializeError error type will contain the raw response from IM during error cases.

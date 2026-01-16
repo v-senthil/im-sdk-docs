@@ -1,0 +1,218 @@
+---
+title: Channel Added Event
+sidebar_position: 5
+description: This event will be triggered whenever a new channel is added.
+---
+This event will be triggered whenever a new channel is added.
+
+```
+public void channelAdded(IMEventMeta eventMeta, IMChannelAddedEvent channelAddedEvent)
+```
+
+IMEventMeta - Reference [link](/portal/zohocorp/manual/sdk-reference/article/introduction-8#_Tocx9f5qofl8hsz)
+
+IMChannelAddedEvent will contain these following methods :-
+
+<table><colgroup><col /> <col /></colgroup><tbody><tr><td><div><p>Available Method</p></div></td><td><div><p>Return Type</p></div></td></tr><tr><td><div><p>getChannel()</p></div></td><td><div><p>IMChannel</p></div></td></tr><tr><td><div><p>toJSON()</p></div></td><td><div><p>JSONObject</p></div></td></tr><tr><td><div><p>parseJSON(IMJSONObject)</p></div></td><td><div><p>IMChannelAddedEvent</p></div></td></tr><tr><td><div><p>getEventType()</p></div></td><td><div><p>IMEventType</p></div></td></tr></tbody></table>
+
+Sample channel added event json object
+
+```
+{
+    "data": {
+        "channel": {
+            "defaultBotId": null,
+            "accountName": "+918347663312",
+            "kind": "single.channel",
+            "universalLink": "https://wa.me/918347663312",
+            "integrationService": {
+                "channelAlias": "WhatsApp",
+                "configParams": [
+                    {
+                        "isInternal": false,
+                        "isRequired": false,
+                        "isSecured": false,
+                        "isDeprecated": false,
+                        "defaultValue": "CREATED",
+                        "name": "CURRENT_STATUS",
+                        "options": null,
+                        "parentParams": [],
+                        "index": "1",
+                        "label": "Current Onboarding Status",
+                        "type": "SYSTEM_DEFINED",
+                        "maxLen": "255"
+                    },
+                    {
+                        "isInternal": false,
+                        "isRequired": true,
+                        "isSecured": false,
+                        "isDeprecated": false,
+                        "defaultValue": null,
+                        "name": "WABA_ID",
+                        "options": [],
+                        "parentParams": [],
+                        "index": "2",
+                        "label": "WhatsApp Business Account",
+                        "type": "OPTIONS_COMPUTED",
+                        "maxLen": "255"
+                    },
+                    {
+                        "isInternal": false,
+                        "isRequired": true,
+                        "isSecured": false,
+                        "isDeprecated": false,
+                        "defaultValue": null,
+                        "name": "PHONE_NUMBER",
+                        "options": [],
+                        "parentParams": [],
+                        "index": "0",
+                        "label": "WhatsApp Phone Number",
+                        "type": "OPTIONS_COMPUTED",
+                        "maxLen": "255"
+                    }
+                ],
+                "provider": {
+                    "domain": "www.whatsapp.com",
+                    "name": "WhatsApp"
+                },
+                "kind": "single.integrationService",
+                "domain": "https://www.whatsapp.com",
+                "onBoardingList": [
+                    {
+                        "label": "CREATED",
+                        "value": "New Channel Created"
+                    },
+                    {
+                        "label": "SANDBOX",
+                        "value": "Number in SandBox Mode"
+                    },
+                    {
+                        "label": "WHATSAPP_APPROVED",
+                        "value": "WABA Account & Phone Number Approved"
+                    },
+                    {
+                        "label": "WHATSAPP_REJECTED",
+                        "value": "WABA Account & Phone Number Rejected"
+                    },
+                    {
+                        "label": "CONNECTED",
+                        "value": "Phone Number connected with WABA Account"
+                    },
+                    {
+                        "label": "FAILED_ERROR",
+                        "value": "Error Occured, Please try again or Contact Support"
+                    },
+                    {
+                        "label": "TESTING",
+                        "value": "Testing Number"
+                    },
+                    {
+                        "label": "DISABLED",
+                        "value": "Disabled"
+                    },
+                    {
+                        "label": "WABA_REMOVED",
+                        "value": "WhatsApp Business Removed"
+                    },
+                    {
+                        "label": "DELETED",
+                        "value": "Channel deleted"
+                    }
+                ],
+                "pricingParams": [
+                    {
+                        "name": "SESSION_MESSAGE",
+                        "isVariable": true,
+                        "label": "Session messages",
+                        "type": "COSTS",
+                        "value": "0.3 INR"
+                    }
+                ],
+                "id": "WHATSAPP",
+                "label": "WhatsApp",
+                "logoURL": "https://static.zohocdn.com/zohoim/images/whatsapp.4abb564eab8683c43df6.png",
+                "isParentAccountNeeded": false
+            },
+            "isActive": true,
+            "uuid": null,
+            "logoURL": "https://static.zohocdn.com/zohoim/images/whatsapp.4abb564eab8683c43df6.png",
+            "authorizationPending": false,
+            "isSubscribed": false,
+            "isDeleted": false,
+            "configParams": [
+                {
+                    "modifiedTime": "2024-02-05T09:32:05.000Z",
+                    "isRequired": false,
+                    "isDeprecated": false,
+                    "defaultValue": "CREATED",
+                    "kind": "single.channel.configParam",
+                    "parentParams": [],
+                    "label": "Current Onboarding Status",
+                    "type": "SYSTEM_DEFINED",
+                    "uuid": null,
+                    "isInternal": false,
+                    "name": "CURRENT_STATUS",
+                    "options": [],
+                    "id": "6231000000007003",
+                    "secured": false,
+                    "value": "CREATED",
+                    "maxLen": "255"
+                },
+                {
+                    "modifiedTime": "2024-02-05T09:32:05.000Z",
+                    "isRequired": true,
+                    "isDeprecated": false,
+                    "defaultValue": null,
+                    "kind": "single.channel.configParam",
+                    "parentParams": [],
+                    "label": "WhatsApp Business Account",
+                    "type": "OPTIONS_COMPUTED",
+                    "uuid": null,
+                    "isInternal": false,
+                    "name": "WABA_ID",
+                    "options": [],
+                    "id": "6231000000007005",
+                    "secured": false,
+                    "value": "101419553009811",
+                    "maxLen": "255"
+                },
+                {
+                    "modifiedTime": "2024-02-05T09:32:05.000Z",
+                    "isRequired": true,
+                    "isDeprecated": false,
+                    "defaultValue": null,
+                    "kind": "single.channel.configParam",
+                    "parentParams": [],
+                    "label": "WhatsApp Phone Number",
+                    "type": "OPTIONS_COMPUTED",
+                    "uuid": null,
+                    "isInternal": false,
+                    "name": "PHONE_NUMBER",
+                    "options": [],
+                    "id": "6231000000007007",
+                    "secured": false,
+                    "value": "+918347663312",
+                    "maxLen": "255"
+                }
+            ],
+            "isOwner": false,
+            "createdBy": "813706146",
+            "meta": [],
+            "conversationCount": "0",
+            "name": "We Care Freedom Wealth Private Limited",
+            "createdTime": "2024-02-05T09:32:05.000Z",
+            "id": "6231000000007001",
+            "authenticationURL": null,
+            "storageEnabled": false,
+            "isSandBox": false
+        }
+    },
+    "meta": {
+        "service": "ZOHO_FORMS",
+        "serviceOrgId": 813830237,
+        "orgId": 790482341
+    },
+    "id": 1707125525374,
+    "type": "com.zoho.im.client.model.event.IMChannelAddedEvent"
+}
+```

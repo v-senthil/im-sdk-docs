@@ -1,0 +1,42 @@
+---
+title: Activate an IM Channel
+sidebar_label: "Activate, Deactivate and Delete Channel"
+sidebar_position: 5
+description: "When a channel is deactivated, incoming message will be not processed"
+---
+### Activate an IM Channel
+
+```
+boolean isActivated = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getChannelAPI(USER_ID).activate(IM_CHANNEL_ID);
+```
+
+### DeActivate an IM Channel
+
+```
+boolean isActivated = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getChannelAPI(USER_ID).deActivate(IM_CHANNEL_ID);
+```
+
+When a channel is deactivated, incoming message will be not processed
+
+### Delete an IM Channel
+
+```
+boolean deleted = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                .getChannelAPI(USER_ID).delete(IM_CHANNEL_ID);
+```
+
+When a channel is deleted, incoming messages to that channel will not be processed, conversations will not be lost in IM. Deleted channel cannot be regained.
+
+###
+
+### Delete an IM Channel Along with conversation and messages
+
+```
+boolean deleted = ZohoIM.getInstance(IM_ORG_ID, SERVICE_ORG_ID)
+                    .getChannelAPI(USER_ID)
+                    .delete(IM_CHANNEL_ID, DeleteInclude.REQUEST_DELETION);
+```
+
+When a channel deletion is requested, the channel will not be listed in getChannelAPI and the conversations, message of that channel will not be available in respected APIs. Deleted channel cannot be regained. The data will not be deleted from our DB. We shall work on deleting the complete data from our DB in the future.
